@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Button, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { getImage } from '../utils/utils';
 import Row from '../components/Row';
@@ -7,10 +7,18 @@ import { theme } from '../utils/theme';
 import Col from '../components/Col';
 import CustomCarousel from '../components/CustomCarousel';
 import Carousel from '../components/Test';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+} from '../features/slices/counterSlice';
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const { value } = useAppSelector((state: RootState) => state.counter);
+  const dispatch = useAppDispatch();
   return (
     <ImageBackground
       style={{
@@ -19,6 +27,41 @@ const Home = (props: Props) => {
       resizeMode="stretch"
       source={getImage('bgDoodle')}
       fadeDuration={200}>
+      <Text
+        style={{
+          textAlign: 'center',
+          fontSize: 20,
+          fontWeight: 'bold',
+          padding: 10,
+          color: theme.colors.getirPrimary500,
+        }}>
+        {value}
+      </Text>
+      <Row
+        alignItems="center"
+        justifyContent="space-evenly"
+        extraStyle={{
+          paddingVertical: 10,
+        }}>
+        <Button
+          onPress={() => {
+            dispatch(increment());
+          }}
+          title="increment"
+        />
+        <Button
+          onPress={() => {
+            dispatch(decrement());
+          }}
+          title="Decrement"
+        />
+        <Button
+          onPress={() => {
+            dispatch(incrementByAmount(5));
+          }}
+          title="Add 5"
+        />
+      </Row>
       <Row
         extraStyle={{
           backgroundColor: theme.colors.getirSecondary500,
