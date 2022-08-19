@@ -76,7 +76,13 @@ const ITEM_WIDTH = width * 0.76;
 const ITEM_HEIGHT = ITEM_WIDTH * 1.7;
 const VISIBLE_ITEMS = 3;
 
-const OverflowItems = ({ data, scrollXAnimated }) => {
+const OverflowItems = ({
+  data,
+  scrollXAnimated,
+}: {
+  data: any;
+  scrollXAnimated: any;
+}) => {
   const inputRange = [-1, 0, 1];
   const translateY = scrollXAnimated.interpolate({
     inputRange,
@@ -85,7 +91,7 @@ const OverflowItems = ({ data, scrollXAnimated }) => {
   return (
     <View style={styles.overflowContainer}>
       <Animated.View style={{ transform: [{ translateY }] }}>
-        {data.map((item, index) => {
+        {data.map((item: any, index: number) => {
           return (
             <View key={index} style={styles.itemContainer}>
               <Text style={[styles.title]} numberOfLines={1}>
@@ -108,7 +114,7 @@ export default function CustomTestCar() {
   const scrollXIndex = React.useRef(new Animated.Value(0)).current;
   const scrollXAnimated = React.useRef(new Animated.Value(0)).current;
   const [index, setIndex] = React.useState(0);
-  const setActiveIndex = React.useCallback(activeIndex => {
+  const setActiveIndex = React.useCallback((activeIndex: number) => {
     scrollXIndex.setValue(activeIndex);
     setIndex(activeIndex);
   }, []);

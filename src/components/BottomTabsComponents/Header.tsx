@@ -3,14 +3,14 @@ import React from 'react';
 
 type Props = {};
 
-const Home = (props: Props) => {
+const Header = (props: Props) => {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Header</Text>
     </View>
   );
 };
 
-export default Home;
+export default Header;
 
 const styles = StyleSheet.create({});

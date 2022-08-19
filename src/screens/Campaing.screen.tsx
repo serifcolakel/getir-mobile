@@ -3,14 +3,14 @@ import React from 'react';
 
 type Props = {};
 
-const Home = (props: Props) => {
+const Campaign = (props: Props) => {
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Campaign</Text>
     </View>
   );
 };
 
-export default Home;
+export default Campaign;
 
 const styles = StyleSheet.create({});

@@ -51,4 +51,10 @@ export const theme = {
     brown: '#795548',
     transparent: 'transparent',
   },
+  fonts: {
+    regular: 'CoconRegularFont',
+    bold: 'CoconBoldFont',
+    // light: 'Cocon-Regular-FontLight',
+    // italic: 'Cocon-Regular-FontRegularItalic',
+  },
 };

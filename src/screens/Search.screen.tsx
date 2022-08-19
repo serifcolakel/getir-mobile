@@ -4,7 +4,7 @@ import { getImage } from '../utils/utils';
 
 type Props = {};
 
-const Detail = (props: Props) => {
+const Search = (props: Props) => {
   return (
     <ImageBackground
       style={{
@@ -14,12 +14,12 @@ const Detail = (props: Props) => {
       source={getImage('bgDoodle')}
       fadeDuration={200}>
       <View>
-        <Text>Detail</Text>
+        <Text>Search</Text>
       </View>
     </ImageBackground>
   );
 };
 
-export default Detail;
+export default Search;
 
 const styles = StyleSheet.create({});

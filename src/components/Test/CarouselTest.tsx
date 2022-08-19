@@ -7,8 +7,8 @@ import {
   FlatList,
   Animated,
 } from 'react-native';
-import { theme } from '../utils/theme';
-import CarouselItem from './CarouselItem';
+import { theme } from '../../utils/theme';
+import CarouselItem from '../CarouselItem';
 
 const heigth = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
@@ -17,12 +17,12 @@ const Carousel = ({ data }: { data: any[] }) => {
   const scrollX = new Animated.Value(0);
   const Flatlist = useRef(null);
   let position = Animated.divide(scrollX, width);
-  const [dataList, setDataList] = useState(data);
+  //const [dataList, setDataList] = useState(data);
 
-  useEffect(() => {
-    setDataList(data);
-    // infiniteScroll(dataList);
-  }, []);
+  // useEffect(() => {
+  //   setDataList(data);
+  //   // infiniteScroll(dataList);
+  // }, []);
 
   if (data && data.length) {
     return (

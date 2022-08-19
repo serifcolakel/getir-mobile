@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  Animated,
-  Dimensions,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewToken,
-} from 'react-native';
+import { Animated, Dimensions, Text, View } from 'react-native';
 import { theme } from '../utils/theme';
 import { getImage } from '../utils/utils';
 
@@ -29,7 +21,6 @@ function CustomCarousel() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const onViewRef = React.useRef((viewableItems: any) => {
-    console.log('onViewRef', viewableItems.viewableItems[0].index);
     setSelectedIndex(viewableItems.viewableItems[0].index);
     // Use viewable items in state or as intended
   });
@@ -65,25 +56,18 @@ function CustomCarousel() {
                 width: width,
                 height: 200,
               }}>
-              <View
+              <Animated.Image
+                source={{
+                  uri: 'https://i.hizliresim.com/1y8cjfc.png',
+                  cache: 'force-cache',
+                }}
                 style={{
                   width: '100%',
-                  backgroundColor: item,
-                  height: 200,
-                }}>
-                <Animated.Image
-                  source={{
-                    uri: 'https://i.hizliresim.com/1y8cjfc.png',
-                    cache: 'force-cache',
-                  }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    transform: [{ translateX }],
-                    resizeMode: 'cover',
-                  }}
-                />
-              </View>
+                  height: '100%',
+                  transform: [{ translateX }],
+                  resizeMode: 'cover',
+                }}
+              />
             </View>
           );
         }}
@@ -91,7 +75,7 @@ function CustomCarousel() {
       <View
         style={{
           position: 'absolute',
-          bottom: 10,
+          bottom: -25,
           right: 0,
           flexDirection: 'row',
         }}>
@@ -99,20 +83,36 @@ function CustomCarousel() {
           <View
             key={index}
             style={{
-              width: 10,
-              height: 10,
-              borderWidth: 1,
-              marginHorizontal: 5,
+              borderWidth: index === selectedIndex ? 1 : 0,
               borderColor:
                 index === selectedIndex
                   ? theme.colors.getirPrimary500
                   : 'transparent',
-              backgroundColor:
-                index === selectedIndex
-                  ? theme.colors.getirPrimary500
-                  : theme.colors.gray,
-              borderRadius: 5,
-            }}></View>
+              borderRadius: 20,
+              width: 20,
+              height: 20,
+              marginHorizontal: 2,
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}>
+            <View
+              style={{
+                width: 10,
+                height: 10,
+                borderWidth: 1,
+                alignSelf: 'center',
+                borderColor:
+                  index === selectedIndex
+                    ? theme.colors.getirPrimary500
+                    : 'transparent',
+                backgroundColor:
+                  index === selectedIndex
+                    ? theme.colors.getirPrimary500
+                    : theme.colors.gray,
+                borderRadius: 5,
+              }}
+            />
+          </View>
         ))}
       </View>
     </View>

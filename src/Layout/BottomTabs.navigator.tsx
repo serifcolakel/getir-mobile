@@ -5,33 +5,182 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import Detail from '../screens/Detail.screen';
+import Search from '../screens/Search.screen';
 import { Text, View } from 'react-native';
 import { theme } from '../utils/theme';
-import { HomeIcon, RightArrowIcon } from '../components/Icons';
+import {
+  GiftIcon,
+  HomeIcon,
+  LayoutIcon,
+  RightArrowIcon,
+  SearchIcon,
+  UserIcon,
+} from '../components/Icons';
+import Profile from '../screens/Profile.screen';
+import Campaign from '../screens/Campaing.screen';
+import Route from '../screens/Route.screen';
 export type RootStackParamList = {
   Home: undefined;
-  Detail: undefined;
+  Search: undefined;
+  Profile: undefined;
+  Campaign: undefined;
+  Route: undefined;
 };
-export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
+export type BottomNavigationProps =
+  NativeStackNavigationProp<RootStackParamList>;
 const BottomTabs = createBottomTabNavigator();
 const BottomTabsNavigator: React.FC = () => {
   return (
     <BottomTabs.Navigator
       screenOptions={({ route, navigation }) => ({
         animation: 'slide_from_right',
-        animationDuration: 500,
-        tabBarActiveTintColor: theme.colors.white,
+        animationDuration: 1000,
+        tabBarActiveTintColor: theme.colors.getirPrimary500,
         tabBarInactiveTintColor: theme.colors.gray,
         tabBarShowLabel: false,
-        tabBarActiveBackgroundColor: theme.colors.purple,
-        tabBarInactiveBackgroundColor: theme.colors.purple,
+        tabBarActiveBackgroundColor: theme.colors.white,
+        tabBarInactiveBackgroundColor: theme.colors.white,
+        tabBarStyle: {
+          height: 60,
+          display: route.name === 'Route' ? 'none' : 'flex',
+        },
         tabBarIcon({ focused, color, size }) {
           switch (route.name) {
             case 'Home':
-              return <HomeIcon size={size} color={color} />;
-            case 'Detail':
-              return <HomeIcon size={size} color={color} />;
+              return (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <HomeIcon
+                    onPress={() => {
+                      navigation.navigate('Home');
+                    }}
+                    size={30}
+                    color={color}
+                  />
+                  <View
+                    style={{
+                      height: 6,
+                      width: 65,
+                      marginTop: 5,
+                      borderTopLeftRadius: 5,
+                      borderTopRightRadius: 5,
+                      backgroundColor: focused
+                        ? theme.colors.getirPrimary500
+                        : theme.colors.white,
+                    }}
+                  />
+                </View>
+              );
+            case 'Search':
+              return (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <SearchIcon
+                    onPress={() => {
+                      navigation.navigate('Search');
+                    }}
+                    size={30}
+                    color={color}
+                  />
+                  <View
+                    style={{
+                      height: 6,
+                      width: 65,
+                      marginTop: 5,
+                      borderTopLeftRadius: 5,
+                      borderTopRightRadius: 5,
+                      backgroundColor: focused
+                        ? theme.colors.getirPrimary500
+                        : theme.colors.white,
+                    }}
+                  />
+                </View>
+              );
+            case 'Route':
+              return (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderWidth: 4,
+                    borderColor: 'white',
+                    borderRadius: 50,
+                    width: 80,
+                    backgroundColor: theme.colors.getirPrimary600,
+                    marginBottom: 50,
+                    height: 80,
+                  }}>
+                  <LayoutIcon
+                    onPress={() => {
+                      navigation.navigate('Route');
+                    }}
+                    size={35}
+                    color={theme.colors.getirSecondary500}
+                  />
+                </View>
+              );
+            case 'Profile':
+              return (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <UserIcon
+                    onPress={() => {
+                      navigation.navigate('Profile');
+                    }}
+                    size={25}
+                    color={color}
+                  />
+                  <View
+                    style={{
+                      height: 6,
+                      width: 65,
+                      marginTop: 5,
+                      borderTopLeftRadius: 5,
+                      borderTopRightRadius: 5,
+                      backgroundColor: focused
+                        ? theme.colors.getirPrimary500
+                        : theme.colors.white,
+                    }}
+                  />
+                </View>
+              );
+            case 'Campaign':
+              return (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <GiftIcon
+                    onPress={() => {
+                      navigation.navigate('Campaign');
+                    }}
+                    size={30}
+                    color={color}
+                  />
+                  <View
+                    style={{
+                      height: 6,
+                      width: 65,
+                      marginTop: 5,
+                      borderTopLeftRadius: 5,
+                      borderTopRightRadius: 5,
+                      backgroundColor: focused
+                        ? theme.colors.getirPrimary500
+                        : theme.colors.white,
+                    }}
+                  />
+                </View>
+              );
             default:
               break;
           }
@@ -42,7 +191,7 @@ const BottomTabsNavigator: React.FC = () => {
             case 'Home':
               stepperWidth = '75%';
               break;
-            case 'Detail':
+            case 'Search':
               stepperWidth = '50%';
               break;
             default:
@@ -53,24 +202,31 @@ const BottomTabsNavigator: React.FC = () => {
             <>
               <View
                 style={{
-                  backgroundColor: theme.colors.lightBlue,
+                  backgroundColor: theme.colors.getirPrimary500,
                   height: 50,
                   width: '100%',
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  justifyContent: navigation.canGoBack()
+                    ? 'space-between'
+                    : 'center',
                   alignItems: 'center',
                   padding: 10,
                 }}>
-                <RightArrowIcon
-                  onPress={() => navigation.canGoBack() && navigation.goBack()}
-                  rotate={180}
-                  size={20}
-                  color="#fff"
-                />
+                {navigation.canGoBack() && (
+                  <RightArrowIcon
+                    onPress={() =>
+                      navigation.canGoBack() && navigation.goBack()
+                    }
+                    rotate={180}
+                    size={20}
+                    color="#fff"
+                  />
+                )}
                 <Text
                   style={{
                     fontSize: 15,
                     color: 'white',
+                    fontWeight: 'bold',
                     fontFamily: 'Roboto-Bold',
                   }}>
                   {options.title as string}
@@ -98,10 +254,32 @@ const BottomTabsNavigator: React.FC = () => {
         }}
       />
       <BottomTabs.Screen
-        name="Detail"
-        component={Detail}
+        name="Search"
+        component={Search}
         options={{
-          title: 'Detail',
+          title: 'Search',
+        }}
+      />
+      <BottomTabs.Screen
+        name="Route"
+        component={Route}
+        options={{
+          title: 'Route',
+          headerShown: false,
+        }}
+      />
+      <BottomTabs.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          title: 'Profil',
+        }}
+      />
+      <BottomTabs.Screen
+        name="Campaign"
+        component={Campaign}
+        options={{
+          title: 'Campaign',
         }}
       />
     </BottomTabs.Navigator>

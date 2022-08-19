@@ -4,7 +4,8 @@ import BottomTabsNavigator from './Layout/BottomTabs.navigator';
 import SplashScreen from 'react-native-splash-screen';
 import codePush from 'react-native-code-push';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { RootState, store, useAppDispatch, useAppSelector } from './store';
+import { getAllProduct } from './features/slices/product';
 // #5d3ebc, #ffd10d
 const App: React.FC = () => {
   React.useEffect(() => {
