@@ -32,6 +32,7 @@ const BottomTabs = createBottomTabNavigator();
 const BottomTabsNavigator: React.FC = () => {
   return (
     <BottomTabs.Navigator
+      initialRouteName="Route"
       screenOptions={({ route, navigation }) => ({
         animation: 'slide_from_right',
         animationDuration: 1000,

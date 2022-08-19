@@ -6,6 +6,14 @@ import isImage from '../assets/images/is.png';
 import n11Image from '../assets/images/n11.png';
 import suImage from '../assets/images/su.png';
 import yemekImage from '../assets/images/yemek.png';
+import slider0 from '../assets/images/0.png';
+import slider1 from '../assets/images/1.png';
+import slider2 from '../assets/images/2.png';
+import slider3 from '../assets/images/3.png';
+import slider5 from '../assets/images/5.png';
+import slider6 from '../assets/images/6.png';
+import slider7 from '../assets/images/7.png';
+import slider8 from '../assets/images/8.png';
 type ImageName =
   | 'bgDoodle'
   | 'buyuk'
@@ -14,7 +22,17 @@ type ImageName =
   | 'is'
   | 'n11'
   | 'su'
-  | 'yemek';
+  | 'yemek'
+  | 'routeSlider0'
+  | 'routeSlider1'
+  | 'routeSlider2'
+  | 'routeSlider3'
+  | 'routeSlider4'
+  | 'routeSlider5'
+  | 'routeSlider6'
+  | 'routeSlider7'
+  | 'routeSlider8'
+  | string;
 export function getImage(name: ImageName) {
   switch (name) {
     case 'bgDoodle':
@@ -33,8 +51,38 @@ export function getImage(name: ImageName) {
       return suImage;
     case 'yemek':
       return yemekImage;
+    case 'routeSlider0':
+      return slider0;
+    case 'routeSlider1':
+      return slider1;
+    case 'routeSlider2':
+      return slider2;
+    case 'routeSlider3':
+      return slider3;
+    case 'routeSlider4':
+      return slider5;
+    case 'routeSlider5':
+      return slider6;
+    case 'routeSlider6':
+      return slider7;
+    case 'routeSlider7':
+      return slider8;
 
     default:
       break;
   }
+}
+type RangeToIntegerArrayProps = {
+  start: number;
+  end: number;
+  step?: number;
+};
+export function rangeToIntegerArray({
+  start,
+  end,
+  step = 1,
+}: RangeToIntegerArrayProps): string[] {
+  return Array.from({ length: (end - start) / step + 1 }, (_, i) =>
+    (start + i * step).toString(),
+  );
 }

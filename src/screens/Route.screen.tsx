@@ -1,4 +1,10 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import { getImage } from '../utils/utils';
 import { theme } from '../utils/theme';
@@ -7,8 +13,12 @@ import { RightArrowIcon, SearchIcon } from '../components/Icons';
 import Col from '../components/Col';
 import CustomCarousel from '../components/CustomCarousel';
 import Input from '../components/PartnerComponents/Input';
+import CustomText from '../components/PartnerComponents/CustomText';
+import { BottomNavigationProps } from '../Layout/BottomTabs.navigator';
 
-type Props = {};
+type Props = {
+  navigation: BottomNavigationProps;
+};
 // const { data, loading } = useAppSelector(
 //     (state: RootState) => state.allProducts,
 //   );
@@ -16,7 +26,7 @@ type Props = {};
 //   useEffect(() => {
 //     //dispatch(getAllProduct());
 //   }, []);
-const Route = (props: Props) => {
+const Route = ({ navigation }: Props) => {
   return (
     // <ImageBackground
     //   style={{
@@ -48,52 +58,52 @@ const Route = (props: Props) => {
           }}
           alignItems="center"
           justifyContent="space-between">
-          <Text>Teslimat Adresi Belirleyin</Text>
+          <CustomText label="Teslimat Adresi Belirleyin" />
           <RightArrowIcon size={18} color={theme.colors.getirPrimary500} />
         </Row>
 
         <Col cols={1}>
-          <Text
+          <CustomText
             style={{
               width: '100%',
               textAlign: 'center',
-              fontWeight: 'bold',
+
               fontSize: 12,
               color: theme.colors.getirPrimary500,
-            }}>
-            TVS
-          </Text>
+            }}
+            label="TVS"
+          />
+
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'flex-end',
             }}>
-            <Text
+            <CustomText
               style={{
                 textAlign: 'center',
-                fontWeight: 'bold',
+                fontFamily: theme.fonts.bold,
                 fontSize: 24,
                 color: theme.colors.getirPrimary500,
-              }}>
-              10
-            </Text>
-            <Text
+              }}
+              label="10"
+            />
+            <CustomText
               style={{
                 fontSize: 15,
                 paddingBottom: 2,
-                fontWeight: 'bold',
+                fontFamily: theme.fonts.bold,
                 textAlign: 'center',
                 color: theme.colors.getirPrimary500,
-              }}>
-              dk
-            </Text>
+              }}
+              label="dk"
+            />
           </View>
         </Col>
       </Row>
-
       {/* <CarouselTest data={dummyData} /> */}
-      <CustomCarousel />
+      <CustomCarousel navigation={navigation} />
       <Row
         alignItems="center"
         justifyContent="space-between"
@@ -104,8 +114,8 @@ const Route = (props: Props) => {
         <Col cols={2}>
           <Text
             style={{
-              fontWeight: 'bold',
-              fontSize: 16,
+              fontFamily: theme.fonts.bold,
+              fontSize: 20,
               color: theme.colors.getirPrimary500,
             }}>
             Merhaba!
@@ -113,6 +123,8 @@ const Route = (props: Props) => {
         </Col>
         <Col cols={2}>
           <Input
+            editable={false}
+            onPress={() => navigation.navigate('Search')}
             textAlign="left"
             rightIcon={<SearchIcon />}
             placeholder="Getir'de ara"
@@ -126,7 +138,7 @@ const Route = (props: Props) => {
           padding: 20,
         }}>
         <Col cols={2}>
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -145,8 +157,8 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
-                  fontSize: 16,
+                  fontFamily: theme.fonts.bold,
+                  fontSize: 24,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
                   paddingLeft: 5,
@@ -154,10 +166,10 @@ const Route = (props: Props) => {
                 getir
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </Col>
         <Col cols={2}>
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -176,8 +188,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontSize: 20,
-                  //  fontWeight: 'bold',
+                  fontSize: 16,
                   fontFamily: theme.fonts.bold,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -186,9 +197,9 @@ const Route = (props: Props) => {
                 getiryemek
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
 
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -207,7 +218,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
+                  fontFamily: theme.fonts.bold,
                   fontSize: 16,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -216,7 +227,7 @@ const Route = (props: Props) => {
                 getircarsi
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </Col>
       </Row>
       <Row
@@ -226,7 +237,7 @@ const Route = (props: Props) => {
           paddingHorizontal: 20,
         }}>
         <Col cols={2}>
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -245,7 +256,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
+                  fontFamily: theme.fonts.bold,
                   fontSize: 16,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -254,9 +265,9 @@ const Route = (props: Props) => {
                 getirbüyük
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
 
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -275,7 +286,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
+                  fontFamily: theme.fonts.bold,
                   fontSize: 16,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -284,10 +295,10 @@ const Route = (props: Props) => {
                 getirsu
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </Col>
         <Col cols={2}>
-          <View
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -306,7 +317,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
+                  fontFamily: theme.fonts.bold,
                   fontSize: 16,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -315,8 +326,8 @@ const Route = (props: Props) => {
                 getiriş
               </Text>
             </ImageBackground>
-          </View>
-          <View
+          </TouchableOpacity>
+          <TouchableOpacity
             style={{
               borderWidth: 1,
               borderColor: theme.colors.gray,
@@ -335,7 +346,7 @@ const Route = (props: Props) => {
               fadeDuration={200}>
               <Text
                 style={{
-                  fontWeight: 'bold',
+                  fontFamily: theme.fonts.bold,
                   fontSize: 16,
                   color: theme.colors.getirPrimary500,
                   paddingTop: 5,
@@ -344,7 +355,7 @@ const Route = (props: Props) => {
                 n11
               </Text>
             </ImageBackground>
-          </View>
+          </TouchableOpacity>
         </Col>
       </Row>
     </View>

@@ -1,35 +1,61 @@
-import * as React from 'react';
-import { Animated, Dimensions, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Animated, Dimensions, TouchableOpacity, View } from 'react-native';
+import { BottomNavigationProps } from '../Layout/BottomTabs.navigator';
 import { theme } from '../utils/theme';
 import { getImage } from '../utils/utils';
-
-function CustomCarousel() {
+type Props = {
+  navigation: BottomNavigationProps;
+};
+function CustomCarousel({ navigation }: Props) {
   const width = Dimensions.get('window').width;
   const scrollX = React.useRef(new Animated.Value(0)).current;
-  const data = [
-    '#fff',
-    '#ddd',
-    '#ccc',
-    '#bbb',
-    '#aaa',
-    '#999',
-    '#888',
-    '#777',
-    '#666',
-    '#555',
-  ];
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  let count = 0;
+  const [currentIndex, setIndex] = React.useState(0);
+  const FlatlistRef = React.useRef<any | null>(null);
   const onViewRef = React.useRef((viewableItems: any) => {
-    setSelectedIndex(viewableItems.viewableItems[0].index);
-    // Use viewable items in state or as intended
+    if (count >= data.length) {
+      setIndex(0);
+    } else {
+      setIndex(viewableItems.viewableItems[0].index);
+    }
   });
+
+  const data = [
+    'Route',
+    'Campaign',
+    'Profile',
+    'Search',
+    'Home',
+    'Home',
+    'Home',
+    'Home',
+  ];
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 });
-  console.log('selectedIndex', selectedIndex);
+  useEffect(() => {
+    setInterval(() => {
+      if (count >= data.length - 1) {
+        count = 0;
+        FlatlistRef.current?.scrollToIndex({
+          index: count,
+          animated: true,
+        });
+      } else {
+        count++;
+        FlatlistRef.current?.scrollToIndex({
+          index: count,
+          animated: true,
+        });
+      }
+    }, 4000);
+  }, []);
+
   return (
     <View style={{ position: 'relative' }}>
       <Animated.FlatList
         data={data}
+        ref={ref => {
+          FlatlistRef.current = ref;
+        }}
         horizontal
         pagingEnabled
         viewabilityConfig={viewConfigRef.current}
@@ -50,17 +76,27 @@ function CustomCarousel() {
             inputRange,
             outputRange: [width * 0.05, 0, -width * 0.05],
           });
+          let imageName = `routeSlider${index}`;
           return (
-            <View
+            <TouchableOpacity
+              onPress={() => {
+                if (
+                  item === 'Route' ||
+                  item === 'Campaign' ||
+                  item === 'Profile' ||
+                  item === 'Search' ||
+                  item === 'Home'
+                )
+                  navigation.navigate(item);
+              }}
               style={{
                 width: width,
                 height: 200,
               }}>
               <Animated.Image
-                source={{
-                  uri: 'https://i.hizliresim.com/1y8cjfc.png',
-                  cache: 'force-cache',
-                }}
+                source={
+                  getImage(imageName) //'https://i.hizliresim.com/1y8cjfc.png'
+                }
                 style={{
                   width: '100%',
                   height: '100%',
@@ -68,7 +104,7 @@ function CustomCarousel() {
                   resizeMode: 'cover',
                 }}
               />
-            </View>
+            </TouchableOpacity>
           );
         }}
       />
@@ -83,9 +119,9 @@ function CustomCarousel() {
           <View
             key={index}
             style={{
-              borderWidth: index === selectedIndex ? 1 : 0,
+              borderWidth: index === currentIndex ? 1 : 0,
               borderColor:
-                index === selectedIndex
+                index === currentIndex
                   ? theme.colors.getirPrimary500
                   : 'transparent',
               borderRadius: 20,
@@ -102,11 +138,11 @@ function CustomCarousel() {
                 borderWidth: 1,
                 alignSelf: 'center',
                 borderColor:
-                  index === selectedIndex
+                  index === currentIndex
                     ? theme.colors.getirPrimary500
                     : 'transparent',
                 backgroundColor:
-                  index === selectedIndex
+                  index === currentIndex
                     ? theme.colors.getirPrimary500
                     : theme.colors.gray,
                 borderRadius: 5,
