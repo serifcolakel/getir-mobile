@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Animated, Dimensions, TouchableOpacity, View } from 'react-native';
 import { BottomNavigationProps } from '../Layout/BottomTabs.navigator';
 import { theme } from '../utils/theme';
@@ -13,11 +13,7 @@ function CustomCarousel({ navigation }: Props) {
   const [currentIndex, setIndex] = React.useState(0);
   const FlatlistRef = React.useRef<any | null>(null);
   const onViewRef = React.useRef((viewableItems: any) => {
-    if (count >= data.length) {
-      setIndex(0);
-    } else {
-      setIndex(viewableItems.viewableItems[0].index);
-    }
+    //console.log(viewableItems);
   });
 
   const data = [
@@ -30,25 +26,31 @@ function CustomCarousel({ navigation }: Props) {
     'Home',
     'Home',
   ];
+  const nextPage = useCallback(() => {
+    if (count >= data.length - 1) {
+      count = 0;
+
+      FlatlistRef.current?.scrollToIndex({
+        index: count,
+        animated: true,
+      });
+    } else {
+      count++;
+
+      FlatlistRef.current?.scrollToIndex({
+        index: count,
+        animated: true,
+      });
+    }
+    setIndex(count);
+  }, [count]);
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 });
   useEffect(() => {
-    setInterval(() => {
-      if (count >= data.length - 1) {
-        count = 0;
-        FlatlistRef.current?.scrollToIndex({
-          index: count,
-          animated: true,
-        });
-      } else {
-        count++;
-        FlatlistRef.current?.scrollToIndex({
-          index: count,
-          animated: true,
-        });
-      }
-    }, 4000);
+    const intervalId = setInterval(nextPage, 4000);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
-
   return (
     <View style={{ position: 'relative' }}>
       <Animated.FlatList
