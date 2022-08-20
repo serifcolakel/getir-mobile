@@ -20,6 +20,7 @@ type Props = {
   textAlign?: 'left' | 'right' | 'center';
   prefix?: string;
   rightIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
   titleInfoButton?: React.ReactNode;
   editable?: boolean;
   isError?: boolean;
@@ -38,13 +39,14 @@ const Input = ({
   onPress,
   prefix,
   rightIcon,
+  leftIcon,
   titleInfoButton,
   editable = true,
   isError = false,
   errorMessage = '',
   placeholder = '',
   width = '100%',
-  keyboardType = 'numeric',
+  keyboardType = 'default',
 }: Props) => {
   return (
     <TouchableOpacity
@@ -82,15 +84,15 @@ const Input = ({
         style={{
           borderWidth: 1,
           borderRadius: 5,
-          borderColor: theme.colors.getirPrimary500,
+          borderColor: theme.colors.gray4,
           backgroundColor: theme.colors.white,
-          paddingLeft: 20,
+          paddingLeft: leftIcon === undefined ? 20 : 45,
           paddingRight:
             prefix === undefined && rightIcon === undefined ? 20 : 30,
           color: editable ? theme.colors.black : theme.colors.gray,
           marginVertical: 10,
           height: 45,
-          // fontFamily: theme.fonts.regular,
+          fontFamily: theme.fonts.regular,
         }}
         value={value}
         textAlign={textAlign}
@@ -116,6 +118,14 @@ const Input = ({
           right: 10,
         }}>
         {rightIcon}
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          top: title === undefined ? 20 : 40,
+          left: 10,
+        }}>
+        {leftIcon}
       </View>
       {/* {isError && errorMessage !== null && (
         <CustomText

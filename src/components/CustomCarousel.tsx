@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { Animated, Dimensions, TouchableOpacity, View } from 'react-native';
-import { BottomNavigationProps } from '../Layout/BottomTabs.navigator';
+import { NavigationProps } from '../Layout/StackNavigator';
 import { theme } from '../utils/theme';
 import { getImage } from '../utils/utils';
 type Props = {
-  navigation: BottomNavigationProps;
+  navigation: NavigationProps;
 };
 function CustomCarousel({ navigation }: Props) {
   const width = Dimensions.get('window').width;
@@ -82,14 +82,7 @@ function CustomCarousel({ navigation }: Props) {
           return (
             <TouchableOpacity
               onPress={() => {
-                if (
-                  item === 'Route' ||
-                  item === 'Campaign' ||
-                  item === 'Profile' ||
-                  item === 'Search' ||
-                  item === 'Home'
-                )
-                  navigation.navigate(item);
+                navigation.push('BottomTabs');
               }}
               style={{
                 width: width,

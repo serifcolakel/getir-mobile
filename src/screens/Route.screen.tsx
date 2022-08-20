@@ -1,11 +1,12 @@
 import {
+  Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getImage } from '../utils/utils';
 import { theme } from '../utils/theme';
 import Row from '../components/Row';
@@ -14,30 +15,24 @@ import Col from '../components/Col';
 import CustomCarousel from '../components/CustomCarousel';
 import Input from '../components/PartnerComponents/Input';
 import CustomText from '../components/PartnerComponents/CustomText';
-import { BottomNavigationProps } from '../Layout/BottomTabs.navigator';
+import { NavigationProps } from '../Layout/StackNavigator';
+import { useAppDispatch } from '../store';
+import { getCurrentPosition } from '../features/slices/userSlice';
 
 type Props = {
-  navigation: BottomNavigationProps;
+  navigation: NavigationProps;
 };
-// const { data, loading } = useAppSelector(
-//     (state: RootState) => state.allProducts,
-//   );
-//   const dispatch = useAppDispatch();
-//   useEffect(() => {
-//     //dispatch(getAllProduct());
-//   }, []);
+
 const Route = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getCurrentPosition());
+  }, []);
   return (
-    // <ImageBackground
-    //   style={{
-    //     flex: 1,
-    //   }}
-    //   resizeMode="stretch"
-    //   source={getImage('bgDoodle')}
-    //   fadeDuration={200}>
     <View
       style={{
         flex: 1,
+        height: Dimensions.get('window').height,
       }}>
       <Row
         extraStyle={{
@@ -56,6 +51,7 @@ const Route = ({ navigation }: Props) => {
             borderBottomRightRadius: 80,
             height: '100%',
           }}
+          onPress={() => navigation.navigate('Addresses')}
           alignItems="center"
           justifyContent="space-between">
           <CustomText label="Teslimat Adresi Belirleyin" />
@@ -104,11 +100,21 @@ const Route = ({ navigation }: Props) => {
       </Row>
       {/* <CarouselTest data={dummyData} /> */}
       <CustomCarousel navigation={navigation} />
+      <CustomText
+        style={{
+          width: '100%',
+          textAlign: 'left',
+
+          fontSize: 12,
+          color: theme.colors.getirPrimary500,
+        }}
+        label="Code Push Test"
+      />
       <Row
         alignItems="center"
         justifyContent="space-between"
         extraStyle={{
-          paddingTop: 30,
+          paddingTop: 10,
           paddingHorizontal: 30,
         }}>
         <Col cols={2}>
@@ -124,7 +130,7 @@ const Route = ({ navigation }: Props) => {
         <Col cols={2}>
           <Input
             editable={false}
-            onPress={() => navigation.navigate('Search')}
+            onPress={() => navigation.navigate('NewAddresses')}
             textAlign="left"
             rightIcon={<SearchIcon />}
             placeholder="Getir'de ara"
@@ -135,7 +141,7 @@ const Route = ({ navigation }: Props) => {
         justifyContent="center"
         alignItems="center"
         extraStyle={{
-          padding: 20,
+          paddingHorizontal: 20,
         }}>
         <Col cols={2}>
           <TouchableOpacity

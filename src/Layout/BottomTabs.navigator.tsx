@@ -1,10 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home.screen';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Search from '../screens/Search.screen';
 import { Text, View } from 'react-native';
 import { theme } from '../utils/theme';
@@ -19,7 +16,7 @@ import {
 import Profile from '../screens/Profile.screen';
 import Campaign from '../screens/Campaing.screen';
 import Route from '../screens/Route.screen';
-export type RootStackParamList = {
+export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
   Profile: undefined;
@@ -27,12 +24,12 @@ export type RootStackParamList = {
   Route: undefined;
 };
 export type BottomNavigationProps =
-  NativeStackNavigationProp<RootStackParamList>;
+  NativeStackNavigationProp<RootBottomStackParamList>;
 const BottomTabs = createBottomTabNavigator();
 const BottomTabsNavigator: React.FC = () => {
   return (
     <BottomTabs.Navigator
-      initialRouteName="Route"
+      initialRouteName="Home"
       screenOptions={({ route, navigation }) => ({
         animation: 'slide_from_right',
         animationDuration: 1000,
@@ -43,7 +40,12 @@ const BottomTabsNavigator: React.FC = () => {
         tabBarInactiveBackgroundColor: theme.colors.white,
         tabBarStyle: {
           height: 60,
-          display: route.name === 'Route' ? 'none' : 'flex',
+          display:
+            route.name === 'Route' ||
+            route.name === 'Addresses' ||
+            route.name === 'NewAddresses'
+              ? 'none'
+              : 'flex',
         },
         tabBarIcon({ focused, color, size }) {
           switch (route.name) {
@@ -75,6 +77,7 @@ const BottomTabsNavigator: React.FC = () => {
                   />
                 </View>
               );
+
             case 'Search':
               return (
                 <View
@@ -187,6 +190,7 @@ const BottomTabsNavigator: React.FC = () => {
           }
         },
         header: ({ navigation, options, route, layout }) => {
+          console.log('RouteName', route.name);
           let stepperWidth = '100%';
           switch (route.name) {
             case 'Home':

@@ -1,3 +1,5 @@
+import { getImage } from '../utils/utils';
+
 export const dummyData = [
   {
     title: 'Anise Aroma Art Bazar',
@@ -19,5 +21,26 @@ export const dummyData = [
     description:
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     id: 3,
+  },
+];
+
+export const AdressesLink = [
+  {
+    id: 1,
+    label: 'Ev Adresi Ekle',
+    image: getImage('routeSlider0'),
+    route: 'NewAddresses',
+  },
+  {
+    id: 2,
+    label: 'İş Adresi Ekle',
+    image: getImage('routeSlider0'),
+    route: 'NewAddresses',
+  },
+  {
+    id: 3,
+    label: 'Diğer Adres Ekle',
+    image: getImage('routeSlider0'),
+    route: 'NewAddresses',
   },
 ];

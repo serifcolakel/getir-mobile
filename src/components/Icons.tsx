@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Animated, Easing, Pressable, TouchableOpacity } from 'react-native';
 import { Svg, Path, G, Circle, Rect } from 'react-native-svg';
 import { theme } from '../utils/theme';
 type IconProps = {
@@ -7,6 +7,8 @@ type IconProps = {
   size?: number;
   onPress?: () => void;
   rotate?: number;
+  time?: number;
+  stopAnimation?: boolean;
 };
 export const HomeIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
@@ -137,7 +139,91 @@ export const InfoIcon: React.FC<IconProps> = ({
     </Svg>
   );
 };
-
+export const LocationIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24">
+        <Path
+          fill={color}
+          d="M12 21a29.776 29.776 0 0 1-3.5-3.531C6.9 15.558 5 12.712 5 10a7 7 0 0 1 11.952-4.951A6.955 6.955 0 0 1 19 10c0 2.712-1.9 5.558-3.5 7.469A29.777 29.777 0 0 1 12 21Zm0-16a5.006 5.006 0 0 0-5 5c0 1.166.527 3.185 3.035 6.186A27.93 27.93 0 0 0 12 18.3a28.121 28.121 0 0 0 1.966-2.111C16.473 13.184 17 11.165 17 10a5.006 5.006 0 0 0-5-5Zm0 8a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+export const LoadingIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  time = 1000,
+  stopAnimation,
+}) => {
+  const spinValue = new Animated.Value(0);
+  Animated.loop(
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 2000,
+      //easing: Easing.inOut(Easing.ease),
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }),
+  ).start();
+  if (stopAnimation) {
+    setTimeout(() => {
+      spinValue.stopAnimation();
+    }, time);
+  }
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+  return (
+    <Animated.View
+      style={{
+        transform: [{ rotate: spin }],
+      }}>
+      <Svg
+        onPress={onPress}
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 1024 1024">
+        <Path
+          fill={color}
+          d="M512 64a32 32 0 0 1 32 32v192a32 32 0 0 1-64 0V96a32 32 0 0 1 32-32zm0 640a32 32 0 0 1 32 32v192a32 32 0 1 1-64 0V736a32 32 0 0 1 32-32zm448-192a32 32 0 0 1-32 32H736a32 32 0 1 1 0-64h192a32 32 0 0 1 32 32zm-640 0a32 32 0 0 1-32 32H96a32 32 0 0 1 0-64h192a32 32 0 0 1 32 32zM195.2 195.2a32 32 0 0 1 45.248 0L376.32 331.008a32 32 0 0 1-45.248 45.248L195.2 240.448a32 32 0 0 1 0-45.248zm452.544 452.544a32 32 0 0 1 45.248 0L828.8 783.552a32 32 0 0 1-45.248 45.248L647.744 692.992a32 32 0 0 1 0-45.248zM828.8 195.264a32 32 0 0 1 0 45.184L692.992 376.32a32 32 0 0 1-45.248-45.248l135.808-135.808a32 32 0 0 1 45.248 0zm-452.544 452.48a32 32 0 0 1 0 45.248L240.448 828.8a32 32 0 0 1-45.248-45.248l135.808-135.808a32 32 0 0 1 45.248 0z"
+        />
+      </Svg>
+    </Animated.View>
+  );
+};
+export const CloseIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 1024 1024">
+        <Path
+          fill={color}
+          d="M512 64a448 448 0 1 1 0 896a448 448 0 0 1 0-896zm0 393.664L407.936 353.6a38.4 38.4 0 1 0-54.336 54.336L457.664 512L353.6 616.064a38.4 38.4 0 1 0 54.336 54.336L512 566.336L616.064 670.4a38.4 38.4 0 1 0 54.336-54.336L566.336 512L670.4 407.936a38.4 38.4 0 1 0-54.336-54.336L512 457.664z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
 export const QuestionIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 24,
@@ -294,6 +380,50 @@ export const UserIcon: React.FC<IconProps> = ({
         <Path
           fill={color}
           d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2S7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+export const PlusIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24">
+        <Path
+          fill={color}
+          stroke={color}
+          strokeLinecap={'round'}
+          strokeWidth={3}
+          d="M12 20v-8m0 0V4m0 8h8m-8 0H4"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+export const CurrenLocationIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 28,
+  onPress,
+}) => {
+  return (
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24">
+        <Circle cx="12" cy="12" r="3.5" fill={color} />
+        <Path
+          fill={color}
+          d="M13 4.069V2h-2v2.069A8.01 8.01 0 0 0 4.069 11H2v2h2.069A8.008 8.008 0 0 0 11 19.931V22h2v-2.069A8.007 8.007 0 0 0 19.931 13H22v-2h-2.069A8.008 8.008 0 0 0 13 4.069zM12 18c-3.309 0-6-2.691-6-6s2.691-6 6-6s6 2.691 6 6s-2.691 6-6 6z"
         />
       </Svg>
     </TouchableOpacity>
