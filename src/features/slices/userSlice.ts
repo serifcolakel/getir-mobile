@@ -4,17 +4,16 @@ import Geolocation, {
   GeoError,
   GeoPosition,
 } from 'react-native-geolocation-service';
-import { Adresses, User } from '../../types/userSliceTypes';
-import { GooglePlaceData } from 'react-native-google-places-autocomplete';
+import { Adresses, SelectedAdress, User } from '../../types/userSliceTypes';
 
 export interface UserState {
   user: User | null;
   geoLocation: GeoPosition;
-  geoLocationError: GeoError | null;
   isLoading: boolean;
   isError: boolean;
   errorMessage: string;
   adresses: Adresses[];
+  selectedAdress: SelectedAdress | null;
 }
 
 const initialState: UserState = {
@@ -23,6 +22,7 @@ const initialState: UserState = {
     name: '',
     token: '',
   },
+  selectedAdress: null,
   adresses: [],
   isLoading: false,
   isError: false,
@@ -41,7 +41,6 @@ const initialState: UserState = {
       latitude: 0,
     },
   },
-  geoLocationError: null,
 };
 export const getCurrentPosition = createAsyncThunk(
   'position',
@@ -70,6 +69,9 @@ export const userSlice = createSlice({
     setGeoLocation: (state, action: PayloadAction<GeoPosition>) => {
       state.geoLocation = action.payload;
     },
+    selectAdress: (state, action: PayloadAction<SelectedAdress>) => {
+      state.selectedAdress = action.payload;
+    },
     addAdresses: (state, action: PayloadAction<Adresses>) => {
       state.adresses.push(action.payload);
     },
@@ -90,6 +92,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setGeoLocation, addAdresses } = userSlice.actions;
+export const { setGeoLocation, addAdresses, selectAdress } = userSlice.actions;
 
 export default userSlice.reducer;

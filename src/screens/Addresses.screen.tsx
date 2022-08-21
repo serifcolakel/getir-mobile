@@ -49,7 +49,13 @@ const Addresses = ({ navigation }: Props) => {
             }}
             alignItems="center"
             justifyContent="space-between">
-            <Row alignItems="center">
+            <Row
+              onPress={() => {
+                navigation.navigate('NewAddresses', {
+                  type: item.type,
+                });
+              }}
+              alignItems="center">
               <Image
                 resizeMode="contain"
                 style={{

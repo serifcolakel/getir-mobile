@@ -24,7 +24,11 @@ import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { getSingleDestinationDistance } from '../hooks/useGeoLib';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
 import axios from 'axios';
-import { addAdresses, getCurrentPosition } from '../features/slices/userSlice';
+import {
+  addAdresses,
+  getCurrentPosition,
+  selectAdress,
+} from '../features/slices/userSlice';
 import { Adresses } from '../types/userSliceTypes';
 import { getImage } from '../utils/utils';
 import LocationContainer from '../components/PartnerComponents/LocationContainer';
@@ -54,6 +58,12 @@ const NewAddresses = ({ navigation, route }: Props) => {
   async function Test(data: GooglePlaceData) {
     const geoLocation = await getGeoLocationFromPlaceId(data.place_id);
     console.log('onPress', data.description, geoLocation);
+    dispatch(
+      selectAdress({
+        details: { data: data, type: type },
+        location: geoLocation,
+      }),
+    );
   }
   return (
     <View
@@ -86,14 +96,7 @@ const NewAddresses = ({ navigation, route }: Props) => {
           ref={ref}
           placeholder="Bir Adres Ara"
           onPress={(data, details = null) => {
-            // dispatch(
-            //   addAdresses({
-            //     data: data,
-            //     type: type,
-            //   }),
-            // );
             //  console.log('DAtaasas', data);
-            //navigation.push('SelectAdress', { type });
           }}
           fetchDetails={true}
           keyboardShouldPersistTaps="handled"
@@ -121,7 +124,6 @@ const NewAddresses = ({ navigation, route }: Props) => {
           }}
           keepResultsAfterBlur={true}
           isRowScrollable={false}
-          autoFillOnNotFound={true}
           renderRightButton={() => (
             <CloseIcon
               onPress={() => {
@@ -139,8 +141,15 @@ const NewAddresses = ({ navigation, route }: Props) => {
                 data={data}
                 showSpin={showSpin}
                 onPress={() => {
+                  ref.current?.setAddressText(data.description);
+                  dispatch(
+                    addAdresses({
+                      data: data,
+                      type: type,
+                    }),
+                  );
                   Test(data);
-                  //ref.current?.setAddressText(data.description);
+                  navigation.push('SelectAdress', { type });
                 }}
                 setShowSpin={setShowSpin}
                 key={data.id + index}

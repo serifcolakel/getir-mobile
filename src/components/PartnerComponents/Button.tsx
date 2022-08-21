@@ -36,7 +36,7 @@ const Button = ({
         {
           ...styles.button,
           height: height,
-          borderColor: disabled ? theme.colors.white : color,
+          borderColor: disabled ? theme.colors.getirPrimary100 : color,
           backgroundColor: disabled
             ? theme.colors.white
             : type === 'outlined'
@@ -50,7 +50,7 @@ const Button = ({
         style={{
           ...styles.buttonText,
           color: disabled
-            ? theme.colors.gray2
+            ? theme.colors.getirPrimary100
             : type === 'outlined'
             ? theme.colors.lightBlue
             : theme.colors.gray3,
