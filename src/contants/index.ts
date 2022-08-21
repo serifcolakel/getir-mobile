@@ -1,5 +1,5 @@
 import { getImage } from '../utils/utils';
-
+export const GOOGLE_MAPS_APIKEY = 'AIzaSyAk1VUyA3QjvvCsixKUwFr9ptSXFNNfzms';
 export const dummyData = [
   {
     title: 'Anise Aroma Art Bazar',

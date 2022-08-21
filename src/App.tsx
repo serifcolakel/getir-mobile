@@ -9,6 +9,8 @@ import Geolocation from 'react-native-geolocation-service';
 import { store } from './store';
 import Navigator from './Layout/StackNavigator';
 import { PermissionsAndroid, Platform } from 'react-native';
+import { getSingleDestinationDistance } from './hooks/useGeoLib';
+import { getGeoLocationFromPlaceId } from './hooks/getGeoPointFromPlaceId';
 async function requestPermissions() {
   if (Platform.OS === 'ios') {
     Geolocation.requestAuthorization('whenInUse');
@@ -25,6 +27,7 @@ async function requestPermissions() {
     );
   }
 }
+
 // #5d3ebc, #ffd10d
 const App: React.FC = () => {
   React.useEffect(() => {

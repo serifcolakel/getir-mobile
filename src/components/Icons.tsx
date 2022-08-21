@@ -163,7 +163,7 @@ export const LoadingIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 24,
   onPress,
-  time = 1000,
+  time = 100,
   stopAnimation,
 }) => {
   const spinValue = new Animated.Value(0);
