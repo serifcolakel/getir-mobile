@@ -11,3 +11,16 @@ export const getGeoLocationFromPlaceId = async (placeId: string) => {
     console.log(error);
   }
 };
+
+export const getAddressDetailsFromGeoLocatin = async (
+  lat: number,
+  lng: number,
+) => {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_APIKEY}`;
+  try {
+    const res = await axios.get(url);
+    return res.data.results[0].formatted_address;
+  } catch (error) {
+    console.log(error);
+  }
+};

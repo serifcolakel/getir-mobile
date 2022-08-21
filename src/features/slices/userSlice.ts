@@ -50,6 +50,7 @@ export const getCurrentPosition = createAsyncThunk(
       Geolocation.getCurrentPosition(
         async position => {
           dispatch(setGeoLocation(position));
+          return position;
         },
         error => {
           return error;
@@ -70,7 +71,6 @@ export const userSlice = createSlice({
       state.geoLocation = action.payload;
     },
     addAdresses: (state, action: PayloadAction<Adresses>) => {
-      console.log('addAdressesaction', action.payload);
       state.adresses.push(action.payload);
     },
   },
@@ -78,17 +78,13 @@ export const userSlice = createSlice({
     builder
       .addCase(
         getCurrentPosition.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          console.log('getCurrentPosition.fulfilled', action.payload);
-        },
+        (state, action: PayloadAction<any>) => {},
       )
       .addCase(getCurrentPosition.rejected, state => {
-        console.log('getCurrentPosition.rejected');
         state.isError = true;
         state.errorMessage = 'Position Error';
       })
       .addCase(getCurrentPosition.pending, state => {
-        console.log('getCurrentPosition.pending');
         state.isLoading = true;
       });
   },

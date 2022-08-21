@@ -43,26 +43,26 @@ const GeoLocationRowItem = ({
     getGeoLocation();
   }, [place_id]);
   return (
-    <TouchableOpacity onPress={onPress}>
+    <Row
+      onPress={onPress}
+      extraStyle={styles.container}
+      alignItems="center"
+      justifyContent="space-between">
       <Row
-        extraStyle={styles.container}
+        onPress={onPress}
         alignItems="center"
-        justifyContent="space-between">
-        <Row
-          alignItems="center"
-          extraStyle={{
-            width: '82%',
-          }}>
-          <LocationIcon size={24} />
-          <CustomText style={styles.description} label={data.description} />
-        </Row>
-        {distance ? (
-          <CustomText style={styles.distance} label={`${distance} km`} />
-        ) : (
-          <LoadingIcon stopAnimation={!showSpin} />
-        )}
+        extraStyle={{
+          width: '82%',
+        }}>
+        <LocationIcon size={24} />
+        <CustomText style={styles.description} label={data.description} />
       </Row>
-    </TouchableOpacity>
+      {distance ? (
+        <CustomText style={styles.distance} label={`${distance} km`} />
+      ) : (
+        <LoadingIcon stopAnimation={!showSpin} size={25} />
+      )}
+    </Row>
   );
 };
 
@@ -71,6 +71,8 @@ export default GeoLocationRowItem;
 const styles = StyleSheet.create({
   container: {
     marginBottom: 5,
+    paddingLeft: 5,
+    paddingVertical: 5,
     backgroundColor: theme.colors.white,
     borderBottomColor: theme.colors.gray3,
   },

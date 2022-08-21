@@ -12,6 +12,7 @@ import Route from '../screens/Route.screen';
 import Addresses from '../screens/Addresses.screen';
 import NewAddresses from '../screens/NewAddresses.screen';
 import { Adresses } from '../types/userSliceTypes';
+import SelectAdress from '../screens/SelectAdress.screen';
 
 const Stack = createNativeStackNavigator();
 export type RootStackParamList = {
@@ -19,6 +20,9 @@ export type RootStackParamList = {
   BottomTabs: undefined;
   Addresses: undefined;
   NewAddresses: {
+    type: Adresses['type'];
+  };
+  SelectAdress: {
     type: Adresses['type'];
   };
 };
@@ -43,7 +47,6 @@ export default function Navigator() {
             //backgroundColor: theme.colors.red,
           },
           header: ({ navigation, options, route, back }) => {
-            console.log('RouteName', route.name);
             let stepperWidth = '100%';
             switch (route.name) {
               case 'Home':
@@ -130,6 +133,13 @@ export default function Navigator() {
           component={NewAddresses}
           options={{
             title: 'Yeni Adres Ekle',
+          }}
+        />
+        <Stack.Screen
+          name="SelectAdress"
+          component={SelectAdress}
+          options={{
+            title: 'Adres Seç',
           }}
         />
       </Stack.Navigator>

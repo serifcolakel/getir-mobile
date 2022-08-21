@@ -190,7 +190,6 @@ const BottomTabsNavigator: React.FC = () => {
           }
         },
         header: ({ navigation, options, route, layout }) => {
-          console.log('RouteName', route.name);
           let stepperWidth = '100%';
           switch (route.name) {
             case 'Home':
