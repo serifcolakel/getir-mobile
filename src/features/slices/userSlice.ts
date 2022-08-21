@@ -1,17 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import Geolocation, {
-  GeoCoordinates,
   GeoError,
   GeoPosition,
 } from 'react-native-geolocation-service';
-import { RootState } from '../../store';
+import { Adresses, User } from '../../types/userSliceTypes';
+import { GooglePlaceData } from 'react-native-google-places-autocomplete';
 
-export type User = {
-  id: string;
-  name: string;
-  token: string;
-};
 export interface UserState {
   user: User | null;
   geoLocation: GeoPosition;
@@ -19,6 +14,7 @@ export interface UserState {
   isLoading: boolean;
   isError: boolean;
   errorMessage: string;
+  adresses: Adresses[];
 }
 
 const initialState: UserState = {
@@ -27,6 +23,7 @@ const initialState: UserState = {
     name: '',
     token: '',
   },
+  adresses: [],
   isLoading: false,
   isError: false,
   errorMessage: '',
@@ -72,6 +69,10 @@ export const userSlice = createSlice({
     setGeoLocation: (state, action: PayloadAction<GeoPosition>) => {
       state.geoLocation = action.payload;
     },
+    addAdresses: (state, action: PayloadAction<Adresses>) => {
+      console.log('addAdressesaction', action.payload);
+      state.adresses.push(action.payload);
+    },
   },
   extraReducers: builder => {
     builder
@@ -93,6 +94,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setGeoLocation } = userSlice.actions;
+export const { setGeoLocation, addAdresses } = userSlice.actions;
 
 export default userSlice.reducer;

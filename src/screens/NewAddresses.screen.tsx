@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import {
   CloseIcon,
@@ -21,34 +21,27 @@ import GeoLocationRowItem from '../components/GeoLocationRowItem';
 import { GOOGLE_MAPS_APIKEY } from '../contants';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { getSingleDestinationDistance } from '../hooks/useGeoLib';
-import { RootState, useAppSelector } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import axios from 'axios';
+import { addAdresses, getCurrentPosition } from '../features/slices/userSlice';
+import { Adresses } from '../types/userSliceTypes';
+import { getImage } from '../utils/utils';
+import LocationContainer from '../components/PartnerComponents/LocationContainer';
 type Props = {
   navigation: NavigationProps;
+  route: any;
 };
-const initialData = [1, 2, 3, 4, 5, 55, 11];
-const NewAddresses = ({ navigation }: Props) => {
+
+const NewAddresses = ({ navigation, route }: Props) => {
   const [search, setSearch] = React.useState<string | null>(null);
-  const [data, setData] = React.useState<number[] | []>([]);
   const mapRef = useRef<MapView>(null);
   const ref = useRef<GooglePlacesAutocompleteRef>();
   const homePlace = {
     description: 'Home',
     geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
   };
-  const coordinates = [
-    {
-      latitude: 37.79879,
-      longitude: -122.442753,
-    },
-    {
-      latitude: 37.790651,
-      longitude: -122.422497,
-    },
-  ];
-  const origin = { latitude: 37.3318456, longitude: -122.0296002 };
-  const destination = { latitude: 37.771707, longitude: -122.4053769 };
-
+  const { type } = route.params;
+  const dispatch = useAppDispatch();
   const workPlace = {
     description: 'Work',
     geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
@@ -59,9 +52,11 @@ const NewAddresses = ({ navigation }: Props) => {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
   }, []);
+  const { adresses } = useAppSelector((state: RootState) => state.user);
   const { latitude, longitude } = useAppSelector(
     (state: RootState) => state.user.geoLocation.coords,
   );
+  console.log('adresses', adresses);
   return (
     <View
       style={{
@@ -75,6 +70,7 @@ const NewAddresses = ({ navigation }: Props) => {
           editable={false}
           onPress={() => {
             console.log('onPress');
+            dispatch(getCurrentPosition());
           }}
           keyboardType="default"
           textAlign="left"
@@ -85,22 +81,26 @@ const NewAddresses = ({ navigation }: Props) => {
       <View
         style={{
           width: '100%',
-          height: Dimensions.get('window').height / 3,
+          height: Dimensions.get('window').height - 500,
         }}>
         <GooglePlacesAutocomplete
           // @ts-ignore
-
           ref={ref}
           placeholder="Bir Adres Ara"
           onPress={(data, details = null) => {
-            console.log('data', data, 'details', details);
+            dispatch(
+              addAdresses({
+                data: data,
+                type: type,
+              }),
+            );
           }}
           fetchDetails={true}
           keyboardShouldPersistTaps="handled"
           minLength={4} // minimum length of text to search
           preProcess={data => {
             // preprocess function will be called before search
-            console.log('preProcess', data);
+            // console.log('preProcess', data);
             setSearch(data);
             return data;
           }}
@@ -129,7 +129,7 @@ const NewAddresses = ({ navigation }: Props) => {
                 setSearch('');
                 ref.current?.clear();
                 ref.current?.blur();
-                ref.current?.focus();
+                //ref.current?.focus();
               }}
             />
           )}
@@ -174,6 +174,15 @@ const NewAddresses = ({ navigation }: Props) => {
           width: '100%',
           height: 300,
         }}
+        camera={{
+          center: {
+            latitude: latitude,
+            longitude: longitude,
+          },
+          zoom: 15,
+          pitch: 0,
+          heading: 0,
+        }}
         onPress={e => {
           console.log(e);
         }}
@@ -190,9 +199,10 @@ const NewAddresses = ({ navigation }: Props) => {
           }}
           title="This is title"
           description="This is description">
-          <LocationIcon size={25} />
+          <LocationContainer imageType={type} />
         </Marker>
-        {/* <Marker
+        {/*
+        <Marker
           coordinate={coordinates[1]}
           title="This is title"
           description="This is description">
@@ -210,8 +220,11 @@ const NewAddresses = ({ navigation }: Props) => {
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
           strokeColor={theme.colors.red}
-        /> */}
+        />  */}
       </MapView>
+      {/* 
+      {/*
+      */}
       {/* <View
         style={{
           padding: 10,
@@ -302,6 +315,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   geoListView: {
+    height: 500,
     borderRadius: 10,
     marginTop: 10,
   },

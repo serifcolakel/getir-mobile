@@ -11,13 +11,16 @@ import BottomTabsNavigator from './BottomTabs.navigator';
 import Route from '../screens/Route.screen';
 import Addresses from '../screens/Addresses.screen';
 import NewAddresses from '../screens/NewAddresses.screen';
+import { Adresses } from '../types/userSliceTypes';
 
 const Stack = createNativeStackNavigator();
 export type RootStackParamList = {
   Route: undefined;
   BottomTabs: undefined;
   Addresses: undefined;
-  NewAddresses: undefined;
+  NewAddresses: {
+    type: Adresses['type'];
+  };
 };
 
 export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;

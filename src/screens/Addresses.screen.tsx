@@ -27,19 +27,24 @@ const Addresses = ({ navigation }: Props) => {
         style={{
           borderBottomColor: '#e6e6e6',
           borderBottomWidth: 1,
+          paddingVertical: 20,
           borderTopColor: '#e6e6e6',
           borderTopWidth: 1,
         }}>
         {AdressesLink.map((item, idx) => (
           <Row
             onPress={() => {
-              navigation.navigate('NewAddresses');
+              navigation.navigate('NewAddresses', {
+                type: item.type,
+              });
             }}
             key={`${item.id}-${idx}`}
             extraStyle={{
               paddingHorizontal: 20,
               marginHorizontal: 10,
+              paddingVertical: 10,
               borderBottomColor: '#e6e6e6',
+              backgroundColor: '#fff',
               borderBottomWidth: 1,
             }}
             alignItems="center"
@@ -48,8 +53,8 @@ const Addresses = ({ navigation }: Props) => {
               <Image
                 resizeMode="contain"
                 style={{
-                  width: 60,
-                  height: 60,
+                  width: 40,
+                  height: 40,
                   marginRight: 20,
                 }}
                 source={item.image}

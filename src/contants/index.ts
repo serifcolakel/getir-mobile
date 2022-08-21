@@ -23,24 +23,33 @@ export const dummyData = [
     id: 3,
   },
 ];
-
-export const AdressesLink = [
+type AdressesLinkTypes = {
+  type: 'home' | 'work' | 'other';
+  id: number;
+  label: string;
+  image: any;
+  route: string;
+};
+export const AdressesLink: AdressesLinkTypes[] = [
   {
     id: 1,
     label: 'Ev Adresi Ekle',
-    image: getImage('routeSlider0'),
+    image: getImage('home'),
     route: 'NewAddresses',
+    type: 'home',
   },
   {
     id: 2,
     label: 'İş Adresi Ekle',
-    image: getImage('routeSlider0'),
+    image: getImage('work'),
     route: 'NewAddresses',
+    type: 'work',
   },
   {
     id: 3,
     label: 'Diğer Adres Ekle',
-    image: getImage('routeSlider0'),
+    image: getImage('other'),
     route: 'NewAddresses',
+    type: 'other',
   },
 ];

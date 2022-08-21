@@ -14,6 +14,9 @@ import slider5 from '../assets/images/5.png';
 import slider6 from '../assets/images/6.png';
 import slider7 from '../assets/images/7.png';
 import slider8 from '../assets/images/8.png';
+import homeImage from '../assets/images/home.png';
+import workImage from '../assets/images/work.png';
+import otherImage from '../assets/images/other.png';
 type ImageName =
   | 'bgDoodle'
   | 'buyuk'
@@ -32,6 +35,9 @@ type ImageName =
   | 'routeSlider6'
   | 'routeSlider7'
   | 'routeSlider8'
+  | 'home'
+  | 'work'
+  | 'other'
   | string;
 export function getImage(name: ImageName) {
   switch (name) {
@@ -67,7 +73,12 @@ export function getImage(name: ImageName) {
       return slider7;
     case 'routeSlider7':
       return slider8;
-
+    case 'home':
+      return homeImage;
+    case 'work':
+      return workImage;
+    case 'other':
+      return otherImage;
     default:
       break;
   }

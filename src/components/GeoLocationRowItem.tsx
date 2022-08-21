@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useEffect } from 'react';
 import Row from './Row';
 import { theme } from '../utils/theme';
@@ -43,9 +43,8 @@ const GeoLocationRowItem = ({
     getGeoLocation();
   }, [place_id]);
   return (
-    <View>
+    <TouchableOpacity onPress={onPress}>
       <Row
-        onPress={onPress}
         extraStyle={styles.container}
         alignItems="center"
         justifyContent="space-between">
@@ -63,7 +62,7 @@ const GeoLocationRowItem = ({
           <LoadingIcon stopAnimation={!showSpin} />
         )}
       </Row>
-    </View>
+    </TouchableOpacity>
   );
 };
 
