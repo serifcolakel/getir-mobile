@@ -28,6 +28,16 @@ const Route = ({ navigation }: Props) => {
   useEffect(() => {
     dispatch(getCurrentPosition());
   }, []);
+  const data = [
+    'Addresses',
+    'BottomTabs',
+    'BottomTabs',
+    'Addresses',
+    'Search',
+    'Profile',
+    'Campaign',
+    'BottomTabs',
+  ];
   return (
     <View
       style={{
@@ -51,7 +61,7 @@ const Route = ({ navigation }: Props) => {
             borderBottomRightRadius: 80,
             height: '100%',
           }}
-          onPress={() => navigation.navigate('Addresses')}
+          onPress={() => navigation.push('Addresses')}
           alignItems="center"
           justifyContent="space-between">
           <CustomText label="Teslimat Adresi Belirleyin" />
@@ -99,22 +109,18 @@ const Route = ({ navigation }: Props) => {
         </Col>
       </Row>
       {/* <CarouselTest data={dummyData} /> */}
-      <CustomCarousel navigation={navigation} />
-      <CustomText
-        style={{
-          width: '100%',
-          textAlign: 'left',
-
-          fontSize: 12,
-          color: theme.colors.getirPrimary500,
-        }}
-        label="Code Push Test"
+      <CustomCarousel
+        data={data}
+        imagePrefix="routeSlider"
+        showStepper={true}
+        navigation={navigation}
       />
+
       <Row
         alignItems="center"
         justifyContent="space-between"
         extraStyle={{
-          paddingTop: 10,
+          paddingTop: 20,
           paddingHorizontal: 30,
         }}>
         <Col cols={2}>
@@ -130,7 +136,7 @@ const Route = ({ navigation }: Props) => {
         <Col cols={2}>
           <Input
             editable={false}
-            onPress={() => navigation.navigate('NewAddresses')}
+            onPress={() => navigation.push('BottomTabs')}
             textAlign="left"
             rightIcon={<SearchIcon />}
             placeholder="Getir'de ara"
@@ -153,6 +159,9 @@ const Route = ({ navigation }: Props) => {
               height: 150,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -184,6 +193,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -214,6 +226,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -252,6 +267,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -282,6 +300,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -313,6 +334,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{
@@ -342,6 +366,9 @@ const Route = ({ navigation }: Props) => {
               height: 70,
               backgroundColor: theme.colors.white,
               borderRadius: 10,
+            }}
+            onPress={() => {
+              navigation.push('BottomTabs');
             }}>
             <ImageBackground
               style={{

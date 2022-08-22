@@ -3,7 +3,6 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack';
-import { RootState, useAppSelector } from '../store';
 import { Text, View } from 'react-native';
 import { theme } from '../utils/theme';
 import { RightArrowIcon } from '../components/Icons';
@@ -25,14 +24,16 @@ export type RootStackParamList = {
   SelectAdress: {
     type: Adresses['type'];
   };
+  Home: undefined;
+  Search: undefined;
+  Profile: undefined;
+  Campaign: undefined;
 };
 
 export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Navigator() {
   // TODO: https://i.hizliresim.com/roswz0t.png  https://i.hizliresim.com/ejv8s0l.png
-
-  const { value } = useAppSelector((state: RootState) => state.counter);
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function Navigator() {
         screenOptions={{
           animation: 'slide_from_right',
           animationDuration: 500,
-          statusBarColor: theme.colors.getirPrimary500,
+          statusBarColor: theme.colors.getirPrimary600,
           contentStyle: {
             backgroundColor: theme.colors.gray2,
             //backgroundColor: theme.colors.red,

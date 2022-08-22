@@ -1,6 +1,6 @@
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { getImage } from '../utils/utils';
+import { getImage } from '../../utils/utils';
 
 type Props = {};
 

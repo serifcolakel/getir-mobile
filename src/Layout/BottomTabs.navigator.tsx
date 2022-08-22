@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home.screen';
+import Home from '../screens/BottomTabScreens/Home.screen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import Search from '../screens/Search.screen';
-import { Text, View } from 'react-native';
+import Search from '../screens/BottomTabScreens/Search.screen';
+import { View } from 'react-native';
 import { theme } from '../utils/theme';
 import {
   GiftIcon,
@@ -13,9 +13,12 @@ import {
   SearchIcon,
   UserIcon,
 } from '../components/Icons';
-import Profile from '../screens/Profile.screen';
-import Campaign from '../screens/Campaing.screen';
+import Profile from '../screens/BottomTabScreens/Profile.screen';
+import Campaign from '../screens/BottomTabScreens/Campaing.screen';
 import Route from '../screens/Route.screen';
+import CustomText from '../components/PartnerComponents/CustomText';
+import Col from '../components/Col';
+import Row from '../components/Row';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -190,61 +193,97 @@ const BottomTabsNavigator: React.FC = () => {
           }
         },
         header: ({ navigation, options, route, layout }) => {
-          let stepperWidth = '100%';
-          switch (route.name) {
-            case 'Home':
-              stepperWidth = '75%';
-              break;
-            case 'Search':
-              stepperWidth = '50%';
-              break;
-            default:
-              break;
-          }
-
           return (
             <>
               <View
                 style={{
-                  backgroundColor: theme.colors.getirPrimary500,
-                  height: 50,
                   width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: navigation.canGoBack()
-                    ? 'space-between'
-                    : 'center',
+                  height: 50,
                   alignItems: 'center',
-                  padding: 10,
+                  justifyContent: 'center',
+                  backgroundColor: theme.colors.getirPrimary500,
                 }}>
-                {navigation.canGoBack() && (
-                  <RightArrowIcon
-                    onPress={() =>
-                      navigation.canGoBack() && navigation.goBack()
-                    }
-                    rotate={180}
-                    size={20}
-                    color="#fff"
-                  />
-                )}
-                <Text
+                <CustomText
+                  label={options.title?.split(' ')[0]}
                   style={{
-                    fontSize: 15,
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontFamily: 'Roboto-Bold',
-                  }}>
-                  {options.title as string}
-                </Text>
-
-                <View />
+                    color: theme.colors.getirSecondary500,
+                    fontSize: 20,
+                  }}
+                />
               </View>
-              <View
-                style={{
-                  height: 5,
-                  width: stepperWidth,
-                  backgroundColor: theme.colors.deepPurple,
-                }}
-              />
+              {options.title?.includes('false') && (
+                <Row
+                  extraStyle={{
+                    backgroundColor: theme.colors.getirSecondary500,
+                    height: 50,
+
+                    width: '100%',
+                    left: 0,
+                    zIndex: 1,
+                  }}
+                  alignItems="center"
+                  justifyContent="space-between">
+                  <Row
+                    extraStyle={{
+                      backgroundColor: theme.colors.white,
+                      paddingHorizontal: 20,
+                      width: '70%',
+                      elevation: 25,
+                      borderTopRightRadius: 80,
+                      borderBottomRightRadius: 80,
+                      height: '100%',
+                    }}
+                    onPress={() => navigation.navigate('Addresses')}
+                    alignItems="center"
+                    justifyContent="space-between">
+                    <CustomText label="Teslimat Adresi Belirleyin" />
+                    <RightArrowIcon
+                      size={18}
+                      color={theme.colors.getirPrimary500}
+                    />
+                  </Row>
+
+                  <Col cols={1}>
+                    <CustomText
+                      style={{
+                        width: '100%',
+                        textAlign: 'center',
+
+                        fontSize: 12,
+                        color: theme.colors.getirPrimary500,
+                      }}
+                      label="TVS"
+                    />
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'flex-end',
+                      }}>
+                      <CustomText
+                        style={{
+                          textAlign: 'center',
+                          fontFamily: theme.fonts.bold,
+                          fontSize: 24,
+                          color: theme.colors.getirPrimary500,
+                        }}
+                        label="10"
+                      />
+                      <CustomText
+                        style={{
+                          fontSize: 15,
+                          paddingBottom: 2,
+                          fontFamily: theme.fonts.bold,
+                          textAlign: 'center',
+                          color: theme.colors.getirPrimary500,
+                        }}
+                        label="dk"
+                      />
+                    </View>
+                  </Col>
+                </Row>
+              )}
             </>
           );
         },
@@ -253,22 +292,20 @@ const BottomTabsNavigator: React.FC = () => {
         name="Home"
         component={Home}
         options={{
-          title: 'Home',
-          headerShown: false,
+          title: 'getir Row:false',
         }}
       />
       <BottomTabs.Screen
         name="Search"
         component={Search}
         options={{
-          title: 'Search',
+          title: 'Ara Row:true',
         }}
       />
       <BottomTabs.Screen
         name="Route"
         component={Route}
         options={{
-          title: 'Route',
           headerShown: false,
         }}
       />
@@ -276,14 +313,14 @@ const BottomTabsNavigator: React.FC = () => {
         name="Profile"
         component={Profile}
         options={{
-          title: 'Profil',
+          title: 'Profil Row:true',
         }}
       />
       <BottomTabs.Screen
         name="Campaign"
         component={Campaign}
         options={{
-          title: 'Campaign',
+          title: 'Kampanyalar Row:true',
         }}
       />
     </BottomTabs.Navigator>

@@ -1,10 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { RootState, useAppSelector } from '../store';
@@ -182,7 +176,8 @@ const SelectAdress = ({ navigation, route }: Props) => {
                   justifyContent: 'center',
                   alignSelf: 'center',
                   borderColor: '#f0f',
-                }}></View>
+                }}
+              />
             )}
           </View>
         </Marker>

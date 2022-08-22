@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React, { useEffect } from 'react';
 import Row from './Row';
 import { theme } from '../utils/theme';
@@ -7,7 +7,7 @@ import CustomText from './PartnerComponents/CustomText';
 import { GooglePlaceData } from 'react-native-google-places-autocomplete';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { RootState, useAppSelector } from '../store';
-import { GeoLocation, getSingleDestinationDistance } from '../hooks/useGeoLib';
+import { getSingleDestinationDistance } from '../hooks/useGeoLib';
 
 type Props = {
   onPress: () => void;
@@ -22,7 +22,6 @@ const GeoLocationRowItem = ({
   setShowSpin,
   showSpin,
 }: Props) => {
-  console.log('data', data);
   const { latitude, longitude } = useAppSelector(
     (state: RootState) => state.user.geoLocation.coords,
   );

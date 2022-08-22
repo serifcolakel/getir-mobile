@@ -17,6 +17,7 @@ import slider8 from '../assets/images/8.png';
 import homeImage from '../assets/images/home.png';
 import workImage from '../assets/images/work.png';
 import otherImage from '../assets/images/other.png';
+import getirLogo from '../assets/images/getirLogo.png';
 type ImageName =
   | 'bgDoodle'
   | 'buyuk'
@@ -38,6 +39,7 @@ type ImageName =
   | 'home'
   | 'work'
   | 'other'
+  | 'getirLogo'
   | string;
 export function getImage(name: ImageName) {
   switch (name) {
@@ -79,6 +81,8 @@ export function getImage(name: ImageName) {
       return workImage;
     case 'other':
       return otherImage;
+    case 'getirLogo':
+      return getirLogo;
     default:
       break;
   }
@@ -97,3 +101,34 @@ export function rangeToIntegerArray({
     (start + i * step).toString(),
   );
 }
+
+//export function Data<T>({ data, cols }: TableProps<T>) {
+export function getArrayToGridArray(data: any[], cols: number) {
+  let newData: any[] = [];
+  let result: any[][] = [];
+  if (data) {
+    data.map((item, idx) => {
+      if (idx % (cols + 1) === 0) {
+        newData = [];
+        result.push(newData);
+      } else {
+        newData.push(item);
+      }
+    });
+  }
+  return result;
+}
+
+// let newData: T[] = [];
+// let result: T[][] = [];
+
+// if (data) {
+//   data.map((item, idx) => {
+//     if ((idx % cols) + 1 === 0) {
+//       newData = [];
+//       result.push(newData);
+//     } else {
+//       newData.push(item);
+//     }
+//   });
+// }

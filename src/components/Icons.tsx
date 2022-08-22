@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Animated, Easing, Pressable, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Animated, Easing, TouchableOpacity } from 'react-native';
 import { Svg, Path, G, Circle, Rect } from 'react-native-svg';
 import { theme } from '../utils/theme';
-type IconProps = {
+export type IconProps = {
   color?: string;
   size?: number;
   onPress?: () => void;

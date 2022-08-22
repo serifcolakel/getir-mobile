@@ -15,23 +15,16 @@ import {
   GooglePlacesAutocomplete,
   GooglePlacesAutocompleteRef,
 } from 'react-native-google-places-autocomplete';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
 import { NavigationProps } from '../Layout/StackNavigator';
 import GeoLocationRowItem from '../components/GeoLocationRowItem';
 import { GOOGLE_MAPS_APIKEY } from '../contants';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
-import { getSingleDestinationDistance } from '../hooks/useGeoLib';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
-import axios from 'axios';
 import {
   addAdresses,
   getCurrentPosition,
   selectAdress,
 } from '../features/slices/userSlice';
-import { Adresses } from '../types/userSliceTypes';
-import { getImage } from '../utils/utils';
-import LocationContainer from '../components/PartnerComponents/LocationContainer';
 type Props = {
   navigation: NavigationProps;
   route: any;
@@ -54,8 +47,7 @@ const NewAddresses = ({ navigation, route }: Props) => {
   const dispatch = useAppDispatch();
 
   const [showSpin, setShowSpin] = React.useState(false);
-  const { adresses } = useAppSelector((state: RootState) => state.user);
-  async function Test(data: GooglePlaceData) {
+  async function handleSelectAddress(data: GooglePlaceData) {
     const geoLocation = await getGeoLocationFromPlaceId(data.place_id);
     console.log('onPress', data.description, geoLocation);
     dispatch(
@@ -148,7 +140,7 @@ const NewAddresses = ({ navigation, route }: Props) => {
                       type: type,
                     }),
                   );
-                  Test(data);
+                  handleSelectAddress(data);
                   navigation.push('SelectAdress', { type });
                 }}
                 setShowSpin={setShowSpin}
@@ -179,80 +171,6 @@ const NewAddresses = ({ navigation, route }: Props) => {
           }}
         />
       </View>
-
-      {/* 
-      {/*
-      */}
-      {/* <View
-        style={{
-          padding: 10,
-        }}> */}
-      {/* <Input
-          onChangeText={text => setSearch(text)}
-          keyboardType="default"
-          textAlign="left"
-          placeholder="Adres Ara"
-          leftIcon={
-            search.length > 5 ? (
-              <LoadingIcon stopAnimation={data.length > 0} />
-            ) : (
-              <SearchIcon />
-            )
-          }
-          rightIcon={
-            <CloseIcon
-              onPress={() => {
-                console.warn('CloseIcon');
-              }}
-              color={theme.colors.gray4}
-            />
-          }
-        /> */}
-
-      {/* {data.length > 0 && (
-          <View>
-            {data.map((item, idx) => (
-              <Row
-                onPress={() => {
-                  // if (item.route === 'NewAddresses') {
-                  //   navigation.navigate(item.route);
-                  // }
-                }}
-                key={`search-${idx}`}
-                extraStyle={{
-                  paddingVertical: 20,
-                  paddingHorizontal: 10,
-                  marginBottom: 5,
-                  backgroundColor: theme.colors.white,
-                  borderBottomColor: theme.colors.gray3,
-                  borderBottomWidth: 1,
-                }}
-                alignItems="center"
-                justifyContent="space-between">
-                <Row alignItems="center">
-                  <LocationIcon size={30} />
-                  <CustomText
-                    style={{
-                      paddingLeft: 5,
-                      paddingRight: 10,
-                      width: '75%',
-                      color: theme.colors.gray4,
-                    }}
-                    label={'Hatay, Türkiye Hatay, Türkiye Hatay, Türkiye '}
-                  />
-                </Row>
-                <CustomText
-                  style={{
-                    fontSize: 12,
-                    color: theme.colors.gray4,
-                  }}
-                  label={'28.5 km'}
-                />
-              </Row>
-            ))}
-          </View>
-        )} */}
-      {/* </View> */}
     </View>
   );
 };

@@ -1,9 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import Geolocation, {
-  GeoError,
-  GeoPosition,
-} from 'react-native-geolocation-service';
+import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import { Adresses, SelectedAdress, User } from '../../types/userSliceTypes';
 
 export interface UserState {

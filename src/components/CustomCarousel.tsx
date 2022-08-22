@@ -4,9 +4,17 @@ import { NavigationProps } from '../Layout/StackNavigator';
 import { theme } from '../utils/theme';
 import { getImage } from '../utils/utils';
 type Props = {
+  showStepper?: boolean;
+  data: any[];
+  imagePrefix: string;
   navigation: NavigationProps;
 };
-function CustomCarousel({ navigation }: Props) {
+function CustomCarousel({
+  showStepper = false,
+  data,
+  imagePrefix,
+  navigation,
+}: Props) {
   const width = Dimensions.get('window').width;
   const scrollX = React.useRef(new Animated.Value(0)).current;
   let count = 0;
@@ -16,16 +24,6 @@ function CustomCarousel({ navigation }: Props) {
     //console.log(viewableItems);
   });
 
-  const data = [
-    'Route',
-    'Campaign',
-    'Profile',
-    'Search',
-    'Home',
-    'Home',
-    'Home',
-    'Home',
-  ];
   const nextPage = useCallback(() => {
     if (count >= data.length - 1) {
       count = 0;
@@ -78,11 +76,11 @@ function CustomCarousel({ navigation }: Props) {
             inputRange,
             outputRange: [width * 0.05, 0, -width * 0.05],
           });
-          let imageName = `routeSlider${index}`;
+          let imageName = `${imagePrefix}${index}`;
           return (
             <TouchableOpacity
               onPress={() => {
-                navigation.push('BottomTabs');
+                navigation.push(item);
               }}
               style={{
                 width: width,
@@ -103,49 +101,51 @@ function CustomCarousel({ navigation }: Props) {
           );
         }}
       />
-      <View
-        style={{
-          position: 'absolute',
-          bottom: -25,
-          right: 0,
-          flexDirection: 'row',
-        }}>
-        {data.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              borderWidth: index === currentIndex ? 1 : 0,
-              borderColor:
-                index === currentIndex
-                  ? theme.colors.getirPrimary500
-                  : 'transparent',
-              borderRadius: 20,
-              width: 20,
-              height: 20,
-              marginHorizontal: 2,
-              justifyContent: 'center',
-              alignContent: 'center',
-            }}>
+      {showStepper && (
+        <View
+          style={{
+            position: 'absolute',
+            bottom: -25,
+            right: 0,
+            flexDirection: 'row',
+          }}>
+          {data.map((item, index) => (
             <View
+              key={index}
               style={{
-                width: 10,
-                height: 10,
-                borderWidth: 1,
-                alignSelf: 'center',
+                borderWidth: index === currentIndex ? 1 : 0,
                 borderColor:
                   index === currentIndex
                     ? theme.colors.getirPrimary500
                     : 'transparent',
-                backgroundColor:
-                  index === currentIndex
-                    ? theme.colors.getirPrimary500
-                    : theme.colors.gray,
-                borderRadius: 5,
-              }}
-            />
-          </View>
-        ))}
-      </View>
+                borderRadius: 20,
+                width: 20,
+                height: 20,
+                marginHorizontal: 2,
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}>
+              <View
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderWidth: 1,
+                  alignSelf: 'center',
+                  borderColor:
+                    index === currentIndex
+                      ? theme.colors.getirPrimary500
+                      : 'transparent',
+                  backgroundColor:
+                    index === currentIndex
+                      ? theme.colors.getirPrimary500
+                      : theme.colors.gray,
+                  borderRadius: 5,
+                }}
+              />
+            </View>
+          ))}
+        </View>
+      )}
     </View>
   );
 }

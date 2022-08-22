@@ -29,6 +29,7 @@ export const getAllProduct = createAsyncThunk('product/fetch', async () => {
     return [];
   }
 });
+
 export const productSlice = createSlice({
   name: 'products',
   initialState,

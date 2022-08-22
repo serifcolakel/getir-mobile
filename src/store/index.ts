@@ -4,6 +4,7 @@ import counterSlice from '../features/slices/counterSlice';
 import basketSlice from '../features/slices/basket';
 import productSlice from '../features/slices/product';
 import userSlice from '../features/slices/userSlice';
+import categoriesSlice from '../features/slices/categoriesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     basket: basketSlice,
     allProducts: productSlice,
     user: userSlice,
+    categories: categoriesSlice,
   },
 });
 
