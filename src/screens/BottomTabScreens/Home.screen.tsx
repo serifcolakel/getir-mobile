@@ -16,7 +16,6 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import { getArrayToGridArray } from '../../utils/utils';
-import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
 import CustomCarousel from '../../components/CustomCarousel';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import {
@@ -27,7 +26,7 @@ import { Loading } from '../../components/Loading';
 import Row from '../../components/Row';
 import CustomText from '../../components/PartnerComponents/CustomText';
 import { NavigationProps } from '../../Layout/StackNavigator';
-
+import { useNavigation } from '@react-navigation/native';
 type Props = {
   navigation: NavigationProps;
   route: any;
@@ -79,18 +78,18 @@ const AnimatedHeader = ({
   );
 };
 const Home = ({ navigation }: Props) => {
+  const nav = useNavigation();
   const dispatch = useAppDispatch();
   const { data, loading, error } = useAppSelector(
     (state: RootState) => state.categories,
   );
+
   let categories: Categories[][] = [];
   if (data) {
     categories = getArrayToGridArray(data, 4);
   }
   const offset = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    dispatch(getAllCategories());
-  }, []);
+
   return (
     <SafeAreaProvider>
       {loading ? (
@@ -99,10 +98,10 @@ const Home = ({ navigation }: Props) => {
         <SafeAreaView style={{ flex: 1 }}>
           <AnimatedHeader animatedValue={offset} navigation={navigation} />
           <ScrollView
-            style={{ flex: 1, backgroundColor: 'white' }}
+            style={{ flex: 1 }}
             contentContainerStyle={{
               paddingTop: HEADER_HEIGHT,
-
+              paddingVertical: 20,
               paddingBottom: 50,
             }}
             showsVerticalScrollIndicator={false}
@@ -121,6 +120,10 @@ const Home = ({ navigation }: Props) => {
                 extraStyle={{}}>
                 {item.map((item, idx) => (
                   <TouchableOpacity
+                    onPress={() => {
+                      // @ts-ignore
+                      nav.navigate('Product', undefined);
+                    }}
                     key={item.id}
                     style={{
                       width: '25%',

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/BottomTabScreens/Home.screen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Search from '../screens/BottomTabScreens/Search.screen';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { theme } from '../utils/theme';
 import {
   GiftIcon,
@@ -19,12 +19,14 @@ import Route from '../screens/Route.screen';
 import CustomText from '../components/PartnerComponents/CustomText';
 import Col from '../components/Col';
 import Row from '../components/Row';
+import Product from '../screens/BottomTabScreens/Product.screen';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
   Profile: undefined;
   Campaign: undefined;
   Route: undefined;
+  Product: undefined;
 };
 export type BottomNavigationProps =
   NativeStackNavigationProp<RootBottomStackParamList>;
@@ -34,13 +36,18 @@ const BottomTabsNavigator: React.FC = () => {
     <BottomTabs.Navigator
       initialRouteName="Home"
       screenOptions={({ route, navigation }) => ({
-        animation: 'slide_from_right',
-        animationDuration: 1000,
+        animationDuration: 100,
         tabBarActiveTintColor: theme.colors.getirPrimary500,
         tabBarInactiveTintColor: theme.colors.gray,
         tabBarShowLabel: false,
         tabBarActiveBackgroundColor: theme.colors.white,
         tabBarInactiveBackgroundColor: theme.colors.white,
+        tabBarIconStyle: {
+          display: route.name === 'Product' ? 'none' : 'flex',
+        },
+        tabBarItemStyle: {
+          display: route.name === 'Product' ? 'none' : 'flex',
+        },
         tabBarStyle: {
           height: 60,
           display:
@@ -321,6 +328,13 @@ const BottomTabsNavigator: React.FC = () => {
         component={Campaign}
         options={{
           title: 'Kampanyalar Row:true',
+        }}
+      />
+      <BottomTabs.Screen
+        name="Product"
+        component={Product}
+        options={{
+          title: 'Ürünler Row:true',
         }}
       />
     </BottomTabs.Navigator>

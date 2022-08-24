@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import counterSlice from '../features/slices/counterSlice';
 import basketSlice from '../features/slices/basket';
-import productSlice from '../features/slices/product';
+import productSlice from '../features/slices/productSlice';
 import userSlice from '../features/slices/userSlice';
 import categoriesSlice from '../features/slices/categoriesSlice';
 

@@ -102,6 +102,7 @@ export function rangeToIntegerArray({
   );
 }
 
+// TODO: add type definitions for this function
 //export function Data<T>({ data, cols }: TableProps<T>) {
 export function getArrayToGridArray(data: any[], cols: number) {
   let newData: any[] = [];

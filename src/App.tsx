@@ -27,9 +27,9 @@ async function requestPermissions() {
 
 const App: React.FC = () => {
   React.useEffect(() => {
-    SplashScreen.hide(); // hide static splash screen
     requestPermissions();
     enableLatestRenderer();
+    SplashScreen.hide(); // hide static splash screen
   }, []);
 
   return (

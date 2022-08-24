@@ -16,8 +16,10 @@ import CustomCarousel from '../components/CustomCarousel';
 import Input from '../components/PartnerComponents/Input';
 import CustomText from '../components/PartnerComponents/CustomText';
 import { NavigationProps } from '../Layout/StackNavigator';
-import { useAppDispatch } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import { getCurrentPosition } from '../features/slices/userSlice';
+import { Loading } from '../components/Loading';
+import { getAllCategories } from '../features/slices/categoriesSlice';
 
 type Props = {
   navigation: NavigationProps;
@@ -25,8 +27,10 @@ type Props = {
 
 const Route = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(getCurrentPosition());
+    dispatch(getAllCategories());
   }, []);
   const data = [
     'Addresses',

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { useFetch } from '../../hooks/useFetch';
+import { RouteName, useAxios } from '../../hooks/useAxios';
 export interface Categories {
   id: string;
   name: string;
@@ -16,25 +16,27 @@ export interface SubCategory {
   name: string;
   productCount: number;
   slug: string;
+  path: RouteName;
 }
 export interface CategoriesState {
-  data: Categories[];
+  data: Categories[] | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CategoriesState = {
-  data: [],
+  data: null,
   loading: false,
   error: '',
 };
 export const getAllCategories = createAsyncThunk('product/fetch', async () => {
   try {
-    const res = (await useFetch('categories')) as Categories[];
+    const res = (await useAxios('categories')) as Categories[];
+    console.log('categories', res);
     return res;
   } catch (error) {
     console.log('error', error);
-    return [];
+    return null;
   }
 });
 
@@ -46,8 +48,7 @@ export const categoriesSlice = createSlice({
     builder
       .addCase(
         getAllCategories.fulfilled,
-        (state, action: PayloadAction<Categories[]>) => {
-          console.log('PayloadActionaction', action.payload);
+        (state, action: PayloadAction<Categories[] | null>) => {
           state.data = action.payload;
           state.loading = false;
           state.error = null;
