@@ -18,6 +18,7 @@ import homeImage from '../assets/images/home.png';
 import workImage from '../assets/images/work.png';
 import otherImage from '../assets/images/other.png';
 import getirLogo from '../assets/images/getirLogo.png';
+import getirStore from '../assets/images/store.png';
 type ImageName =
   | 'bgDoodle'
   | 'buyuk'
@@ -40,6 +41,7 @@ type ImageName =
   | 'work'
   | 'other'
   | 'getirLogo'
+  | 'getirStore'
   | string;
 export function getImage(name: ImageName) {
   switch (name) {
@@ -83,6 +85,8 @@ export function getImage(name: ImageName) {
       return otherImage;
     case 'getirLogo':
       return getirLogo;
+    case 'getirStore':
+      return getirStore;
     default:
       break;
   }

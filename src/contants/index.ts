@@ -53,3 +53,14 @@ export const AdressesLink: AdressesLinkTypes[] = [
     type: 'other',
   },
 ];
+
+export const getirBranchAddresses = [
+  {
+    lat: 41.015137,
+    lng: 28.97953,
+  },
+  {
+    lat: 41.015137,
+    lng: 28.97953,
+  },
+];

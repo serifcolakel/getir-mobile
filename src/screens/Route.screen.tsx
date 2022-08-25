@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  Image,
   ImageBackground,
   StyleSheet,
   Text,
@@ -17,31 +18,37 @@ import Input from '../components/PartnerComponents/Input';
 import CustomText from '../components/PartnerComponents/CustomText';
 import { NavigationProps } from '../Layout/StackNavigator';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
-import { getCurrentPosition } from '../features/slices/userSlice';
-import { Loading } from '../components/Loading';
+import { getGeoLocation } from '../features/slices/locationSlice';
 import { getAllCategories } from '../features/slices/categoriesSlice';
 
 type Props = {
   navigation: NavigationProps;
 };
+const paths = [
+  'Addresses',
+  'BottomTabs',
+  'BottomTabs',
+  'Addresses',
+  'Search',
+  'Profile',
+  'Campaign',
+  'BottomTabs',
+];
 
 const Route = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
+  const { data } = useAppSelector((state: RootState) => state.categories);
+  const { selectedAddress } = useAppSelector(
+    (state: RootState) => state.location,
+  );
 
   useEffect(() => {
-    dispatch(getCurrentPosition());
-    dispatch(getAllCategories());
-  }, []);
-  const data = [
-    'Addresses',
-    'BottomTabs',
-    'BottomTabs',
-    'Addresses',
-    'Search',
-    'Profile',
-    'Campaign',
-    'BottomTabs',
-  ];
+    dispatch(getGeoLocation());
+    if (!data) {
+      dispatch(getAllCategories());
+    }
+  }, [data, dispatch]);
+
   return (
     <View
       style={{
@@ -58,7 +65,8 @@ const Route = ({ navigation }: Props) => {
         <Row
           extraStyle={{
             backgroundColor: theme.colors.white,
-            paddingHorizontal: 20,
+            paddingRight: 20,
+            paddingLeft: 10,
             width: '70%',
             elevation: 25,
             borderTopRightRadius: 80,
@@ -68,7 +76,28 @@ const Route = ({ navigation }: Props) => {
           onPress={() => navigation.push('Addresses')}
           alignItems="center"
           justifyContent="space-between">
-          <CustomText label="Teslimat Adresi Belirleyin" />
+          {selectedAddress && (
+            <Image
+              source={getImage(selectedAddress?.type)}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+              }}
+            />
+          )}
+          <CustomText
+            style={{
+              fontSize: selectedAddress ? 12 : 14,
+              width: selectedAddress ? '80%' : '90%',
+              paddingRight: selectedAddress ? 0 : 10,
+              textAlign: 'center',
+            }}
+            label={
+              selectedAddress?.details.formatted_address ||
+              'Teslimat Adresi Belirleyin'
+            }
+          />
           <RightArrowIcon size={18} color={theme.colors.getirPrimary500} />
         </Row>
 
@@ -114,7 +143,7 @@ const Route = ({ navigation }: Props) => {
       </Row>
       {/* <CarouselTest data={dummyData} /> */}
       <CustomCarousel
-        data={data}
+        data={paths}
         imagePrefix="routeSlider"
         showStepper={true}
         navigation={navigation}

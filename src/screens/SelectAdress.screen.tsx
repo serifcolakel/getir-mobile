@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { RootState, useAppSelector } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import LocationContainer from '../components/PartnerComponents/LocationContainer';
 import { NavigationProps } from '../Layout/StackNavigator';
 import { CurrenLocationIcon } from '../components/Icons';
@@ -9,6 +9,13 @@ import { getAddressDetailsFromGeoLocatin } from '../hooks/getGeoPointFromPlaceId
 import CustomText from '../components/PartnerComponents/CustomText';
 import { theme } from '../utils/theme';
 import Button from '../components/PartnerComponents/Button';
+import {
+  getGeoLocation,
+  setSelectAddress,
+} from '../features/slices/locationSlice';
+import { Loading } from '../components/Loading';
+import { getirBranchAddresses, GOOGLE_MAPS_APIKEY } from '../contants';
+import MapViewDirections from 'react-native-maps-directions';
 
 type Props = {
   navigation: NavigationProps;
@@ -17,41 +24,62 @@ type Props = {
 
 const SelectAdress = ({ navigation, route }: Props) => {
   const { type } = route.params;
-  const { adresses, selectedAdress } = useAppSelector(
-    (state: RootState) => state.user,
-  );
   const mapRef = useRef<MapView>(null);
-
-  const { latitude, longitude } = useAppSelector(
-    (state: RootState) => state.user.geoLocation.coords,
+  const { selectedAddress, storeAdress } = useAppSelector(
+    (state: RootState) => state.location,
   );
-
-  const [cameraCenter, setCameraCenter] = React.useState<LatLng>();
-
-  const [address, setAddress] = React.useState<string | null>(null);
-  async function getData() {
-    await mapRef.current?.getCamera().then(data => {
-      setCameraCenter(data.center);
-    });
-    if (cameraCenter && latitude && longitude) {
-      await getAddressDetailsFromGeoLocatin(
-        cameraCenter.latitude,
-        cameraCenter.longitude,
-      ).then(data => {
-        console.log(data);
-        setAddress(data);
-      });
-    }
+  if (!selectedAddress) {
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1000);
+    return <Loading />;
   }
-
-  const [position, setPosition] = React.useState<boolean>(false);
-  console.log('selec', adresses[adresses.length - 1]);
+  const origin = {
+    latitude: selectedAddress?.details?.coords.latitude,
+    longitude: selectedAddress?.details?.coords.longitude,
+  };
+  const destination = {
+    latitude: 41.01384,
+    longitude: 28.94966,
+  };
   useEffect(() => {
     mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
   }, []);
-  console.log(selectedAdress);
+
+  console.log('selectedAddress', selectedAddress);
+  const dispatch = useAppDispatch();
+  const [currentAdressTextVisible, setCurrentAdressTextVisible] =
+    React.useState(false);
+  function handleSelectAddress() {
+    setCurrentAdressTextVisible(false);
+    mapRef.current?.getCamera().then(async data => {
+      const { latitude, longitude } = data.center;
+      await getAddressDetailsFromGeoLocatin(latitude, longitude).then(data => {
+        console.log('getAddressDetailsFromGeoLocatin', data);
+        if (data) {
+          dispatch(
+            setSelectAddress({
+              details: {
+                coords: {
+                  latitude,
+                  longitude,
+                },
+                formatted_address: data?.formatted_address,
+                place_id: data?.place_id,
+              },
+              type,
+            }),
+          );
+        }
+      });
+      await mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+      });
+      console.log('getCamera', data);
+    });
+  }
   return (
     <View
       style={{
@@ -60,10 +88,12 @@ const SelectAdress = ({ navigation, route }: Props) => {
       }}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {}}
+        onPress={() => {
+          dispatch(getGeoLocation());
+        }}
         style={{
           position: 'absolute',
-          bottom: 150,
+          bottom: 120,
           right: 20,
           height: 50,
           zIndex: 1,
@@ -73,70 +103,60 @@ const SelectAdress = ({ navigation, route }: Props) => {
           alignItems: 'center',
           backgroundColor: '#fff',
         }}>
-        <CurrenLocationIcon size={40} />
+        <CurrenLocationIcon
+          onPress={() => {
+            dispatch(getGeoLocation());
+          }}
+          size={40}
+        />
       </TouchableOpacity>
       <MapView
+        onMapReady={() => {}}
         //onTouchMove={() => }
-        onTouchStart={() => setPosition(true)}
-        onTouchEnd={e => {
-          getData();
-          setPosition(false);
+        onTouchStart={() => {
+          setCurrentAdressTextVisible(true);
         }}
+        onTouchEnd={() => handleSelectAddress()}
         ref={mapRef}
+        mapType={'standard'}
         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
         style={{
           width: '100%',
           height: '85%',
         }}
-        camera={{
-          center: {
-            latitude:
-              cameraCenter?.latitude ??
-              selectedAdress?.location.lat ??
-              latitude,
-            longitude:
-              cameraCenter?.longitude ??
-              selectedAdress?.location.lat ??
-              longitude,
-          },
-          zoom: 15,
-          pitch: 0,
-          heading: 0,
-        }}
+        // camera={{
+        //   center: {
+        //     latitude: getirBranchAddresses[0].lat,
+        //     longitude: getirBranchAddresses[0].lng,
+        //   },
+        //   zoom: 15,
+        //   pitch: 0,
+        //   heading: 0,
+        // }}
         onPress={e => {
           console.log(e);
         }}
-        region={{
-          latitude:
-            cameraCenter?.latitude ?? selectedAdress?.location.lat ?? latitude,
-          longitude:
-            cameraCenter?.longitude ??
-            selectedAdress?.location.lat ??
-            longitude,
-          latitudeDelta: 0.015,
+        initialRegion={{
+          latitude: origin.latitude,
+          longitude: origin.longitude,
+
+          latitudeDelta: 0.0922,
           longitudeDelta: 0.0121,
         }}>
-        {/* <Marker
-          coordinate={{
-            latitude,
-            longitude,
-          }}
-          title="Buradasınız"
-          description={`${type} tipi için seçmek istediğiniz adres`}>
-          <LocationContainer imageType={type} />
-        </Marker> */}
+        <Marker
+          identifier={'destination'}
+          coordinate={{ ...destination }}
+          title="Getir"
+          description={`Size En Yakın Mağazamız`}>
+          <LocationContainer imageType={'getirStore'} />
+        </Marker>
 
         <Marker
           coordinate={{
-            latitude:
-              cameraCenter?.latitude ??
-              selectedAdress?.location.lat ??
-              latitude,
-            longitude:
-              cameraCenter?.longitude ??
-              selectedAdress?.location.lat ??
-              longitude,
+            latitude: origin.latitude,
+            longitude: origin.longitude,
           }}
+          identifier={'origin'}
           title="Buradasınız"
           description={`${type} tipi için seçmek istediğiniz adres`}>
           <View
@@ -144,7 +164,7 @@ const SelectAdress = ({ navigation, route }: Props) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {address && (
+            {selectedAddress && (
               <View
                 style={{
                   justifyContent: 'center',
@@ -160,12 +180,12 @@ const SelectAdress = ({ navigation, route }: Props) => {
                     textAlign: 'center',
                     color: theme.colors.getirPrimary500,
                   }}
-                  label={address}
+                  label={selectedAddress?.details.formatted_address}
                 />
               </View>
             )}
             <LocationContainer imageType={type} />
-            {position && (
+            {currentAdressTextVisible && (
               <View
                 style={{
                   borderWidth: 2,
@@ -189,19 +209,21 @@ const SelectAdress = ({ navigation, route }: Props) => {
           description="This is description">
           <LocationIcon />
         </Marker>
+        */}
         <MapViewDirections
           onReady={result => {
             console.log('onReady', result);
           }}
-          //timePrecision="now"
-          //geodesic={true}
-          //precision="high"
-          origin={coordinates[1]}
-          destination={coordinates[0]}
+          timePrecision="now"
+          geodesic={true}
+          optimizeWaypoints={true}
+          precision="high"
+          origin={origin}
+          destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}
-          strokeColor={theme.colors.red}
-        />  */}
+          strokeColor={theme.colors.getirPrimary500}
+        />
       </MapView>
       <View
         style={{
@@ -212,12 +234,6 @@ const SelectAdress = ({ navigation, route }: Props) => {
           title="Bu Adresle Devam Et"
         />
       </View>
-      <CustomText
-        label={JSON.stringify(selectedAdress, null, 2)}
-        style={{
-          fontSize: 12,
-        }}
-      />
     </View>
   );
 };

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Animated, Easing, TouchableOpacity } from 'react-native';
+import {
+  Animated,
+  Easing,
+  StyleProp,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import { Svg, Path, G, Circle, Rect } from 'react-native-svg';
 import { theme } from '../utils/theme';
 export type IconProps = {
@@ -9,6 +15,7 @@ export type IconProps = {
   rotate?: number;
   time?: number;
   stopAnimation?: boolean;
+  style?: StyleProp<ViewStyle>;
 };
 export const HomeIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
@@ -49,9 +56,9 @@ export const CalendarIcon: React.FC<IconProps> = ({
         <G
           //fill={color}
           stroke={color}
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2">
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2">
           <Rect width="20" height="18" x="2" y="4" rx="4" />
           <Path d="M8 2v4m8-4v4M2 10h20" />
         </G>
@@ -389,9 +396,10 @@ export const PlusIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 24,
   onPress,
+  style,
 }) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
       <Svg
         width={size}
         height={size}

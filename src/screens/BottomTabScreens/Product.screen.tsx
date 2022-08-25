@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Image,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -14,8 +15,10 @@ import CustomText from '../../components/PartnerComponents/CustomText';
 import { theme } from '../../utils/theme';
 import { Categories, SubCategory } from '../../features/slices/categoriesSlice';
 import axiosInstance from '../../hooks/useAxios';
-import Skeleton from '../../components/PartnerComponents/Skeleton';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ProductTypes } from '../../types/ProductTypes';
+import { PlusIcon } from '../../components/Icons';
+import ProductSkeleton from '../../components/ProductSkeleton';
+import ProductItem from './ProductItem';
 export const CategoryItem = React.memo(
   ({
     item,
@@ -61,12 +64,13 @@ const Product = () => {
   const { data, loading } = useAppSelector(
     (state: RootState) => state.categories,
   );
-  const [d, setD] = React.useState<any>([]);
+  const [initialProduct, setInitialProduct] = React.useState<ProductTypes[]>(
+    [],
+  );
   const [loading1, setLoading1] = React.useState<boolean>(false);
-  if (loading || !d) return <Loading />;
+  if (loading || !initialProduct) return <Loading />;
   const [selectedCategory, setSelectedCategory] =
     React.useState<Categories | null>(null);
-  const [findData, setFindData] = React.useState<any>([]);
   const [selectedSubCategory, setSelectedSubCategory] =
     React.useState<SubCategory | null>(data && data[0].subCategories[0]);
   useEffect(() => {
@@ -79,9 +83,7 @@ const Product = () => {
   async function getCategories() {
     if (selectedSubCategory) {
       const res = await axiosInstance.get(selectedSubCategory.path);
-
-      await setD(res.data);
-
+      await setInitialProduct(res.data);
       setLoading1(false);
     }
   }
@@ -95,6 +97,7 @@ const Product = () => {
       <FlatList
         data={data}
         horizontal={true}
+        keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
@@ -120,6 +123,7 @@ const Product = () => {
 
           backgroundColor: theme.colors.white,
         }}
+        keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
@@ -159,54 +163,9 @@ const Product = () => {
         }}
       />
       {!loading1 ? (
-        <View
-          style={{
-            paddingHorizontal: 10,
-          }}>
-          {d.map(item => (
-            <>
-              <CustomText
-                label={`${item.name} - (${item.products.length})`}
-                style={{
-                  borderWidth: 1,
-                  paddingVertical: 10,
-                  textAlign: 'center',
-                }}
-              />
-              <View
-                style={{
-                  paddingBottom: 310,
-                  height: Dimensions.get('window').height,
-                }}>
-                <FlatList
-                  data={item.products}
-                  showsVerticalScrollIndicator={false}
-                  keyExtractor={item => item.id}
-                  numColumns={2}
-                  horizontal={false}
-                  renderItem={({ item }) => (
-                    <View
-                      style={{
-                        flex: 1,
-                      }}>
-                      <CustomText
-                        style={{
-                          padding: 10,
-                        }}
-                        label={item.name}
-                      />
-                    </View>
-                  )}
-                />
-              </View>
-            </>
-          ))}
-        </View>
+        <ProductItem initialProduct={initialProduct} />
       ) : (
-        <View>
-          <Skeleton height={200} width={200} variant="rect" />
-          <Skeleton height={10} width={200} variant="circle" />
-        </View>
+        <ProductSkeleton />
       )}
     </View>
   );

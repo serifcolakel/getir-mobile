@@ -32,7 +32,6 @@ const initialState: CategoriesState = {
 export const getAllCategories = createAsyncThunk('product/fetch', async () => {
   try {
     const res = (await useAxios('categories')) as Categories[];
-    console.log('categories', res);
     return res;
   } catch (error) {
     console.log('error', error);

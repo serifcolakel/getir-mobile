@@ -1,57 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RouteName, useAxios } from '../../hooks/useAxios';
-export interface Product {
-  id: string;
-  name: string;
-  shortName: string;
-  shortDescription: string;
-  squareThumbnailURL: string;
-  picURLs: string[];
-  categoryIds: string[];
-  subCategoryIds: string[];
-  displayType: number;
-  price: number;
-  priceText: string;
-  count: number;
-  struckPrice: number;
-  struckPriceText: string;
-  isFavorite: boolean;
-  infoMessages: any[];
-  currency: Currency;
-  additionalPropertyTables: any[];
-  tags: any[];
-  slug: string;
-  badgeImages: any[];
-  details: Details;
-}
+import { ProductTypes } from '../../types/ProductTypes';
 
-export interface Currency {
-  symbol: string;
-  codeAlpha: string;
-  isSymbolFirst: boolean;
-}
-
-export interface Details {
-  additionalPropertyTables: any[];
-}
-// interface Product {
-//   id: string;
-//   price: number;
-//   name: string;
-//   count: number;
-//   shortDescription: string;
-//   squareThumbnailURL: string;
-// }
 export interface ProductState {
-  products: {
-    id: string;
-    name: string;
-    slug: string;
-    productCount?: number;
-    data: Product[];
-  }[];
-
+  products: ProductTypes[];
   loadingProduct: boolean;
   error: string | null;
 }
@@ -83,7 +36,6 @@ export const productSlice = createSlice({
       .addCase(
         getProduct.fulfilled,
         (state, action: PayloadAction<ProductState['products']>) => {
-          console.log('getProductaction', action.payload);
           state.products = action.payload;
         },
       )

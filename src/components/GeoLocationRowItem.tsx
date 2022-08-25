@@ -8,6 +8,7 @@ import { GooglePlaceData } from 'react-native-google-places-autocomplete';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { RootState, useAppSelector } from '../store';
 import { getSingleDestinationDistance } from '../hooks/useGeoLib';
+import { getirBranchAddresses } from '../contants';
 
 type Props = {
   onPress: () => void;
@@ -22,8 +23,8 @@ const GeoLocationRowItem = ({
   setShowSpin,
   showSpin,
 }: Props) => {
-  const { latitude, longitude } = useAppSelector(
-    (state: RootState) => state.user.geoLocation.coords,
+  const coords = useAppSelector(
+    (state: RootState) => state.location.selectedAddress?.details.coords,
   );
   let { place_id } = data;
 
@@ -32,7 +33,10 @@ const GeoLocationRowItem = ({
     const geoLocation = await getGeoLocationFromPlaceId(place_id);
 
     const distance = await getSingleDestinationDistance({
-      start: { lat: latitude, lng: longitude },
+      start: {
+        lat: getirBranchAddresses[0].lat || 0,
+        lng: getirBranchAddresses[0].lng || 0,
+      },
       end: { lat: geoLocation.lat, lng: geoLocation.lng },
     });
     setDistance(distance);

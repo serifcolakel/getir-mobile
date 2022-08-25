@@ -3,15 +3,23 @@ import { Text, Animated, StyleSheet } from 'react-native';
 import { theme } from '../../utils/theme';
 
 type SkeletonProps = {
-  width: number;
+  width: number | string;
   height: number;
   variant: 'rect' | 'circle';
+  rounded?: number;
 };
 
-const Skeleton: React.FC<SkeletonProps> = ({ width, height, variant }) => {
+const Skeleton: React.FC<SkeletonProps> = ({
+  width,
+  height,
+  variant,
+  rounded,
+}) => {
   let borderRadius = 0;
   if (variant === 'circle') {
     borderRadius = height / 2;
+  } else if (rounded) {
+    borderRadius = rounded;
   }
   const opacity = useRef(new Animated.Value(0.3)).current;
   //const scale = useRef(new Animated.Value(0.3)).current;
@@ -60,6 +68,7 @@ const Skeleton: React.FC<SkeletonProps> = ({ width, height, variant }) => {
           opacity,
           width,
           height,
+          marginVertical: 2.5,
           borderRadius,
           //transform: [{ scale }],
         },
@@ -72,6 +81,6 @@ const Skeleton: React.FC<SkeletonProps> = ({ width, height, variant }) => {
 export default Skeleton;
 const styles = StyleSheet.create({
   skeleton: {
-    backgroundColor: theme.colors.getirPrimary400,
+    backgroundColor: theme.colors.getirPrimary200,
   },
 });

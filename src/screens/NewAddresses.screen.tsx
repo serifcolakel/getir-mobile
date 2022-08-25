@@ -20,11 +20,7 @@ import GeoLocationRowItem from '../components/GeoLocationRowItem';
 import { GOOGLE_MAPS_APIKEY } from '../contants';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
-import {
-  addAdresses,
-  getCurrentPosition,
-  selectAdress,
-} from '../features/slices/userSlice';
+import { getGeoLocation } from '../features/slices/locationSlice';
 type Props = {
   navigation: NavigationProps;
   route: any;
@@ -32,7 +28,9 @@ type Props = {
 
 const NewAddresses = ({ navigation, route }: Props) => {
   const [search, setSearch] = React.useState<string | null>(null);
-
+  const { selectedAddress } = useAppSelector(
+    (state: RootState) => state.location,
+  );
   const ref = useRef<GooglePlacesAutocompleteRef>();
   const homePlace = {
     description: 'Home',
@@ -50,12 +48,6 @@ const NewAddresses = ({ navigation, route }: Props) => {
   async function handleSelectAddress(data: GooglePlaceData) {
     const geoLocation = await getGeoLocationFromPlaceId(data.place_id);
     console.log('onPress', data.description, geoLocation);
-    dispatch(
-      selectAdress({
-        details: { data: data, type: type },
-        location: geoLocation,
-      }),
-    );
   }
   return (
     <View
@@ -69,7 +61,7 @@ const NewAddresses = ({ navigation, route }: Props) => {
         <Input
           editable={false}
           onPress={() => {
-            dispatch(getCurrentPosition());
+            dispatch(getGeoLocation());
             navigation.push('SelectAdress', { type });
           }}
           keyboardType="default"
@@ -128,20 +120,35 @@ const NewAddresses = ({ navigation, route }: Props) => {
             />
           )}
           renderRow={(data, index) => {
+            async function handleSelectAddress(data: GooglePlaceData) {
+              const geoLocation = await getGeoLocationFromPlaceId(
+                data.place_id,
+              );
+              console.log('onPress', data.description, geoLocation);
+              // dispatch(
+              //   selectAdress({
+              //     details: { data: data, type: type },
+              //     location: geoLocation,
+              //   }),
+              // );
+              navigation.push('SelectAdress', { type });
+            }
             return (
               <GeoLocationRowItem
                 data={data}
                 showSpin={showSpin}
                 onPress={() => {
-                  ref.current?.setAddressText(data.description);
-                  dispatch(
-                    addAdresses({
-                      data: data,
-                      type: type,
-                    }),
-                  );
+                  //ref.current?.setAddressText(data.description);
                   handleSelectAddress(data);
-                  navigation.push('SelectAdress', { type });
+                  console.log('onPress', data.description);
+                  // dispatch(
+                  //   addAdress({
+                  //     data: data,
+                  //     type: type,
+                  //   }),
+                  // );
+                  // handleSelectAddress(data);
+                  //
                 }}
                 setShowSpin={setShowSpin}
                 key={data.id + index}

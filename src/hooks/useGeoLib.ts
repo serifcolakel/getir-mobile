@@ -22,5 +22,5 @@ export const getSingleDestinationDistance = async ({
 
   distance = await geolib.convertDistance(distance, 'km');
 
-  return distance.toFixed(2);
+  return distance.toFixed(2).toString();
 };

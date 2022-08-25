@@ -79,7 +79,6 @@ const AnimatedHeader = ({
 };
 const Home = ({ navigation }: Props) => {
   const nav = useNavigation();
-  const dispatch = useAppDispatch();
   const { data, loading, error } = useAppSelector(
     (state: RootState) => state.categories,
   );
