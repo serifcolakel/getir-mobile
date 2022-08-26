@@ -12,9 +12,14 @@ export interface Location {
     };
   };
 }
+type AvaragaDeliveryDetails = {
+  distance: number;
+  duration: number;
+};
 export interface LocationState {
   Addresses: Location[];
   selectedAddress: Location | null;
+  averageDeliveryDetails: AvaragaDeliveryDetails;
   storeAdress: {
     latitude: number;
     longitude: number;
@@ -27,6 +32,10 @@ const initialState: LocationState = {
   storeAdress: {
     latitude: 0,
     longitude: 0,
+  },
+  averageDeliveryDetails: {
+    distance: 0,
+    duration: 10,
   },
 };
 export const getGeoLocation = createAsyncThunk(
@@ -66,17 +75,19 @@ export const adressSlice = createSlice({
   name: 'location',
   initialState,
   reducers: {
-    setSelectAddress: (state, action: PayloadAction<Location>) => {
+    setSelectAddress: (state, action: PayloadAction<Location | null>) => {
       state.selectedAddress = action.payload;
-      state.storeAdress = {
-        latitude: action.payload.details.coords.latitude + 0.03,
-        longitude: action.payload.details.coords.longitude + 0.03,
-      };
     },
-    updateSelectedAddress: (state, action: PayloadAction<Location>) => {},
+    updateAverageDeliveryDetails: (
+      state,
+      action: PayloadAction<AvaragaDeliveryDetails>,
+    ) => {
+      state.averageDeliveryDetails = action.payload;
+    },
   },
 });
 
-export const { setSelectAddress } = adressSlice.actions;
+export const { setSelectAddress, updateAverageDeliveryDetails } =
+  adressSlice.actions;
 
 export default adressSlice.reducer;

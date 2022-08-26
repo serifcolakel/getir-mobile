@@ -38,7 +38,7 @@ const paths = [
 const Route = ({ navigation }: Props) => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state: RootState) => state.categories);
-  const { selectedAddress } = useAppSelector(
+  const { selectedAddress, averageDeliveryDetails } = useAppSelector(
     (state: RootState) => state.location,
   );
 
@@ -126,7 +126,7 @@ const Route = ({ navigation }: Props) => {
                 fontSize: 24,
                 color: theme.colors.getirPrimary500,
               }}
-              label="10"
+              label={averageDeliveryDetails?.duration.toFixed(2)}
             />
             <CustomText
               style={{

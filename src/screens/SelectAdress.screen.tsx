@@ -4,7 +4,7 @@ import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
 import LocationContainer from '../components/PartnerComponents/LocationContainer';
 import { NavigationProps } from '../Layout/StackNavigator';
-import { CurrenLocationIcon } from '../components/Icons';
+import { CurrenLocationIcon, InfoIcon, LoadingIcon } from '../components/Icons';
 import { getAddressDetailsFromGeoLocatin } from '../hooks/getGeoPointFromPlaceId';
 import CustomText from '../components/PartnerComponents/CustomText';
 import { theme } from '../utils/theme';
@@ -12,10 +12,12 @@ import Button from '../components/PartnerComponents/Button';
 import {
   getGeoLocation,
   setSelectAddress,
+  updateAverageDeliveryDetails,
 } from '../features/slices/locationSlice';
 import { Loading } from '../components/Loading';
 import { getirBranchAddresses, GOOGLE_MAPS_APIKEY } from '../contants';
 import MapViewDirections from 'react-native-maps-directions';
+import Row from '../components/Row';
 
 type Props = {
   navigation: NavigationProps;
@@ -25,7 +27,7 @@ type Props = {
 const SelectAdress = ({ navigation, route }: Props) => {
   const { type } = route.params;
   const mapRef = useRef<MapView>(null);
-  const { selectedAddress, storeAdress } = useAppSelector(
+  const { selectedAddress, averageDeliveryDetails } = useAppSelector(
     (state: RootState) => state.location,
   );
   if (!selectedAddress) {
@@ -46,7 +48,7 @@ const SelectAdress = ({ navigation, route }: Props) => {
     mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
-  }, []);
+  }, [selectedAddress]);
 
   console.log('selectedAddress', selectedAddress);
   const dispatch = useAppDispatch();
@@ -86,6 +88,47 @@ const SelectAdress = ({ navigation, route }: Props) => {
         flex: 1,
         position: 'relative',
       }}>
+      {averageDeliveryDetails.distance > 3 ? (
+        <Row
+          extraStyle={{
+            position: 'absolute',
+            bottom: 120,
+            left: 5,
+            alignContent: 'center',
+            justifyContent: 'center',
+            width: '75%',
+            alignSelf: 'center',
+            backgroundColor: '#fff',
+            paddingVertical: 2,
+            paddingHorizontal: 5,
+            zIndex: 1,
+            borderRadius: 5,
+          }}>
+          <View
+            style={{
+              paddingVertical: 6,
+              paddingRight: 5,
+            }}>
+            <InfoIcon size={30} />
+          </View>
+          <CustomText
+            style={{
+              fontSize: 12,
+              width: '80%',
+
+              paddingLeft: 5,
+              color: theme.colors.getirPrimary500,
+            }}
+            label={`Size En Yakın Mağazamıza ${
+              averageDeliveryDetails.distance
+            } km uzaklıkta olup varış süresi tahmini ${(
+              averageDeliveryDetails.duration / 60
+            ).toFixed(2)} saat sürmektedir.`}
+          />
+        </Row>
+      ) : (
+        <LoadingIcon size={30} />
+      )}
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
@@ -148,7 +191,13 @@ const SelectAdress = ({ navigation, route }: Props) => {
           coordinate={{ ...destination }}
           title="Getir"
           description={`Size En Yakın Mağazamız`}>
-          <LocationContainer imageType={'getirStore'} />
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <LocationContainer imageType={'getirStore'} />
+          </View>
         </Marker>
 
         <Marker
@@ -212,6 +261,12 @@ const SelectAdress = ({ navigation, route }: Props) => {
         */}
         <MapViewDirections
           onReady={result => {
+            dispatch(
+              updateAverageDeliveryDetails({
+                distance: result.distance,
+                duration: result.duration,
+              }),
+            );
             console.log('onReady', result);
           }}
           timePrecision="now"

@@ -416,6 +416,35 @@ export const PlusIcon: React.FC<IconProps> = ({
     </TouchableOpacity>
   );
 };
+export const TrashIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 512 512">
+        <Path
+          fill={color}
+          d="M296 64h-80a7.91 7.91 0 0 0-8 8v24h96V72a7.91 7.91 0 0 0-8-8Z"
+        />
+        <Path
+          fill={color}
+          d="M292 64h-72a4 4 0 0 0-4 4v28h80V68a4 4 0 0 0-4-4Z"
+        />
+        <Path
+          fill={color}
+          d="M447.55 96H336V48a16 16 0 0 0-16-16H192a16 16 0 0 0-16 16v48H64.45L64 136h33l20.09 314A32 32 0 0 0 149 480h214a32 32 0 0 0 31.93-29.95L415 136h33ZM176 416l-9-256h33l9 256Zm96 0h-32V160h32Zm24-320h-80V68a4 4 0 0 1 4-4h72a4 4 0 0 1 4 4Zm40 320h-33l9-256h33Z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
 export const CurrenLocationIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 28,

@@ -20,6 +20,7 @@ import CustomText from '../components/PartnerComponents/CustomText';
 import Col from '../components/Col';
 import Row from '../components/Row';
 import Product from '../screens/BottomTabScreens/Product.screen';
+import { RootState, useAppSelector } from '../store';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -32,6 +33,9 @@ export type BottomNavigationProps =
   NativeStackNavigationProp<RootBottomStackParamList>;
 const BottomTabs = createBottomTabNavigator();
 const BottomTabsNavigator: React.FC = () => {
+  const { averageDeliveryDetails } = useAppSelector(
+    (state: RootState) => state.location,
+  );
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
@@ -275,7 +279,7 @@ const BottomTabsNavigator: React.FC = () => {
                           fontSize: 24,
                           color: theme.colors.getirPrimary500,
                         }}
-                        label="10"
+                        label={averageDeliveryDetails.distance.toString()}
                       />
                       <CustomText
                         style={{

@@ -20,7 +20,10 @@ import GeoLocationRowItem from '../components/GeoLocationRowItem';
 import { GOOGLE_MAPS_APIKEY } from '../contants';
 import { getGeoLocationFromPlaceId } from '../hooks/getGeoPointFromPlaceId';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
-import { getGeoLocation } from '../features/slices/locationSlice';
+import {
+  getGeoLocation,
+  setSelectAddress,
+} from '../features/slices/locationSlice';
 type Props = {
   navigation: NavigationProps;
   route: any;
@@ -28,7 +31,7 @@ type Props = {
 
 const NewAddresses = ({ navigation, route }: Props) => {
   const [search, setSearch] = React.useState<string | null>(null);
-  const { selectedAddress } = useAppSelector(
+  const { averageDeliveryDetails } = useAppSelector(
     (state: RootState) => state.location,
   );
   const ref = useRef<GooglePlacesAutocompleteRef>();
@@ -45,10 +48,7 @@ const NewAddresses = ({ navigation, route }: Props) => {
   const dispatch = useAppDispatch();
 
   const [showSpin, setShowSpin] = React.useState(false);
-  async function handleSelectAddress(data: GooglePlaceData) {
-    const geoLocation = await getGeoLocationFromPlaceId(data.place_id);
-    console.log('onPress', data.description, geoLocation);
-  }
+
   return (
     <View
       style={{
@@ -124,7 +124,20 @@ const NewAddresses = ({ navigation, route }: Props) => {
               const geoLocation = await getGeoLocationFromPlaceId(
                 data.place_id,
               );
-              console.log('onPress', data.description, geoLocation);
+              dispatch(
+                setSelectAddress({
+                  type,
+                  details: {
+                    coords: {
+                      latitude: geoLocation.lat,
+                      longitude: geoLocation.lng,
+                    },
+                    formatted_address: data.description,
+                    place_id: data.place_id,
+                  },
+                }),
+              );
+              //  console.log('onPress', data, geoLocation);
               // dispatch(
               //   selectAdress({
               //     details: { data: data, type: type },
@@ -138,17 +151,8 @@ const NewAddresses = ({ navigation, route }: Props) => {
                 data={data}
                 showSpin={showSpin}
                 onPress={() => {
-                  //ref.current?.setAddressText(data.description);
+                  // ref.current?.setAddressText(data.description);
                   handleSelectAddress(data);
-                  console.log('onPress', data.description);
-                  // dispatch(
-                  //   addAdress({
-                  //     data: data,
-                  //     type: type,
-                  //   }),
-                  // );
-                  // handleSelectAddress(data);
-                  //
                 }}
                 setShowSpin={setShowSpin}
                 key={data.id + index}
