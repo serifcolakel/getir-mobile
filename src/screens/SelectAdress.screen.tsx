@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { RootState, useAppDispatch, useAppSelector } from '../store';
@@ -18,6 +18,8 @@ import { Loading } from '../components/Loading';
 import { getirBranchAddresses, GOOGLE_MAPS_APIKEY } from '../contants';
 import MapViewDirections from 'react-native-maps-directions';
 import Row from '../components/Row';
+import { getImage } from '../utils/utils';
+import SwipeTouch from '../components/PartnerComponents/SwipeTouch';
 
 type Props = {
   navigation: NavigationProps;
@@ -30,27 +32,26 @@ const SelectAdress = ({ navigation, route }: Props) => {
   const { selectedAddress, averageDeliveryDetails } = useAppSelector(
     (state: RootState) => state.location,
   );
-  if (!selectedAddress) {
-    setTimeout(() => {
-      navigation.goBack();
-    }, 1000);
-    return <Loading />;
-  }
+
   const origin = {
-    latitude: selectedAddress?.details?.coords.latitude,
-    longitude: selectedAddress?.details?.coords.longitude,
+    latitude: selectedAddress?.details?.coords.latitude || 0,
+    longitude: selectedAddress?.details?.coords.longitude || 0,
   };
   const destination = {
     latitude: 41.01384,
     longitude: 28.94966,
   };
-  useEffect(() => {
-    mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
+  async function setCameraPositin() {
+    await mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
       edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
     });
+  }
+  useEffect(() => {
+    setCameraPositin();
+  }, []);
+  useEffect(() => {
+    setCameraPositin();
   }, [selectedAddress]);
-
-  console.log('selectedAddress', selectedAddress);
   const dispatch = useAppDispatch();
   const [currentAdressTextVisible, setCurrentAdressTextVisible] =
     React.useState(false);
@@ -59,7 +60,6 @@ const SelectAdress = ({ navigation, route }: Props) => {
     mapRef.current?.getCamera().then(async data => {
       const { latitude, longitude } = data.center;
       await getAddressDetailsFromGeoLocatin(latitude, longitude).then(data => {
-        console.log('getAddressDetailsFromGeoLocatin', data);
         if (data) {
           dispatch(
             setSelectAddress({
@@ -79,9 +79,9 @@ const SelectAdress = ({ navigation, route }: Props) => {
       await mapRef.current?.fitToSuppliedMarkers(['origin', 'destination'], {
         edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
       });
-      console.log('getCamera', data);
     });
   }
+  console.log('124124', getImage('touch'));
   return (
     <View
       style={{
@@ -129,6 +129,7 @@ const SelectAdress = ({ navigation, route }: Props) => {
       ) : (
         <LoadingIcon size={30} />
       )}
+      <SwipeTouch />
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
@@ -180,8 +181,8 @@ const SelectAdress = ({ navigation, route }: Props) => {
           console.log(e);
         }}
         initialRegion={{
-          latitude: origin.latitude,
-          longitude: origin.longitude,
+          latitude: origin.latitude ? origin.latitude : 41.01384,
+          longitude: origin.longitude ? origin.longitude : 28.94966,
 
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0121,
@@ -202,8 +203,8 @@ const SelectAdress = ({ navigation, route }: Props) => {
 
         <Marker
           coordinate={{
-            latitude: origin.latitude,
-            longitude: origin.longitude,
+            latitude: origin.latitude ? origin.latitude : 41.01384,
+            longitude: origin.longitude ? origin.longitude : 28.94966,
           }}
           identifier={'origin'}
           title="Buradasınız"
@@ -273,7 +274,10 @@ const SelectAdress = ({ navigation, route }: Props) => {
           geodesic={true}
           optimizeWaypoints={true}
           precision="high"
-          origin={origin}
+          origin={{
+            latitude: origin.latitude ? origin.latitude : 41.01384,
+            longitude: origin.longitude ? origin.longitude : 28.94966,
+          }}
           destination={destination}
           apikey={GOOGLE_MAPS_APIKEY}
           strokeWidth={3}

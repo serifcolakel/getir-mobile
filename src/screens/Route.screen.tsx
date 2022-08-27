@@ -1,5 +1,7 @@
 import {
+  Animated,
   Dimensions,
+  Easing,
   Image,
   ImageBackground,
   StyleSheet,
@@ -141,6 +143,7 @@ const Route = ({ navigation }: Props) => {
           </View>
         </Col>
       </Row>
+
       {/* <CarouselTest data={dummyData} /> */}
       <CustomCarousel
         data={paths}

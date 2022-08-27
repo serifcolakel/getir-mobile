@@ -19,6 +19,7 @@ import workImage from '../assets/images/work.png';
 import otherImage from '../assets/images/other.png';
 import getirLogo from '../assets/images/getirLogo.png';
 import getirStore from '../assets/images/store.png';
+import touchImage from '../assets/images/touch.png';
 type ImageName =
   | 'bgDoodle'
   | 'buyuk'
@@ -87,6 +88,8 @@ export function getImage(name: ImageName) {
       return getirLogo;
     case 'getirStore':
       return getirStore;
+    case 'touch':
+      return touchImage;
     default:
       break;
   }

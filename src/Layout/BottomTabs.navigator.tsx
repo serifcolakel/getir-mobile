@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/BottomTabScreens/Home.screen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Search from '../screens/BottomTabScreens/Search.screen';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, TouchableOpacity, View } from 'react-native';
 import { theme } from '../utils/theme';
 import {
   GiftIcon,
@@ -23,6 +23,8 @@ import Product from '../screens/BottomTabScreens/Product.screen';
 import { RootState, useAppSelector } from '../store';
 import { getImage } from '../utils/utils';
 import Basket from '../screens/BottomTabScreens/Basket.screen';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProps } from './StackNavigator';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -36,13 +38,14 @@ export type BottomNavigationProps =
   NativeStackNavigationProp<RootBottomStackParamList>;
 const BottomTabs = createBottomTabNavigator();
 const BottomTabsNavigator: React.FC = () => {
-  const { averageDeliveryDetails } = useAppSelector(
+  const { averageDeliveryDetails, selectedAddress } = useAppSelector(
     (state: RootState) => state.location,
   );
-  const { data, totalAmount, loading } = useAppSelector(
+  const { data, totalAmount } = useAppSelector(
     (state: RootState) => state.basket,
   );
-  console.log('totalAmount', totalAmount, data);
+  const navi = useNavigation<NavigationProps>();
+
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
@@ -231,16 +234,20 @@ const BottomTabsNavigator: React.FC = () => {
                   justifyContent: 'center',
                   backgroundColor: theme.colors.getirPrimary500,
                 }}>
-                {label === 'Ürünler' && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      left: 20,
-                      top: 12,
-                    }}>
-                    <RightArrowIcon color="white" rotate={180} size={24} />
-                  </View>
-                )}
+                {label === 'Ürünler' ||
+                  (label === 'Sepetim' && (
+                    <Pressable
+                      onPress={() => {
+                        navigation.goBack();
+                      }}
+                      style={{
+                        position: 'absolute',
+                        left: 20,
+                        top: 12,
+                      }}>
+                      <RightArrowIcon color="white" rotate={180} size={24} />
+                    </Pressable>
+                  ))}
                 <CustomText
                   label={label}
                   style={{
@@ -248,7 +255,7 @@ const BottomTabsNavigator: React.FC = () => {
                     fontSize: 20,
                   }}
                 />
-                {label === 'Ürünler' && data.length > 0 && (
+                {label !== 'Sepetim' && data.length > 0 && (
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={() => {
@@ -257,19 +264,20 @@ const BottomTabsNavigator: React.FC = () => {
                     style={{
                       position: 'absolute',
                       right: 20,
-                      top: 6,
+                      top: 1,
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       flexDirection: 'row',
                       width: 100,
                       padding: 5,
+
                       borderRadius: 5,
                       backgroundColor: theme.colors.getirPrimary500,
                     }}>
                     <View
                       style={{
                         backgroundColor: theme.colors.white,
-
+                        marginVertical: 4,
                         height: '100%',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -288,8 +296,6 @@ const BottomTabsNavigator: React.FC = () => {
                     </View>
                     <View
                       style={{
-                        borderLeftWidth: 0.2,
-
                         borderTopRightRadius: 5,
                         borderBottomRightRadius: 5,
                         paddingRight: 10,
@@ -297,7 +303,7 @@ const BottomTabsNavigator: React.FC = () => {
                         alignItems: 'center',
                         height: '100%',
                         width: '88%',
-                        backgroundColor: theme.colors.getirPrimary100,
+                        backgroundColor: theme.colors.getirPrimary50,
                         paddingLeft: 5,
                       }}>
                       <CustomText
@@ -316,28 +322,46 @@ const BottomTabsNavigator: React.FC = () => {
                 <Row
                   extraStyle={{
                     backgroundColor: theme.colors.getirSecondary500,
-                    height: 50,
-
-                    width: '100%',
-                    left: 0,
-                    zIndex: 1,
+                    height: 60,
                   }}
                   alignItems="center"
                   justifyContent="space-between">
                   <Row
                     extraStyle={{
                       backgroundColor: theme.colors.white,
-                      paddingHorizontal: 20,
+                      paddingRight: 20,
+                      paddingLeft: 10,
                       width: '70%',
                       elevation: 25,
                       borderTopRightRadius: 80,
                       borderBottomRightRadius: 80,
                       height: '100%',
                     }}
-                    onPress={() => navigation.navigate('Addresses')}
+                    onPress={() => navi.push('Addresses')}
                     alignItems="center"
                     justifyContent="space-between">
-                    <CustomText label="Teslimat Adresi Belirleyin" />
+                    {selectedAddress && (
+                      <Image
+                        source={getImage(selectedAddress?.type)}
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 10,
+                        }}
+                      />
+                    )}
+                    <CustomText
+                      style={{
+                        fontSize: selectedAddress ? 12 : 14,
+                        width: selectedAddress ? '80%' : '90%',
+                        paddingRight: selectedAddress ? 0 : 10,
+                        textAlign: 'center',
+                      }}
+                      label={
+                        selectedAddress?.details.formatted_address ||
+                        'Teslimat Adresi Belirleyin'
+                      }
+                    />
                     <RightArrowIcon
                       size={18}
                       color={theme.colors.getirPrimary500}
@@ -369,7 +393,7 @@ const BottomTabsNavigator: React.FC = () => {
                           fontSize: 24,
                           color: theme.colors.getirPrimary500,
                         }}
-                        label={averageDeliveryDetails.distance.toString()}
+                        label={averageDeliveryDetails?.duration.toFixed(2)}
                       />
                       <CustomText
                         style={{
