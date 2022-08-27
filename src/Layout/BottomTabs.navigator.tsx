@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../screens/BottomTabScreens/Home.screen';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Search from '../screens/BottomTabScreens/Search.screen';
-import { Text, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import { theme } from '../utils/theme';
 import {
   GiftIcon,
@@ -21,6 +21,8 @@ import Col from '../components/Col';
 import Row from '../components/Row';
 import Product from '../screens/BottomTabScreens/Product.screen';
 import { RootState, useAppSelector } from '../store';
+import { getImage } from '../utils/utils';
+import Basket from '../screens/BottomTabScreens/Basket.screen';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -28,6 +30,7 @@ export type RootBottomStackParamList = {
   Campaign: undefined;
   Route: undefined;
   Product: undefined;
+  Basket: undefined;
 };
 export type BottomNavigationProps =
   NativeStackNavigationProp<RootBottomStackParamList>;
@@ -36,6 +39,10 @@ const BottomTabsNavigator: React.FC = () => {
   const { averageDeliveryDetails } = useAppSelector(
     (state: RootState) => state.location,
   );
+  const { data, totalAmount, loading } = useAppSelector(
+    (state: RootState) => state.basket,
+  );
+  console.log('totalAmount', totalAmount, data);
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
@@ -47,17 +54,24 @@ const BottomTabsNavigator: React.FC = () => {
         tabBarActiveBackgroundColor: theme.colors.white,
         tabBarInactiveBackgroundColor: theme.colors.white,
         tabBarIconStyle: {
-          display: route.name === 'Product' ? 'none' : 'flex',
+          display:
+            route.name === 'Product' || route.name === 'Basket'
+              ? 'none'
+              : 'flex',
         },
         tabBarItemStyle: {
-          display: route.name === 'Product' ? 'none' : 'flex',
+          display:
+            route.name === 'Product' || route.name === 'Basket'
+              ? 'none'
+              : 'flex',
         },
         tabBarStyle: {
           height: 60,
           display:
             route.name === 'Route' ||
             route.name === 'Addresses' ||
-            route.name === 'NewAddresses'
+            route.name === 'NewAddresses' ||
+            route.name === 'Basket'
               ? 'none'
               : 'flex',
         },
@@ -204,23 +218,99 @@ const BottomTabsNavigator: React.FC = () => {
           }
         },
         header: ({ navigation, options, route, layout }) => {
+          let label = options.title?.split(' ')[0];
           return (
             <>
               <View
                 style={{
                   width: '100%',
                   height: 50,
+                  position: 'relative',
                   alignItems: 'center',
+
                   justifyContent: 'center',
                   backgroundColor: theme.colors.getirPrimary500,
                 }}>
+                {label === 'Ürünler' && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      left: 20,
+                      top: 12,
+                    }}>
+                    <RightArrowIcon color="white" rotate={180} size={24} />
+                  </View>
+                )}
                 <CustomText
-                  label={options.title?.split(' ')[0]}
+                  label={label}
                   style={{
                     color: theme.colors.getirSecondary500,
                     fontSize: 20,
                   }}
                 />
+                {label === 'Ürünler' && data.length > 0 && (
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => {
+                      navigation.navigate('Basket');
+                    }}
+                    style={{
+                      position: 'absolute',
+                      right: 20,
+                      top: 6,
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      width: 100,
+                      padding: 5,
+                      borderRadius: 5,
+                      backgroundColor: theme.colors.getirPrimary500,
+                    }}>
+                    <View
+                      style={{
+                        backgroundColor: theme.colors.white,
+
+                        height: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: 5,
+                        borderTopLeftRadius: 5,
+                        borderBottomLeftRadius: 5,
+                      }}>
+                      <Image
+                        style={{
+                          width: 20,
+                          height: 20,
+                          padding: 5,
+                        }}
+                        source={getImage('getirStore')}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        borderLeftWidth: 0.2,
+
+                        borderTopRightRadius: 5,
+                        borderBottomRightRadius: 5,
+                        paddingRight: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '100%',
+                        width: '88%',
+                        backgroundColor: theme.colors.getirPrimary100,
+                        paddingLeft: 5,
+                      }}>
+                      <CustomText
+                        label={`₺${totalAmount.toFixed(2)}`}
+                        style={{
+                          fontFamily: theme.fonts.bold,
+                          color: theme.colors.getirPrimary500,
+                          fontSize: 12,
+                        }}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                )}
               </View>
               {options.title?.includes('false') && (
                 <Row
@@ -339,6 +429,13 @@ const BottomTabsNavigator: React.FC = () => {
         component={Product}
         options={{
           title: 'Ürünler Row:true',
+        }}
+      />
+      <BottomTabs.Screen
+        name="Basket"
+        component={Basket}
+        options={{
+          title: 'Sepetim Row:true',
         }}
       />
     </BottomTabs.Navigator>

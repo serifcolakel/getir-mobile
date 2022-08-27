@@ -10,8 +10,8 @@ import BottomTabsNavigator from './BottomTabs.navigator';
 import Route from '../screens/Route.screen';
 import Addresses from '../screens/Addresses.screen';
 import NewAddresses from '../screens/NewAddresses.screen';
-import { Adresses } from '../types/userSliceTypes';
 import SelectAdress from '../screens/SelectAdress.screen';
+import { Location } from '../features/slices/locationSlice';
 
 const Stack = createNativeStackNavigator();
 export type RootStackParamList = {
@@ -19,10 +19,10 @@ export type RootStackParamList = {
   BottomTabs: undefined;
   Addresses: undefined;
   NewAddresses: {
-    type: Adresses['type'];
+    type: Location['type'];
   };
   SelectAdress: {
-    type: Adresses['type'];
+    type: Location['type'];
   };
   Home: undefined;
   Search: undefined;

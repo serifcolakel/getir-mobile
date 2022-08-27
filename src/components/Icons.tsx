@@ -392,6 +392,30 @@ export const UserIcon: React.FC<IconProps> = ({
     </TouchableOpacity>
   );
 };
+export const MinusIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24">
+        <Path
+          fill={color}
+          stroke={color}
+          strokeLinecap={'round'}
+          strokeWidth={3}
+          d="M20 12H4"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
 export const PlusIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 24,

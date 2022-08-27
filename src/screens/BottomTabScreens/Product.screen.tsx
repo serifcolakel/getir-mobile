@@ -18,7 +18,7 @@ import axiosInstance from '../../hooks/useAxios';
 import { ProductTypes } from '../../types/ProductTypes';
 import { PlusIcon } from '../../components/Icons';
 import ProductSkeleton from '../../components/ProductSkeleton';
-import ProductItem from './ProductItem';
+import ProductItem from '../../components/BottomTabsComponents/ProductItem';
 export const CategoryItem = React.memo(
   ({
     item,
@@ -67,7 +67,7 @@ const Product = () => {
   const [initialProduct, setInitialProduct] = React.useState<ProductTypes[]>(
     [],
   );
-  const [loading1, setLoading1] = React.useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = React.useState<boolean>(false);
   if (loading || !initialProduct) return <Loading />;
   const [selectedCategory, setSelectedCategory] =
     React.useState<Categories | null>(null);
@@ -84,11 +84,11 @@ const Product = () => {
     if (selectedSubCategory) {
       const res = await axiosInstance.get(selectedSubCategory.path);
       await setInitialProduct(res.data);
-      setLoading1(false);
+      setIsLoaded(false);
     }
   }
   useEffect(() => {
-    setLoading1(true);
+    setIsLoaded(true);
     getCategories();
   }, [selectedSubCategory, selectedCategory]);
 
@@ -162,7 +162,7 @@ const Product = () => {
           );
         }}
       />
-      {!loading1 ? (
+      {!isLoaded ? (
         <ProductItem initialProduct={initialProduct} />
       ) : (
         <ProductSkeleton />
