@@ -6,6 +6,7 @@ import Search from '../screens/BottomTabScreens/Search.screen';
 import { Image, Pressable, TouchableOpacity, View } from 'react-native';
 import { theme } from '../utils/theme';
 import {
+  FavoriteIcon,
   GiftIcon,
   HomeIcon,
   LayoutIcon,
@@ -20,11 +21,13 @@ import CustomText from '../components/PartnerComponents/CustomText';
 import Col from '../components/Col';
 import Row from '../components/Row';
 import Product from '../screens/BottomTabScreens/Product.screen';
-import { RootState, useAppSelector } from '../store';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
 import { getImage } from '../utils/utils';
 import Basket from '../screens/BottomTabScreens/Basket.screen';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from './StackNavigator';
+import ProductDetails from '../screens/BottomTabScreens/ProductDetails.screen';
+import { handleFavorite } from '../features/slices/basketSlice';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -32,6 +35,7 @@ export type RootBottomStackParamList = {
   Campaign: undefined;
   Route: undefined;
   Product: undefined;
+  ProductDetails: undefined;
   Basket: undefined;
 };
 export type BottomNavigationProps =
@@ -45,7 +49,18 @@ const BottomTabsNavigator: React.FC = () => {
     (state: RootState) => state.basket,
   );
   const navi = useNavigation<NavigationProps>();
-
+  const dispatch = useAppDispatch();
+  const { selectedProduct } = useAppSelector(
+    (state: RootState) => state.allProducts,
+  );
+  const { favorites } = useAppSelector((state: RootState) => state.basket);
+  console.log('favorites', favorites);
+  let isAddedFavorite = false;
+  favorites.forEach(favorite => {
+    if (favorite.id === selectedProduct?.id) {
+      isAddedFavorite = true;
+    }
+  });
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"
@@ -64,7 +79,9 @@ const BottomTabsNavigator: React.FC = () => {
         },
         tabBarItemStyle: {
           display:
-            route.name === 'Product' || route.name === 'Basket'
+            route.name === 'Product' ||
+            route.name === 'Basket' ||
+            route.name === 'ProductDetails'
               ? 'none'
               : 'flex',
         },
@@ -74,7 +91,8 @@ const BottomTabsNavigator: React.FC = () => {
             route.name === 'Route' ||
             route.name === 'Addresses' ||
             route.name === 'NewAddresses' ||
-            route.name === 'Basket'
+            route.name === 'Basket' ||
+            route.name === 'ProductDetails'
               ? 'none'
               : 'flex',
         },
@@ -222,6 +240,7 @@ const BottomTabsNavigator: React.FC = () => {
         },
         header: ({ navigation, options, route, layout }) => {
           let label = options.title?.split(' ')[0];
+
           return (
             <>
               <View
@@ -235,88 +254,121 @@ const BottomTabsNavigator: React.FC = () => {
                   backgroundColor: theme.colors.getirPrimary500,
                 }}>
                 {label === 'Ürünler' ||
-                  (label === 'Sepetim' && (
+                  label === 'Sepetim' ||
+                  (label === 'Ürün-Detayları' && (
                     <Pressable
-                      onPress={() => {
-                        navigation.goBack();
-                      }}
                       style={{
                         position: 'absolute',
                         left: 20,
                         top: 12,
                       }}>
-                      <RightArrowIcon color="white" rotate={180} size={24} />
+                      <RightArrowIcon
+                        onPress={() => {
+                          if (label === 'Ürün-Detayları') {
+                            navigation.navigate('Product');
+                          } else {
+                            navigation.navigate('Home');
+                          }
+                        }}
+                        color="white"
+                        rotate={180}
+                        size={24}
+                      />
                     </Pressable>
                   ))}
                 <CustomText
                   label={label}
                   style={{
                     color: theme.colors.getirSecondary500,
-                    fontSize: 20,
+                    fontSize: 16,
                   }}
                 />
-                {label !== 'Sepetim' && data.length > 0 && (
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    onPress={() => {
-                      navigation.navigate('Basket');
-                    }}
+                {label === 'Ürün-Detayları' && (
+                  <Pressable
                     style={{
                       position: 'absolute',
                       right: 20,
-                      top: 1,
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                      width: 100,
-                      padding: 5,
-
-                      borderRadius: 5,
-                      backgroundColor: theme.colors.getirPrimary500,
+                      top: 12,
                     }}>
-                    <View
-                      style={{
-                        backgroundColor: theme.colors.white,
-                        marginVertical: 4,
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        padding: 5,
-                        borderTopLeftRadius: 5,
-                        borderBottomLeftRadius: 5,
-                      }}>
-                      <Image
-                        style={{
-                          width: 20,
-                          height: 20,
-                          padding: 5,
-                        }}
-                        source={getImage('getirStore')}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        borderTopRightRadius: 5,
-                        borderBottomRightRadius: 5,
-                        paddingRight: 10,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        width: '88%',
-                        backgroundColor: theme.colors.getirPrimary50,
-                        paddingLeft: 5,
-                      }}>
-                      <CustomText
-                        label={`₺${totalAmount.toFixed(2)}`}
-                        style={{
-                          fontFamily: theme.fonts.bold,
-                          color: theme.colors.getirPrimary500,
-                          fontSize: 12,
-                        }}
-                      />
-                    </View>
-                  </TouchableOpacity>
+                    <FavoriteIcon
+                      onPress={() => {
+                        if (selectedProduct) {
+                          dispatch(handleFavorite(selectedProduct));
+                        }
+                      }}
+                      color={
+                        isAddedFavorite
+                          ? theme.colors.getirSecondary500
+                          : 'white'
+                      }
+                      size={24}
+                    />
+                  </Pressable>
                 )}
+                {label !== 'Sepetim' &&
+                  label !== 'Ürün-Detayları' &&
+                  data.length > 0 && (
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      onPress={() => {
+                        navigation.navigate('Basket');
+                      }}
+                      style={{
+                        position: 'absolute',
+                        right: 20,
+                        top: 1,
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        width: 100,
+                        padding: 5,
+
+                        borderRadius: 5,
+                        backgroundColor: theme.colors.getirPrimary500,
+                      }}>
+                      <View
+                        style={{
+                          backgroundColor: theme.colors.white,
+                          marginVertical: 4,
+                          height: '100%',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          padding: 5,
+                          borderTopLeftRadius: 5,
+                          borderBottomLeftRadius: 5,
+                        }}>
+                        <Image
+                          style={{
+                            width: 20,
+                            height: 20,
+                            padding: 5,
+                          }}
+                          source={getImage('getirStore')}
+                        />
+                      </View>
+                      <View
+                        style={{
+                          borderTopRightRadius: 5,
+                          borderBottomRightRadius: 5,
+                          paddingRight: 10,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          height: '100%',
+                          width: '88%',
+                          backgroundColor: theme.colors.getirPrimary50,
+                          paddingLeft: 5,
+                        }}>
+                        <CustomText
+                          label={`₺${totalAmount.toFixed(2)}`}
+                          style={{
+                            fontFamily: theme.fonts.bold,
+                            color: theme.colors.getirPrimary500,
+                            fontSize: 12,
+                          }}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  )}
               </View>
               {options.title?.includes('false') && (
                 <Row
@@ -460,6 +512,13 @@ const BottomTabsNavigator: React.FC = () => {
         component={Basket}
         options={{
           title: 'Sepetim Row:true',
+        }}
+      />
+      <BottomTabs.Screen
+        name="ProductDetails"
+        component={ProductDetails}
+        options={{
+          title: 'Ürün-Detayları Row:true',
         }}
       />
     </BottomTabs.Navigator>

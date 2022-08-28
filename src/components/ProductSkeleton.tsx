@@ -23,12 +23,11 @@ const ProductSkeleton: React.FC<Props> = ({ label }) => {
               style={{
                 padding: 10,
                 justifyContent: 'center',
-                alignItems: 'center',
               }}>
               <Skeleton height={120} width={100} variant="rect" rounded={10} />
+              <Skeleton height={10} width={'40%'} variant="circle" />
               <Skeleton height={10} width={'100%'} variant="circle" />
-              <Skeleton height={10} width={'100%'} variant="circle" />
-              <Skeleton height={10} width={'100%'} variant="circle" />
+              <Skeleton height={10} width={'20%'} variant="circle" />
             </View>
           );
         }}

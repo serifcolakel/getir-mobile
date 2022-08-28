@@ -143,7 +143,6 @@ const Route = ({ navigation }: Props) => {
           </View>
         </Col>
       </Row>
-
       {/* <CarouselTest data={dummyData} /> */}
       <CustomCarousel
         data={paths}
@@ -151,7 +150,6 @@ const Route = ({ navigation }: Props) => {
         showStepper={true}
         navigation={navigation}
       />
-
       <Row
         alignItems="center"
         justifyContent="space-between"

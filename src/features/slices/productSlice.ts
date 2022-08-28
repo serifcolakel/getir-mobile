@@ -1,18 +1,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RouteName, useAxios } from '../../hooks/useAxios';
-import { ProductTypes } from '../../types/ProductTypes';
+import { Product, ProductTypes } from '../../types/ProductTypes';
 
 export interface ProductState {
   products: ProductTypes[];
   loadingProduct: boolean;
   error: string | null;
+  selectedProduct: Product | null;
 }
 
 const initialState: ProductState = {
   products: [],
   loadingProduct: false,
   error: '',
+  selectedProduct: null,
 };
 export const getProduct = createAsyncThunk(
   'product/fetch',
@@ -30,7 +32,11 @@ export const getProduct = createAsyncThunk(
 export const productSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    selectProduct: (state, action: PayloadAction<Product>) => {
+      state.selectedProduct = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(
@@ -51,5 +57,7 @@ export const productSlice = createSlice({
       });
   },
 });
+
+export const { selectProduct } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -3,12 +3,14 @@ import React from 'react';
 import { ProductTypes } from '../../types/ProductTypes';
 import CustomText from '../../components/PartnerComponents/CustomText';
 import BasketItem from '../../components/BottomTabsComponents/BasketItem';
+import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
 
 type Props = {
   initialProduct: ProductTypes[];
+  navigation: BottomNavigationProps;
 };
 
-const ProductItem = ({ initialProduct }: Props) => {
+const ProductItem = ({ initialProduct, navigation }: Props) => {
   return (
     <View>
       {initialProduct.map(item => (
@@ -32,7 +34,9 @@ const ProductItem = ({ initialProduct }: Props) => {
               keyExtractor={item => item.id}
               numColumns={3}
               horizontal={false}
-              renderItem={({ item }) => <BasketItem item={item} />}
+              renderItem={({ item }) => (
+                <BasketItem item={item} navigation={navigation} />
+              )}
             />
           </View>
         </View>

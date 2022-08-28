@@ -16,9 +16,9 @@ import { theme } from '../../utils/theme';
 import { Categories, SubCategory } from '../../features/slices/categoriesSlice';
 import axiosInstance from '../../hooks/useAxios';
 import { ProductTypes } from '../../types/ProductTypes';
-import { PlusIcon } from '../../components/Icons';
 import ProductSkeleton from '../../components/ProductSkeleton';
 import ProductItem from '../../components/BottomTabsComponents/ProductItem';
+import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
 export const CategoryItem = React.memo(
   ({
     item,
@@ -60,7 +60,11 @@ export const CategoryItem = React.memo(
     </TouchableOpacity>
   ),
 );
-const Product = () => {
+type Props = {
+  navigation: BottomNavigationProps;
+  route: any;
+};
+const Product = ({ navigation, route }: Props) => {
   const { data, loading } = useAppSelector(
     (state: RootState) => state.categories,
   );
@@ -79,7 +83,6 @@ const Product = () => {
       setSelectedSubCategory(data[0].subCategories[0]);
     }
   }, []);
-
   async function getCategories() {
     if (selectedSubCategory) {
       const res = await axiosInstance.get(selectedSubCategory.path);
@@ -163,7 +166,7 @@ const Product = () => {
         }}
       />
       {!isLoaded ? (
-        <ProductItem initialProduct={initialProduct} />
+        <ProductItem initialProduct={initialProduct} navigation={navigation} />
       ) : (
         <ProductSkeleton />
       )}
@@ -172,5 +175,3 @@ const Product = () => {
 };
 
 export default Product;
-
-const styles = StyleSheet.create({});

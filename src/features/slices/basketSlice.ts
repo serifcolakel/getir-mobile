@@ -52,6 +52,19 @@ export const basketSlice = createSlice({
       //   0,
       // );
     },
+    handleFavorite: (state, action: PayloadAction<Product>) => {
+      state.loading = true;
+      const index = state.favorites.findIndex(
+        item => item.id === action.payload.id,
+      );
+      console.log('index', index);
+      if (index === -1) {
+        state.favorites.push({ ...action.payload, count: 1 });
+      } else {
+        state.favorites.splice(index, 1);
+      }
+    },
+
     toggleLoading: state => {
       state.loading = true;
     },
@@ -61,7 +74,7 @@ export const basketSlice = createSlice({
   },
 });
 
-export const { addToBasket, deleteToBasket, toggleLoading } =
+export const { addToBasket, deleteToBasket, toggleLoading, handleFavorite } =
   basketSlice.actions;
 
 export default basketSlice.reducer;

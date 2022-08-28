@@ -120,8 +120,9 @@ const Home = ({ navigation }: Props) => {
                 {item.map((item, idx) => (
                   <TouchableOpacity
                     onPress={() => {
+                      console.log(item);
                       // @ts-ignore
-                      nav.navigate('Product', undefined);
+                      nav.navigate('Product');
                     }}
                     key={item.id}
                     style={{

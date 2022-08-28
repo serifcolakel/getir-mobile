@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import { Product } from '../../types/ProductTypes';
@@ -6,12 +6,15 @@ import CustomText from '../PartnerComponents/CustomText';
 import { theme } from '../../utils/theme';
 import { MinusIcon, PlusIcon, TrashIcon } from '../Icons';
 import { addToBasket, deleteToBasket } from '../../features/slices/basketSlice';
+import { selectProduct } from '../../features/slices/productSlice';
+import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
 
 type Props = {
   item: Product;
+  navigation: BottomNavigationProps;
 };
 
-const BasketItem = ({ item }: Props) => {
+const BasketItem = ({ item, navigation }: Props) => {
   const dispatch = useAppDispatch();
   const { data } = useAppSelector((state: RootState) => state.basket);
 
@@ -25,7 +28,11 @@ const BasketItem = ({ item }: Props) => {
     }
   });
   return (
-    <View
+    <Pressable
+      onPress={() => {
+        dispatch(selectProduct(item));
+        navigation.navigate('ProductDetails');
+      }}
       style={{
         flex: 1,
         margin: 6,
@@ -160,7 +167,7 @@ const BasketItem = ({ item }: Props) => {
         }}
         label={item.shortDescription}
       />
-    </View>
+    </Pressable>
   );
 };
 
