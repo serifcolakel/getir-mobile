@@ -465,6 +465,97 @@ export const PlusIcon: React.FC<IconProps> = ({
     </TouchableOpacity>
   );
 };
+
+export const ChatIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 26 26">
+        <Path
+          fill={color}
+          d="M10 0C4.547 0 0 3.75 0 8.5c0 2.43 1.33 4.548 3.219 6.094a4.778 4.778 0 0 1-.969 2.25a14.4 14.4 0 0 1-.656.781a2.507 2.507 0 0 0-.313.406c-.057.093-.146.197-.187.407c-.042.209.015.553.187.812l.125.219l.25.125c.875.437 1.82.36 2.688.125c.867-.236 1.701-.64 2.5-1.063c.798-.422 1.557-.864 2.156-1.187c.084-.045.138-.056.219-.094C10.796 19.543 13.684 21 16.906 21c.031.004.06 0 .094 0c1.3 0 5.5 4.294 8 2.594c.1-.399-2.198-1.4-2.313-4.375c1.957-1.383 3.22-3.44 3.22-5.719c0-3.372-2.676-6.158-6.25-7.156C18.526 2.664 14.594 0 10 0zm0 2c4.547 0 8 3.05 8 6.5S14.547 15 10 15c-.812 0-1.278.332-1.938.688c-.66.355-1.417.796-2.156 1.187c-.64.338-1.25.598-1.812.781c.547-.79 1.118-1.829 1.218-3.281l.032-.563l-.469-.343C3.093 12.22 2 10.423 2 8.5C2 5.05 5.453 2 10 2z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+export const LocationManIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 100 100">
+        <Path
+          fill={color}
+          d="M49.781 23.592C41.947 23.593 34.184 26.96 35 33.688l2 14.624C37.352 50.886 39.09 55 41.688 55h.185L44 80.53c.092 1.103.892 2 2 2h8c1.108 0 1.908-.897 2-2L58.127 55h.185c2.597 0 4.336-4.115 4.688-6.688l2-14.624c.523-6.734-7.384-10.098-15.219-10.096z"
+        />
+        <Path
+          fill={color}
+          d="m50.024 50.908l-.048.126c.016-.038.027-.077.043-.115l.005-.011zM34.006 69.057C19.88 71.053 10 75.828 10 82.857C10 92.325 26.508 100 50 100s40-7.675 40-17.143c0-7.029-9.879-11.804-24.004-13.8l-1.957 3.332C74.685 73.866 82 76.97 82 80.572c0 5.05-14.327 9.143-32 9.143c-17.673 0-32-4.093-32-9.143c-.001-3.59 7.266-6.691 17.945-8.174c-.645-1.114-1.294-2.226-1.94-3.341z"
+        />
+        <Circle cx="50" cy="10.5" r="10.5" fill={color} />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+
+export const VersionIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 24 24">
+        <Path
+          fill={color}
+          d="M19 21q-.975 0-1.75-.562q-.775-.563-1.075-1.438H11q-1.65 0-2.825-1.175Q7 16.65 7 15q0-1.65 1.175-2.825Q9.35 11 11 11h2q.825 0 1.413-.588Q15 9.825 15 9t-.587-1.413Q13.825 7 13 7H7.825q-.325.875-1.087 1.438Q5.975 9 5 9q-1.25 0-2.125-.875T2 6q0-1.25.875-2.125T5 3q.975 0 1.738.562Q7.5 4.125 7.825 5H13q1.65 0 2.825 1.175Q17 7.35 17 9q0 1.65-1.175 2.825Q14.65 13 13 13h-2q-.825 0-1.412.587Q9 14.175 9 15q0 .825.588 1.413Q10.175 17 11 17h5.175q.325-.875 1.088-1.438Q18.025 15 19 15q1.25 0 2.125.875T22 18q0 1.25-.875 2.125T19 21ZM5 7q.425 0 .713-.287Q6 6.425 6 6t-.287-.713Q5.425 5 5 5t-.713.287Q4 5.575 4 6t.287.713Q4.575 7 5 7Z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
+export const LanguageIcon: React.FC<IconProps> = ({
+  color = theme.colors.getirPrimary500,
+  size = 24,
+  onPress,
+  style,
+}) => {
+  return (
+    <TouchableOpacity style={style} activeOpacity={0.8} onPress={onPress}>
+      <Svg
+        width={size}
+        height={size}
+        preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 1536 1792">
+        <Path
+          fill={color}
+          d="M654 1078q-1 3-12.5-.5T610 1066l-20-9q-44-20-87-49q-7-5-41-31.5T424 948q-67 103-134 181q-81 95-105 110q-4 2-19.5 4t-18.5 0q6-4 82-92q21-24 85.5-115T393 918q17-30 51-98.5t36-77.5q-8-1-110 33q-8 2-27.5 7.5T308 792t-17 5q-2 2-2 10.5t-1 9.5q-5 10-31 15q-23 7-47 0q-18-4-28-21q-4-6-5-23q6-2 24.5-5t29.5-6q58-16 105-32q100-35 102-35q10-2 43-19.5t44-21.5q9-3 21.5-8t14.5-5.5t6 .5q2 12-1 33q0 2-12.5 27T527 769.5T510 803q-25 50-77 131l64 28q12 6 74.5 32t67.5 28q4 1 10.5 25.5t4.5 30.5zM449 592q3 15-4 28q-12 23-50 38q-30 12-60 12q-26-3-49-26q-14-15-18-41l1-3q3 3 19.5 5t26.5 0t58-16q36-12 55-14q17 0 21 17zm698 129l63 227l-139-42zM39 1521l694-232V257L39 490v1031zm1241-317l102 31l-181-657l-100-31l-216 536l102 31l45-110l211 65zM777 242l573 184V46zm311 1323l158 13l-54 160l-40-66q-130 83-276 108q-58 12-91 12h-84q-79 0-199.5-39T318 1668q-8-7-8-16q0-8 5-13.5t13-5.5q4 0 18 7.5t30.5 16.5t20.5 11q73 37 159.5 61.5T714 1754q95 0 167-14.5t157-50.5q15-7 30.5-15.5t34-19t28.5-16.5zm448-1079v1079l-774-246q-14 6-375 127.5T19 1568q-13 0-18-13q0-1-1-3V474q3-9 4-10q5-6 20-11q107-36 149-50V19l558 198q2 0 160.5-55t316-108.5T1369 0q20 0 20 21v418z"
+        />
+      </Svg>
+    </TouchableOpacity>
+  );
+};
 export const TrashIcon: React.FC<IconProps> = ({
   color = theme.colors.getirPrimary500,
   size = 24,

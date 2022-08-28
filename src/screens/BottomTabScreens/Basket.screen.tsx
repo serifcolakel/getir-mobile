@@ -1,12 +1,4 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import { theme } from '../../utils/theme';
