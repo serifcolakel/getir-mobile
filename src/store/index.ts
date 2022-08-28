@@ -5,6 +5,7 @@ import basketSlice from '../features/slices/basketSlice';
 import productSlice from '../features/slices/productSlice';
 import locationSlice from '../features/slices/locationSlice';
 import categoriesSlice from '../features/slices/categoriesSlice';
+import campaingsSlice from '../features/slices/campaingsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     allProducts: productSlice,
     location: locationSlice,
     categories: categoriesSlice,
+    campaings: campaingsSlice,
   },
 });
 
