@@ -29,9 +29,11 @@ export type RouteName =
   | 'kampanyaWithCode';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.1.7:3000/api/',
+  baseURL: 'https://getir-api-clone.herokuapp.com/api/',
   timeout: 5000,
 });
+//  baseURL: 'https://getir-api-clone.herokuapp.com/api/',
+//   baseURL: 'http://192.168.1.7:3000/api/',
 // function getLocalAccessToken() {
 //  const accessToken = localStorage.getItem("token");
 //   return "accessToken";
