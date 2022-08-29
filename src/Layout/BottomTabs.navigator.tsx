@@ -28,6 +28,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from './StackNavigator';
 import ProductDetails from '../screens/BottomTabScreens/ProductDetails.screen';
 import { handleFavorite } from '../features/slices/basketSlice';
+import Favorites from '../screens/BottomTabScreens/Favorites.screen';
 export type RootBottomStackParamList = {
   Home: undefined;
   Search: undefined;
@@ -37,6 +38,7 @@ export type RootBottomStackParamList = {
   Product: undefined;
   ProductDetails: undefined;
   Basket: undefined;
+  Favorites: undefined;
 };
 export type BottomNavigationProps =
   NativeStackNavigationProp<RootBottomStackParamList>;
@@ -81,7 +83,8 @@ const BottomTabsNavigator: React.FC = () => {
           display:
             route.name === 'Product' ||
             route.name === 'Basket' ||
-            route.name === 'ProductDetails'
+            route.name === 'ProductDetails' ||
+            route.name === 'Favorites'
               ? 'none'
               : 'flex',
         },
@@ -92,7 +95,8 @@ const BottomTabsNavigator: React.FC = () => {
             route.name === 'Addresses' ||
             route.name === 'NewAddresses' ||
             route.name === 'Basket' ||
-            route.name === 'ProductDetails'
+            route.name === 'ProductDetails' ||
+            route.name === 'Favorites'
               ? 'none'
               : 'flex',
         },
@@ -253,29 +257,32 @@ const BottomTabsNavigator: React.FC = () => {
                   justifyContent: 'center',
                   backgroundColor: theme.colors.getirPrimary500,
                 }}>
-                {label === 'Ürünler' ||
+                {(label === 'Ürünler' ||
                   label === 'Sepetim' ||
-                  (label === 'Ürün-Detayları' && (
-                    <Pressable
-                      style={{
-                        position: 'absolute',
-                        left: 20,
-                        top: 12,
-                      }}>
-                      <RightArrowIcon
-                        onPress={() => {
-                          if (label === 'Ürün-Detayları') {
-                            navigation.navigate('Product');
-                          } else {
-                            navigation.navigate('Home');
-                          }
-                        }}
-                        color="white"
-                        rotate={180}
-                        size={24}
-                      />
-                    </Pressable>
-                  ))}
+                  label === 'Ürün-Detayları' ||
+                  label === 'Favori-Ürünlerim') && (
+                  <Pressable
+                    style={{
+                      position: 'absolute',
+                      left: 20,
+                      top: 12,
+                    }}>
+                    <RightArrowIcon
+                      onPress={() => {
+                        if (label === 'Ürün-Detayları') {
+                          navigation.navigate('Product');
+                        } else if (label === 'Favori-Ürünlerim') {
+                          navigation.navigate('Profile');
+                        } else {
+                          navigation.navigate('Home');
+                        }
+                      }}
+                      color="white"
+                      rotate={180}
+                      size={24}
+                    />
+                  </Pressable>
+                )}
                 <CustomText
                   label={label}
                   style={{
@@ -307,6 +314,7 @@ const BottomTabsNavigator: React.FC = () => {
                 )}
                 {label !== 'Sepetim' &&
                   label !== 'Ürün-Detayları' &&
+                  label !== 'Favori-Ürünlerim' &&
                   data.length > 0 && (
                     <TouchableOpacity
                       activeOpacity={1}
@@ -519,6 +527,13 @@ const BottomTabsNavigator: React.FC = () => {
         component={ProductDetails}
         options={{
           title: 'Ürün-Detayları Row:true',
+        }}
+      />
+      <BottomTabs.Screen
+        name="Favorites"
+        component={Favorites}
+        options={{
+          title: 'Favori-Ürünlerim Row:true',
         }}
       />
     </BottomTabs.Navigator>

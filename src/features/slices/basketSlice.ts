@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Product, ProductTypes } from '../../types/ProductTypes';
+import { Product } from '../../types/ProductTypes';
 
 export interface BasketState {
   data: Product[];

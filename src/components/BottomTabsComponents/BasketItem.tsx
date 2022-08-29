@@ -1,11 +1,27 @@
-import { Image, Pressable, StyleSheet, View } from 'react-native';
-import React from 'react';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, { memo } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import { Product } from '../../types/ProductTypes';
 import CustomText from '../PartnerComponents/CustomText';
 import { theme } from '../../utils/theme';
-import { LoadingIcon, MinusIcon, PlusIcon, TrashIcon } from '../Icons';
-import { addToBasket, deleteToBasket } from '../../features/slices/basketSlice';
+import {
+  FavoriteIcon,
+  LoadingIcon,
+  MinusIcon,
+  PlusIcon,
+  TrashIcon,
+} from '../Icons';
+import {
+  addToBasket,
+  deleteToBasket,
+  handleFavorite,
+} from '../../features/slices/basketSlice';
 import { selectProduct } from '../../features/slices/productSlice';
 import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
 
@@ -16,11 +32,14 @@ type Props = {
 
 const BasketItem = ({ item, navigation }: Props) => {
   const dispatch = useAppDispatch();
-  const { data } = useAppSelector((state: RootState) => state.basket);
+  const { data, favorites } = useAppSelector(
+    (state: RootState) => state.basket,
+  );
   const [loading, setLoading] = React.useState(false);
   let isAdded = false;
   let count = 0;
-
+  let isFavorite = false;
+  favorites.find(favorite => favorite.id === item.id && (isFavorite = true));
   data.forEach(basketItem => {
     if (basketItem.id === item.id) {
       isAdded = true;
@@ -228,6 +247,35 @@ const BasketItem = ({ item, navigation }: Props) => {
           }}
         />
       )}
+      {isFavorite && (
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={() => {
+            dispatch(handleFavorite(item));
+          }}
+          style={{
+            position: 'absolute',
+            top: -4,
+            left: -4,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 5,
+            zIndex: 1,
+            elevation: 3,
+            borderRadius: 8,
+            backgroundColor: theme.colors.white,
+          }}>
+          <FavoriteIcon
+            onPress={() => {
+              dispatch(handleFavorite(item));
+            }}
+            size={20}
+            color={theme.colors.getirSecondary500}
+          />
+        </TouchableOpacity>
+      )}
+
       <Image
         resizeMode="contain"
         style={{
@@ -272,6 +320,6 @@ const BasketItem = ({ item, navigation }: Props) => {
   );
 };
 
-export default BasketItem;
+export default memo(BasketItem);
 
 const styles = StyleSheet.create({});

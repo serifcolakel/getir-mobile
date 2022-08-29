@@ -8,14 +8,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, memo, useEffect } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import CustomText from '../../components/PartnerComponents/CustomText';
 import { Loading } from '../../components/Loading';
 import Row from '../../components/Row';
 import Col from '../../components/Col';
 import { theme } from '../../utils/theme';
-import { CloseIcon, PlusIcon, RightArrowIcon } from '../../components/Icons';
+import {
+  CloseIcon,
+  LoadingIcon,
+  PlusIcon,
+  RightArrowIcon,
+} from '../../components/Icons';
 import { WebView as HTMLRenderer } from 'react-native-webview';
 import { Campaings } from '../../types/CampaingsTypes';
 import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
@@ -29,6 +34,7 @@ const Campaign = ({ navigation }: Props) => {
   const { campaings, loading } = useAppSelector(
     (state: RootState) => state.campaings,
   );
+  const [loadingModal, setLoadingModal] = React.useState(false);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getAllCampaings());
@@ -127,7 +133,13 @@ const Campaign = ({ navigation }: Props) => {
                   }}
                 />
                 <TouchableOpacity
-                  onPress={() => setShowCampaignDetailsItem(item)}
+                  onPress={() => {
+                    setLoadingModal(true);
+                    setTimeout(() => {
+                      setShowCampaignDetailsItem(item);
+                      setLoadingModal(false);
+                    }, 1000);
+                  }}
                   style={{
                     position: 'absolute',
                     bottom: 10,
@@ -135,13 +147,23 @@ const Campaign = ({ navigation }: Props) => {
                     borderColor: theme.colors.getirPrimary100,
                     borderRadius: 4,
 
-                    padding: 15,
+                    padding: 10,
                     right: 20,
                   }}>
-                  <RightArrowIcon
-                    onPress={() => setShowCampaignDetailsItem(item)}
-                    size={14}
-                  />
+                  {loadingModal ? (
+                    <LoadingIcon size={20} />
+                  ) : (
+                    <RightArrowIcon
+                      onPress={() => {
+                        setLoadingModal(true);
+                        setTimeout(() => {
+                          setShowCampaignDetailsItem(item);
+                          setLoadingModal(false);
+                        }, 1000);
+                      }}
+                      size={20}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             )}
@@ -261,11 +283,17 @@ const Campaign = ({ navigation }: Props) => {
                       style={{
                         fontSize: 12,
                         color: theme.colors.black,
-                        paddingVertical: 10,
+                        paddingVertical: 15,
                       }}
                     />
                     <TouchableOpacity
-                      onPress={() => setShowCampaignDetailsItem(null)}
+                      onPress={() => {
+                        setLoadingModal(true);
+                        setTimeout(() => {
+                          setShowCampaignDetailsItem(null);
+                          setLoadingModal(false);
+                        }, 1000);
+                      }}
                       style={{
                         position: 'absolute',
                         top: 10,
@@ -276,10 +304,20 @@ const Campaign = ({ navigation }: Props) => {
                         padding: 5,
                         right: 20,
                       }}>
-                      <CloseIcon
-                        size={24}
-                        onPress={() => setShowCampaignDetailsItem(null)}
-                      />
+                      {loadingModal ? (
+                        <LoadingIcon size={24} />
+                      ) : (
+                        <CloseIcon
+                          size={24}
+                          onPress={() => {
+                            setLoadingModal(true);
+                            setTimeout(() => {
+                              setShowCampaignDetailsItem(null);
+                              setLoadingModal(false);
+                            }, 1000);
+                          }}
+                        />
+                      )}
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -328,6 +366,6 @@ const Campaign = ({ navigation }: Props) => {
   );
 };
 
-export default Campaign;
+export default memo(Campaign);
 
 const styles = StyleSheet.create({});

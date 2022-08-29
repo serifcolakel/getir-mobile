@@ -14,7 +14,6 @@ import {
 import CustomText from '../../components/PartnerComponents/CustomText';
 import { theme } from '../../utils/theme';
 import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
-import { useNavigation } from '@react-navigation/native';
 
 type ProfileDataProps = {
   id?: string;
@@ -63,7 +62,7 @@ const profileData: ProfileDataProps[] = [
     title: 'Favori Ürünlerim',
     leftIcon: <FavoriteIcon size={30} />,
     rightIcon: <RightArrowIcon size={14} />,
-    path: 'Route',
+    path: 'Favorites',
     seperator: false,
     borderBottom: true,
   },
@@ -131,7 +130,9 @@ const ProfileItem = ({ item, navigation }: Props) => {
       ) : (
         <Row
           onPress={() => {
-            item.path && navigation.push(item.path as any);
+            item.path && item.path === 'Favorites'
+              ? navigation.navigate(item.path as any)
+              : navigation.push(item.path as any);
           }}
           alignItems="center"
           justifyContent="space-between"

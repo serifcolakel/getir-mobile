@@ -1,9 +1,11 @@
 import {
   Animated,
+  Dimensions,
   FlatList,
   Image,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import React, { useEffect, useRef } from 'react';
 
@@ -20,6 +22,10 @@ import CustomText from '../../components/PartnerComponents/CustomText';
 import { NavigationProps } from '../../Layout/StackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { getAllCategories } from '../../features/slices/categoriesSlice';
+import { getImage } from '../../utils/utils';
+import { ScrollView } from 'react-native-gesture-handler';
+import { theme } from '../../utils/theme';
+import ListEmptyComponent from '../../components/ListEmptyComponent';
 type Props = {
   navigation: NavigationProps;
   route: any;
@@ -77,7 +83,9 @@ const Home = ({ navigation }: Props) => {
   );
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(getAllCategories());
+    if (!categories) {
+      dispatch(getAllCategories());
+    }
   }, []);
   const offset = useRef(new Animated.Value(0)).current;
   return (
@@ -90,6 +98,15 @@ const Home = ({ navigation }: Props) => {
           <FlatList
             data={categories}
             refreshing={loading}
+            ListEmptyComponent={
+              <ListEmptyComponent
+                title={'Kategoriye ulaşamadık.'}
+                HEADER_HEIGHT={HEADER_HEIGHT}
+                description={
+                  'Lütfen internet bağlantınızı kontrol edin. İnternet bağlantığınız olması halinde herhangi bir sorun ile karşılaşmayağınızı umuyoruz.'
+                }
+              />
+            }
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
