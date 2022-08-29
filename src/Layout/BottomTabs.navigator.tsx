@@ -61,6 +61,15 @@ const BottomTabsNavigator: React.FC = () => {
       isAddedFavorite = true;
     }
   });
+  const { loading, data: Cate } = useAppSelector(
+    (state: RootState) => state.categories,
+  );
+  const { loading: loadingCampaings, campaings } = useAppSelector(
+    (state: RootState) => state.campaings,
+  );
+  // TODO: https://i.hizliresim.com/roswz0t.png  https://i.hizliresim.com/ejv8s0l.png
+  console.log('campaings', campaings);
+  console.log('data', Cate);
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"

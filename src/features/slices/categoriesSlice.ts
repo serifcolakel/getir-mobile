@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RouteName, useAxios } from '../../hooks/useAxios';
+import axios from 'axios';
 export interface Categories {
   id: string;
   name: string;
@@ -19,28 +20,30 @@ export interface SubCategory {
   path: RouteName;
 }
 export interface CategoriesState {
-  data: Categories[] | null;
+  categories: Categories[] | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: CategoriesState = {
-  data: null,
+  categories: null,
   loading: false,
   error: '',
 };
-export const getAllCategories = createAsyncThunk('product/fetch', async () => {
+export const getAllCategories = createAsyncThunk('category/fetch', async () => {
   try {
-    const res = (await useAxios('categories')) as Categories[];
+    const res = (
+      await axios.get('https://getir-api-clone.herokuapp.com/api/categories')
+    ).data as Categories[];
+    console.log('getAllCategories', res);
     return res;
   } catch (error) {
-    console.log('error', error);
     return null;
   }
 });
 
 export const categoriesSlice = createSlice({
-  name: 'products',
+  name: 'category',
   initialState,
   reducers: {},
   extraReducers: builder => {
@@ -48,26 +51,20 @@ export const categoriesSlice = createSlice({
       .addCase(
         getAllCategories.fulfilled,
         (state, action: PayloadAction<Categories[] | null>) => {
-          state.data = action.payload;
+          state.categories = action.payload;
           state.loading = false;
           state.error = null;
         },
       )
-      .addCase(
-        getAllCategories.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.data = [];
-          state.error = 'error';
-          state.loading = false;
-        },
-      )
-      .addCase(
-        getAllCategories.pending,
-        (state, action: PayloadAction<any>) => {
-          state.error = action.payload;
-          state.loading = true;
-        },
-      );
+      .addCase(getAllCategories.rejected, state => {
+        state.categories = [];
+        state.error = 'error';
+        state.loading = false;
+      })
+      .addCase(getAllCategories.pending, state => {
+        state.error = '';
+        state.loading = true;
+      });
   },
 });
 

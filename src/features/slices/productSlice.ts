@@ -33,7 +33,7 @@ export const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    selectProduct: (state, action: PayloadAction<Product>) => {
+    selectProduct: (state, action: PayloadAction<Product | null>) => {
       state.selectedProduct = action.payload;
     },
   },

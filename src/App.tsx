@@ -5,7 +5,7 @@ import codePush from 'react-native-code-push';
 import { Provider } from 'react-redux';
 import { enableLatestRenderer } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import { store } from './store';
+import { RootState, store, useAppSelector } from './store';
 import Navigator from './Layout/StackNavigator';
 import { PermissionsAndroid, Platform } from 'react-native';
 

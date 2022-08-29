@@ -1,20 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Product, ProductTypes } from '../../types/ProductTypes';
+import { RootState } from '../../store';
 
-export interface CounterState {
+export interface BasketState {
   data: Product[];
   totalAmount: number;
   favorites: Product[];
   loading: boolean;
+  isActionSuccess?: boolean;
 }
 
-const initialState: CounterState = {
+const initialState: BasketState = {
   data: [],
   totalAmount: 0,
   favorites: [],
   loading: false,
+  isActionSuccess: false,
 };
+
 export const basketSlice = createSlice({
   name: 'basket',
   initialState,
@@ -30,7 +34,7 @@ export const basketSlice = createSlice({
         state.totalAmount += action.payload.price;
       }
 
-      //
+      state.loading = true;
       // state.totalAmount = state.data.reduce(
       //   (acc, item) => Number((acc += item.price * item.count).toFixed(3)),
       //   0,
@@ -46,6 +50,7 @@ export const basketSlice = createSlice({
         state.data.splice(index, 1);
         state.totalAmount -= action.payload.price;
       }
+      state.loading = false;
       //
       // state.totalAmount = state.data.reduce(
       //   (acc, item) => Number((acc += item.price * item.count).toFixed(3)),
@@ -65,16 +70,13 @@ export const basketSlice = createSlice({
       }
     },
 
-    toggleLoading: state => {
-      state.loading = true;
+    toggleAction: state => {
+      state.isActionSuccess = !state.isActionSuccess;
     },
-  },
-  extraReducers: builder => {
-    //builder.addCase(increment, (state, action) => {});
   },
 });
 
-export const { addToBasket, deleteToBasket, toggleLoading, handleFavorite } =
+export const { addToBasket, deleteToBasket, toggleAction, handleFavorite } =
   basketSlice.actions;
 
 export default basketSlice.reducer;

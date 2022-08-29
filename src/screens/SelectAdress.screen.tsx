@@ -14,8 +14,7 @@ import {
   setSelectAddress,
   updateAverageDeliveryDetails,
 } from '../features/slices/locationSlice';
-import { Loading } from '../components/Loading';
-import { getirBranchAddresses, GOOGLE_MAPS_APIKEY } from '../contants';
+import { GOOGLE_MAPS_APIKEY } from '../contants';
 import MapViewDirections from 'react-native-maps-directions';
 import Row from '../components/Row';
 import { getImage } from '../utils/utils';
@@ -81,14 +80,13 @@ const SelectAdress = ({ navigation, route }: Props) => {
       });
     });
   }
-  console.log('124124', getImage('touch'));
   return (
     <View
       style={{
         flex: 1,
         position: 'relative',
       }}>
-      {averageDeliveryDetails.distance > 3 ? (
+      {averageDeliveryDetails.distance > 3 && (
         <Row
           extraStyle={{
             position: 'absolute',
@@ -126,8 +124,6 @@ const SelectAdress = ({ navigation, route }: Props) => {
             ).toFixed(2)} saat sürmektedir.`}
           />
         </Row>
-      ) : (
-        <LoadingIcon size={30} />
       )}
       <SwipeTouch />
       <TouchableOpacity

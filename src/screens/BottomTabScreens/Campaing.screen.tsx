@@ -8,9 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
-import { getAllCampaings } from '../../features/slices/campaingsSlice';
 import CustomText from '../../components/PartnerComponents/CustomText';
 import { Loading } from '../../components/Loading';
 import Row from '../../components/Row';
@@ -19,21 +18,25 @@ import { theme } from '../../utils/theme';
 import { CloseIcon, PlusIcon, RightArrowIcon } from '../../components/Icons';
 import { WebView as HTMLRenderer } from 'react-native-webview';
 import { Campaings } from '../../types/CampaingsTypes';
+import { BottomNavigationProps } from '../../Layout/BottomTabs.navigator';
+import { getAllCampaings } from '../../features/slices/campaingsSlice';
 
-type Props = {};
+type Props = {
+  navigation: BottomNavigationProps;
+};
 
-const Campaign = (props: Props) => {
-  const dispatch = useAppDispatch();
+const Campaign = ({ navigation }: Props) => {
   const { campaings, loading } = useAppSelector(
     (state: RootState) => state.campaings,
   );
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getAllCampaings());
   }, []);
   const [selectedTab, setSelectedTab] = React.useState('1');
   const [showCampaignDetailsItem, setShowCampaignDetailsItem] =
     React.useState<Campaings | null>(null);
-
+  console.log(campaings);
   const tabs = [
     {
       id: '1',
@@ -43,109 +46,107 @@ const Campaign = (props: Props) => {
           style={{
             flex: 1,
           }}>
-          {campaings && campaings.length > 0 && (
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              ListHeaderComponent={
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  paddingLeft: 20,
+                  borderRadius: 10,
+                  padding: 15,
+                  borderWidth: 1,
+                  backgroundColor: theme.colors.white,
+                  elevation: 1.5,
+                  shadowColor: theme.colors.getirPrimary500,
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.22,
+                  shadowRadius: 2.22,
+                  borderColor: theme.colors.getirPrimary100,
+                }}>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
+                    marginRight: 40,
+                    borderWidth: 1,
+                    padding: 5,
+                    borderColor: theme.colors.getirPrimary100,
+                    borderRadius: 4,
                     alignItems: 'center',
-                    paddingLeft: 20,
-                    borderRadius: 10,
-                    padding: 15,
-                    borderWidth: 1,
-                    backgroundColor: theme.colors.white,
-                    elevation: 1.5,
-                    shadowColor: theme.colors.getirPrimary500,
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.22,
-                    shadowRadius: 2.22,
-                    borderColor: theme.colors.getirPrimary100,
+                    justifyContent: 'center',
                   }}>
-                  <View
-                    style={{
-                      marginRight: 40,
-                      borderWidth: 1,
-                      padding: 5,
-                      borderColor: theme.colors.getirPrimary100,
-                      borderRadius: 4,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <PlusIcon />
-                  </View>
-
-                  <CustomText
-                    style={{
-                      color: theme.colors.getirPrimary500,
-                    }}
-                    label="Kampanya Kodu Ekle"
-                  />
+                  <PlusIcon />
                 </View>
-              }
-              keyExtractor={(item, idx) => idx.toString()}
-              data={campaings}
-              renderItem={({ item }) => (
-                <View
+
+                <CustomText
                   style={{
+                    color: theme.colors.getirPrimary500,
+                  }}
+                  label="Kampanya Kodu Ekle"
+                />
+              </View>
+            }
+            keyExtractor={(item, idx) => idx.toString()}
+            data={campaings}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: theme.colors.getirPrimary100,
+                  borderRadius: 10,
+                  backgroundColor: theme.colors.white,
+                  marginVertical: 10,
+                  padding: 20,
+                }}>
+                <Image
+                  source={{ uri: item?.data?.picURL }}
+                  style={{
+                    width: '100%',
+                    height: 120,
+                    borderRadius: 10,
+                  }}
+                />
+                <CustomText
+                  label={item?.data?.title}
+                  style={{
+                    fontSize: 14,
+                    color: theme.colors.getirPrimary500,
+                    paddingVertical: 10,
+                  }}
+                />
+                <CustomText
+                  label={item?.data?.description}
+                  style={{
+                    fontSize: 12,
+                    color: theme.colors.black,
+                    paddingVertical: 10,
+                    marginBottom: 15,
+                  }}
+                />
+                <TouchableOpacity
+                  onPress={() => setShowCampaignDetailsItem(item)}
+                  style={{
+                    position: 'absolute',
+                    bottom: 10,
                     borderWidth: 1,
                     borderColor: theme.colors.getirPrimary100,
-                    borderRadius: 10,
-                    backgroundColor: theme.colors.white,
-                    marginVertical: 10,
-                    padding: 20,
-                  }}>
-                  <Image
-                    source={{ uri: item?.data?.picURL }}
-                    style={{
-                      width: '100%',
-                      height: 120,
-                      borderRadius: 10,
-                    }}
-                  />
-                  <CustomText
-                    label={item?.data?.title}
-                    style={{
-                      fontSize: 14,
-                      color: theme.colors.getirPrimary500,
-                      paddingVertical: 10,
-                    }}
-                  />
-                  <CustomText
-                    label={item?.data?.description}
-                    style={{
-                      fontSize: 12,
-                      color: theme.colors.black,
-                      paddingVertical: 10,
-                      marginBottom: 15,
-                    }}
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowCampaignDetailsItem(item)}
-                    style={{
-                      position: 'absolute',
-                      bottom: 10,
-                      borderWidth: 1,
-                      borderColor: theme.colors.getirPrimary100,
-                      borderRadius: 4,
+                    borderRadius: 4,
 
-                      padding: 15,
-                      right: 20,
-                    }}>
-                    <RightArrowIcon
-                      onPress={() => setShowCampaignDetailsItem(item)}
-                      size={14}
-                    />
-                  </TouchableOpacity>
-                </View>
-              )}
-            />
-          )}
+                    padding: 15,
+                    right: 20,
+                  }}>
+                  <RightArrowIcon
+                    onPress={() => setShowCampaignDetailsItem(item)}
+                    size={14}
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
         </View>
       ),
     },
@@ -166,7 +167,7 @@ const Campaign = (props: Props) => {
   ];
   return (
     <>
-      {loading && !campaings ? (
+      {loading ? (
         <Loading />
       ) : (
         <View
@@ -315,7 +316,12 @@ const Campaign = (props: Props) => {
               padding: 20,
               flex: 1,
             }}>
-            {tabs.map((tab, idx) => tab.id === selectedTab && tab.component)}
+            {tabs.map(
+              (tab, idx) =>
+                tab.id === selectedTab && (
+                  <Fragment key={idx}>{tab.component}</Fragment>
+                ),
+            )}
           </View>
         </View>
       )}

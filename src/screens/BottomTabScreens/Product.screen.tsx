@@ -65,7 +65,7 @@ type Props = {
   route: any;
 };
 const Product = ({ navigation, route }: Props) => {
-  const { data, loading } = useAppSelector(
+  const { categories, loading } = useAppSelector(
     (state: RootState) => state.categories,
   );
   const [initialProduct, setInitialProduct] = React.useState<ProductTypes[]>(
@@ -76,17 +76,17 @@ const Product = ({ navigation, route }: Props) => {
   const [selectedCategory, setSelectedCategory] =
     React.useState<Categories | null>(null);
   const [selectedSubCategory, setSelectedSubCategory] =
-    React.useState<SubCategory | null>(data && data[0].subCategories[0]);
+    React.useState<SubCategory | null>(null);
   useEffect(() => {
-    if (data) {
-      setSelectedCategory(data[0]);
-      setSelectedSubCategory(data[0].subCategories[0]);
+    if (categories) {
+      setSelectedCategory(categories[0]);
+      setSelectedSubCategory(categories[0].subCategories[0]);
     }
   }, []);
   async function getCategories() {
     if (selectedSubCategory) {
       const res = await axiosInstance.get(selectedSubCategory.path);
-      await setInitialProduct(res.data);
+      setInitialProduct(res.data);
       setIsLoaded(false);
     }
   }
@@ -98,7 +98,7 @@ const Product = ({ navigation, route }: Props) => {
   return (
     <View style={{}}>
       <FlatList
-        data={data}
+        data={categories}
         horizontal={true}
         keyExtractor={item => item.id}
         showsHorizontalScrollIndicator={false}

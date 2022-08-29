@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -12,6 +12,11 @@ import Addresses from '../screens/Addresses.screen';
 import NewAddresses from '../screens/NewAddresses.screen';
 import SelectAdress from '../screens/SelectAdress.screen';
 import { Location } from '../features/slices/locationSlice';
+import { RootState, useAppDispatch, useAppSelector } from '../store';
+import { getAllCampaings } from '../features/slices/campaingsSlice';
+import { getAllCategories } from '../features/slices/categoriesSlice';
+import { useAxios } from '../hooks/useAxios';
+import { Campaings } from '../types/CampaingsTypes';
 
 const Stack = createNativeStackNavigator();
 export type RootStackParamList = {
@@ -33,8 +38,6 @@ export type RootStackParamList = {
 export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Navigator() {
-  // TODO: https://i.hizliresim.com/roswz0t.png  https://i.hizliresim.com/ejv8s0l.png
-
   return (
     <>
       <Stack.Navigator

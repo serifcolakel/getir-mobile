@@ -94,7 +94,7 @@ const profileData: ProfileDataProps[] = [
     seperator: true,
   },
   {
-    id: '9',
+    id: '10',
     title: '2.13.12',
     leftIcon: <VersionIcon size={30} />,
     rightIcon: <RightArrowIcon size={14} />,
