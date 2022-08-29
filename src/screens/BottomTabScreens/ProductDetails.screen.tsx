@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { WebView as HtmlRenderer } from 'react-native-webview';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { RootState, useAppSelector } from '../../store';
 import CustomText from '../../components/PartnerComponents/CustomText';
 import { theme } from '../../utils/theme';
@@ -31,9 +31,19 @@ const ProductDetails = (props: Props) => {
   const viewConfigRef = React.useRef({ viewAreaCoveragePercentThreshold: 50 });
   const width = Dimensions.get('window').width;
   const FlatlistRef = React.useRef<any | null>(null);
+  let length = selectedProduct?.picURLs.length;
+
+  useEffect(() => {
+    count = 0;
+    if (length) {
+      const intervalId = setInterval(nextPage, 500);
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [selectedProduct?.picURLs.length]);
 
   const nextPage = useCallback(() => {
-    let length = selectedProduct?.picURLs.length;
     if (length) {
       if (count >= length - 1) {
         count = 0;
@@ -52,7 +62,7 @@ const ProductDetails = (props: Props) => {
     }
 
     setIndex(count);
-  }, [count]);
+  }, [count, selectedProduct?.picURLs.length]);
   return (
     <View
       style={{
