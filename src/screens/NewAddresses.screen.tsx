@@ -86,7 +86,6 @@ const NewAddresses = ({ navigation, route }: Props) => {
           keyboardShouldPersistTaps="handled"
           minLength={4} // minimum length of text to search
           preProcess={data => {
-            // preprocess function will be called before search
             // console.log('preProcess', data);
             setSearch(data);
             return data;

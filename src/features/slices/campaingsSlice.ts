@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Campaings } from '../../types/CampaingsTypes';
 import { useAxios } from '../../hooks/useAxios';
-import axios from 'axios';
 
 export interface CampaingsState {
   campaings: Campaings[] | null;
@@ -18,12 +17,7 @@ const initialState: CampaingsState = {
 
 export const getAllCampaings = createAsyncThunk('campaings/fetch', async () => {
   try {
-    const res = (
-      await axios.get(
-        'https://getir-api-clone.herokuapp.com/api/kampanyaWithCode',
-      )
-    ).data as Campaings[];
-    console.log('getAllCampaings', res);
+    const res = (await useAxios('kampanyaWithCode')) as Campaings[];
     return res;
   } catch (error) {
     return null;

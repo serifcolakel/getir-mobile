@@ -76,7 +76,6 @@ const Carousel = ({ data }: { data: any[] }) => {
     );
   }
 
-  console.log('Please provide Images');
   return null;
 };
 

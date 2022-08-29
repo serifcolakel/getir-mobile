@@ -93,7 +93,6 @@ const Home = ({ navigation }: Props) => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
-                  console.log(item);
                   // @ts-ignore
                   nav.navigate('Product');
                 }}

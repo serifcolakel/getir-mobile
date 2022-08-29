@@ -36,7 +36,6 @@ const Campaign = ({ navigation }: Props) => {
   const [selectedTab, setSelectedTab] = React.useState('1');
   const [showCampaignDetailsItem, setShowCampaignDetailsItem] =
     React.useState<Campaings | null>(null);
-  console.log(campaings);
   const tabs = [
     {
       id: '1',

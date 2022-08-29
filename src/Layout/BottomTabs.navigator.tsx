@@ -54,22 +54,13 @@ const BottomTabsNavigator: React.FC = () => {
     (state: RootState) => state.allProducts,
   );
   const { favorites } = useAppSelector((state: RootState) => state.basket);
-  console.log('favorites', favorites);
   let isAddedFavorite = false;
   favorites.forEach(favorite => {
     if (favorite.id === selectedProduct?.id) {
       isAddedFavorite = true;
     }
   });
-  const { loading, data: Cate } = useAppSelector(
-    (state: RootState) => state.categories,
-  );
-  const { loading: loadingCampaings, campaings } = useAppSelector(
-    (state: RootState) => state.campaings,
-  );
-  // TODO: https://i.hizliresim.com/roswz0t.png  https://i.hizliresim.com/ejv8s0l.png
-  console.log('campaings', campaings);
-  console.log('data', Cate);
+
   return (
     <BottomTabs.Navigator
       initialRouteName="Home"

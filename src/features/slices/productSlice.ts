@@ -23,7 +23,6 @@ export const getProduct = createAsyncThunk(
       const res = (await useAxios(path)) as ProductState['products'];
       return res;
     } catch (error) {
-      console.log('error', error);
       return [];
     }
   },

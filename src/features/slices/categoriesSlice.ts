@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RouteName, useAxios } from '../../hooks/useAxios';
-import axios from 'axios';
 export interface Categories {
   id: string;
   name: string;
@@ -32,10 +31,7 @@ const initialState: CategoriesState = {
 };
 export const getAllCategories = createAsyncThunk('category/fetch', async () => {
   try {
-    const res = (
-      await axios.get('https://getir-api-clone.herokuapp.com/api/categories')
-    ).data as Categories[];
-    console.log('getAllCategories', res);
+    const res = (await useAxios('categories')) as Categories[];
     return res;
   } catch (error) {
     return null;
