@@ -1,11 +1,5 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, { memo } from 'react';
+import { Image, Pressable, TouchableOpacity, View } from 'react-native';
+import React from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '../../store';
 import { Product } from '../../types/ProductTypes';
 import CustomText from '../PartnerComponents/CustomText';
@@ -51,14 +45,14 @@ const BasketItem = ({ item, navigation }: Props) => {
     dispatch(addToBasket(item));
     setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 1500);
   }
   function handleDeleteBasket() {
     setLoading(true);
     dispatch(deleteToBasket(item));
     setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 1500);
   }
   return (
     <Pressable
@@ -320,6 +314,4 @@ const BasketItem = ({ item, navigation }: Props) => {
   );
 };
 
-export default memo(BasketItem);
-
-const styles = StyleSheet.create({});
+export default BasketItem;

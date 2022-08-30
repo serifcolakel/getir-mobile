@@ -4,10 +4,12 @@ import {
   NativeSyntheticEvent,
   TextInputChangeEventData,
   TouchableOpacity,
+  TextInputEndEditingEventData,
 } from 'react-native';
 import React from 'react';
 import Row from '../Row';
 import { theme } from '../../utils/theme';
+import CustomText from './CustomText';
 
 type Props = {
   title?: string;
@@ -24,6 +26,9 @@ type Props = {
   titleInfoButton?: React.ReactNode;
   editable?: boolean;
   isError?: boolean;
+  onEditingEnd?: (
+    event: NativeSyntheticEvent<TextInputEndEditingEventData>,
+  ) => void;
   errorMessage?: string | null;
   width?: string;
   keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
@@ -47,6 +52,7 @@ const Input = ({
   placeholder = '',
   width = '100%',
   keyboardType = 'default',
+  onEditingEnd = () => {},
 }: Props) => {
   return (
     <TouchableOpacity
@@ -77,9 +83,7 @@ const Input = ({
         editable={editable}
         maxLength={maxLength}
         onChange={onChange}
-        onEndEditing={() => {
-          console.log('onEndEditing');
-        }}
+        onEndEditing={onEditingEnd}
         placeholder={placeholder}
         style={{
           borderWidth: 1,
@@ -98,7 +102,7 @@ const Input = ({
         textAlign={textAlign}
         keyboardType={keyboardType}
       />
-      {/* {prefix !== undefined && (
+      {prefix !== undefined && (
         <CustomText
           label={prefix}
           style={{
@@ -110,7 +114,7 @@ const Input = ({
             color: editable ? theme.colors.black : theme.colors.gray,
           }}
         />
-      )} */}
+      )}
       <View
         style={{
           position: 'absolute',
@@ -127,7 +131,7 @@ const Input = ({
         }}>
         {leftIcon}
       </View>
-      {/* {isError && errorMessage !== null && (
+      {isError && errorMessage !== null && (
         <CustomText
           label={errorMessage}
           style={{
@@ -138,7 +142,7 @@ const Input = ({
             textAlign: 'center',
           }}
         />
-      )} */}
+      )}
     </TouchableOpacity>
   );
 };

@@ -36,7 +36,7 @@ const ProductDetails = (props: Props) => {
   useEffect(() => {
     count = 0;
     if (length) {
-      const intervalId = setInterval(nextPage, 500);
+      const intervalId = setInterval(nextPage, 2500);
       return () => {
         clearInterval(intervalId);
       };
