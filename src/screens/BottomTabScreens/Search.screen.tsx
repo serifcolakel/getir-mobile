@@ -37,7 +37,7 @@ const Search = ({ navigation }: Props) => {
       getSearchedProduct({
         search,
         max: max === '0' || '' ? undefined : max,
-        min: min === '0' || '' ? undefined : min,
+        min: min === '' ? undefined : min,
       }),
     );
   };
@@ -53,7 +53,7 @@ const Search = ({ navigation }: Props) => {
       setLoading(false);
     }
   }, [result]);
-  console.log('values', search, max, min, result);
+  console.log('values', search, max, min);
   return (
     <>
       {isResultEnd ? (
@@ -81,7 +81,7 @@ const Search = ({ navigation }: Props) => {
               }}
               value={search}
               isError={search.length < 2 && search.length !== 0}
-              errorMessage={'Arama için En az 2 karakter girmelisin'}
+              errorMessage={'Arama için En az 2 karakter girmelisin.'}
               leftIcon={loading ? <LoadingIcon /> : <SearchIcon />}
               placeholder="Ürün Ara"
               rightIcon={
@@ -103,6 +103,11 @@ const Search = ({ navigation }: Props) => {
                   onChangeText={text => {
                     setMin(text.replace(/[^0-9]/g, ''));
                   }}
+                  onEditingEnd={() => {
+                    if (search.length > 1) {
+                      getSearch();
+                    }
+                  }}
                   value={min}
                   textAlign="left"
                   keyboardType="numeric"
@@ -122,6 +127,11 @@ const Search = ({ navigation }: Props) => {
                   }}
                   value={max}
                   prefix="₺"
+                  onEditingEnd={() => {
+                    if (search.length > 1) {
+                      getSearch();
+                    }
+                  }}
                   textAlign="left"
                   keyboardType="numeric"
                   leftIcon={<SearchIcon />}
