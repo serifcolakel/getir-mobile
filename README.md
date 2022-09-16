@@ -29,88 +29,292 @@
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
-
-<!-- ABOUT THE PROJECT -->
 <br />
+
+## DEV TAGS
+
+<em>You can access the details of the commits made by the developers here.<em>
+
+<br />
+<details>
+<summary>Click for Dev Tags details.</summary>
+
+| TAGS    | EXPLAIN                                                                                                                                       |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| ADDED   | It gives information about newly added Component, package and files.                                                                          |
+| CREATED | It gives information about the Component, package and files created for the first time.                                                       |
+| CHANGED | It gives information about the changed function or method related to the problem or design.                                                   |
+| REMOVED | It gives information about the removed function or method related to the problem or design.                                                   |
+| UPDATED | It gives information about the updated function or method related to the problem or design.                                                   |
+| FIXED   | It gives information about the solution of the problem caused by the problem.                                                                 |
+| TODO    | It gives information about the planned and encountered problem in the future.                                                                 |
+| TEST    | It is a tag created to test whether the functions added during build or for projects working in separate environments can work synchronously. |
+
+</details>
+<!-- ABOUT THE PROJECT -->
 <br />
 
 ## About The Project
 
-In this project, products were obtained using GraphQL from the store created due to the back-end convenience provided by the Shopify.com platform and presented to users on the front-end. It has been tried to prepare the ground for large e-commerce projects that can be created in the future. In addition, the products added to the cart without any authentication with localstorage are set to be used on the next visit as long as chrome provides. Apart from the good experience I had, it offered the opportunity to apply the back-end methods I learned.
+In this project, I developed the fetch mobile application using react-native, redux-toolkit, react-native-maps & typescript. You can review the codes on my Github account and review the details of the work by watching the video I uploaded on youtube.
+
+<br />
 
 <details>
   <summary>Image of Project</summary>
   <ol>
     <li>
-    <p>Home Page</p>
+    <p>Splash Screen</p>
       <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/702zzk0.jpg" alt="Logo" width="375px" height="100%">
+            <img src="https://i.hizliresim.com/l1a9j0w.jpg" alt="Logo" width="375px" height="100%">
         </a>
     </div>
     </li>
     <li>
-    <p>Home Page Responsive</p>
+    <p>Home Screen</p>
      <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/gi53reu.jpg" alt="Logo" width="375px" height="auto">
+            <img src="https://i.hizliresim.com/tabox17.jpg" alt="Logo" width="375px" height="auto">
         </a>
     </div>
     </li>
     <li>
-    <p>Product Page</p>
+    <p>Loading Screen</p>
      <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/35ushs0.jpg" alt="Logo" width="375px" height="100%">
+            <img src="https://i.hizliresim.com/5xicox7.jpg" alt="Logo" width="375px" height="100%">
         </a>
     </div>
     </li>
     <li>
-    <p>Product Page Responsive</p>
+    <p>Route Screen</p>
      <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/4a11rn4.jpg" alt="Logo" width="375px" height="100%">
+            <img src="https://i.hizliresim.com/ocfshz8.jpg" alt="Logo" width="375px" height="100%">
         </a>
     </div>
-    </li>
+   </li>
     <li>
-    <p>Cart Page </p>
+    <p>Search Screen</p>
      <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/kwfg4xw.jpg" alt="Logo" width="375px" height="100%">
+            <img src="https://i.hizliresim.com/ezvpntv.jpg" alt="Logo" width="375px" height="100%">
         </a>
     </div>
-    </li>
-    <p>Cart Page Responsive</p>
+   </li>
+    <li>
+    <p>Search Screen with Action (Result Error)</p>
      <div align="center">
         <a href="https://github.com/serifcolakel">
-            <img src="https://i.hizliresim.com/e2jrw53.jpg" alt="Logo" width="375px" height="100%">
+            <img src="https://i.hizliresim.com/qtawiv9.jpg" alt="Logo" width="375px" height="100%">
         </a>
     </div>
-    </li>
+   </li>
+    <li>
+    <p>Search Screen with Actions Result</p>
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/8y4rdu0.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+    <p>Profil Screen</p>
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/7rl8vby.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Campaings Screen</p>
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/o8nqu51.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Campaing Details Modal Screen</p>
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/34kbyek.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Empty Favorites Screen</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/ite491c.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+    <p>Favorites Screen with Actions</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/34mkn45.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+    <p>Selectable Adress Screen with oneOf(["home", "work", "other"])</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/qval7rm.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Adresses Screen with Actions</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/8v1134h.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Select Adress Screen</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/13qrlj4.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+    <p>Select Adress Screen Result</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/aqj3ymf.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+    <p>Select Adress in Map Screen with Move The Position Action</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/d0yzwc1.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Select Adress in Map Screen with Move The Position Action</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/d0yzwc1.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>The address selection process has been started and will be moved to the Center position of the Screen.</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/sbjtpe0.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Address selected and marker placed at selected address.</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/e5gkfif.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>The directions between the address and the Getir store were calculated.<p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/eqe4mwv.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+      <p>Direction information between current location and GETIR store was calculated.</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/aemxctg.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+   <li>
+     <p>The specified address and estimated arrival time were calculated and added to the home page.</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/665hdft.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Products Skeleton Screen</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/gwt6idc.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Products Screen</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/5bp23vb.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Products Action (Add Basket & Add Favorites)</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/kds8mfr.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>Product Details Screen</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/ntnrsbh.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
+    <li>
+    <p>My Basket Screen with Actions</p> 
+     <div align="center">
+        <a href="https://github.com/serifcolakel">
+            <img src="https://i.hizliresim.com/hndec14.jpg" alt="Logo" width="375px" height="100%">
+        </a>
+    </div>
+   </li>
   </ol>
 </details>
+<br />
+<br />
 
-### Built With
+## **Built With**
 
 In this section, the technologies used in the construction of the project are included.
 
-- [Next.js](https://nextjs.org/) - The Next.js framework is used for the front-end development.
-- [GraphQL](https://graphql.org/) - The GraphQL framework is used for the back-end development.
-- [SASS](https://sass-lang.com/) - (CSS preprocessor)
-- [TailwindCSS](https://tailwindcss.com/docs/installation) - for the front-end
-- [Shopify](https://shopify.dev/) - for the back-end
-- [Headlessio](https://headlessui.dev/) - for the Transition Effect & Animation
-- [Swiper - React ](https://swiperjs.com/react) - for the carousel
-- [Vercel](https://vercel.com/) - for Deployment
+- [React Native](https://reactnative.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [React Native Maps](https://npmjs.com/package/react-native-maps)
+- [React Native Maps Directions](https://www.npmjs.com/package/react-native-maps-directions)
+- [Typescript](https://www.typescriptlang.org/)
+- [React Navigation](https://reactnavigation.org/)
+- [Axios](https://www.npmjs.com/package/axios)
+- [React Native Code Push](https://www.npmjs.com/package/react-native-code-push)
+- [App Center](https://appcenter.ms/) (For CI/CD)
+- [React Native Webview](https://www.npmjs.com/package/react-native-webview)
+- [React Native Splash Screen](https://www.npmjs.com/package/react-native-splash-screen)
 
 <!-- GETTING STARTED -->
 
-## Getting Started
+## **Getting Started**
 
 In this section, the steps for the cloning of the project and the improvements to be made by you are shown.
 
-### Prerequisites
+## Prerequisites
 
 By following the steps below, your project can be run after the local installation.
 
@@ -119,26 +323,25 @@ By following the steps below, your project can be run after the local installati
   npm install npm@latest -g
   ```
 
-### Installation
+## **Installation**
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/serifcolakel/Shopify-NextJS.git
+   git clone https://github.com/serifcolakel/getir-mobile.git
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
-3. Enter your API in `.env`
-   ```.env
-   SHOPIFY_STOREFRONT_ACCESTOKEN="ENTER YOUR SHOPIFY_STOREFRONT_ACCESTOKEN"
-   SHOPIFY_STORE_DOMAIN="ENTER YOUR SHOPIFY_STORE_DOMAIN"
+3. Enter your API in `./contants/index.ts`
+   ```.ts
+   GOOGLE_MAPS_APIKEY="ENTER YOUR API"
    ```
 4. Run the app
    ```sh
-   npm run dev
+   npm run android
    ```
 
 <div align="right">
@@ -149,27 +352,45 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+## **Usage**
 
 In this section, you can access the documentation of the libraries used during the creation of the project.
 
-_For more examples, please refer to the [Shopify Documentation](https://shopify.dev/), [Next.js Documentation](https://nextjs.org/), [SASS Documentation](https://sass-lang.com/documentation), [Swiper - React Documentation](https://swiperjs.com/react), [Headlessio Documentation](https://headlessui.dev/)._
+_For more examples, please refer to the [React Native Documentation](https://reactnative.dev/docs/getting-started) [Redux Toolkit Documentation](https://redux-toolkit.js.org/)
+[React Native Maps Documentation](https://www.npmjs.com/package/react-native-maps) [Typescript Documentation](https://www.typescriptlang.org/docs/) [React Navigation Documentation](https://reactnavigation.org/docs/getting-started) [Axios Documentation](https://www.npmjs.com/package/axios) [React Native Code Push Documentation](https://www.npmjs.com/package/react-native-code-push) [React Native Webview Documentation](https://www.npmjs.com/package/react-native-webview) [React Native Splash Screen Documentation](https://www.npmjs.com/package/react-native-splash-screen) and more._
 
 <!-- ROADMAP -->
 
-## Roadmap
+## **Roadmap**
 
-- [x] Home Page with (Responsive)
-- [x] Product Page Dynamic with (Responsive)
-- [x] Recommendation Component with (Responsive)
-- [x] Product Cart Page & Checkout Page with (Responsive)
-- [x] Product Other Attributes (Color, Size, Material, etc.) chosen by the user
+- [x] Home Page added.
+- [x] Product Page Dynamic added.
+- [x] Recommendation Component added.
+- [x] Product Details Page added.
+- [x] Fetching Data from API added.
+- [x] My Basket Page added.
+- [x] My Favorites Page added.
+- [x] My Orders Page added.
+- [x] My Profile Page added.
+- [x] My Addresses Page added.
+- [x] My Address Add Page added.
+- [x] My Address Edit Page added.
+- [x] My Address Delete Page added.
+- [x] My Address Select Page added.
+- [ ] Add Payment Page Detail.
+- [ ] Add User Login Page.
+- [ ] Add User Register Page.
+- [ ] Add User Forgot Password Page.
+- [ ] Add User Change Password Page.
+- [ ] Add User Actions (Add Address, Add Favorites, Add Basket, Add Orders, Add Profile, Add Addresses, Add Address Add, Add Address Edit, Add Address Delete, Add Address Select).
+- [ ] Add Product Actions (Add Basket, Add Favorites).
+- [ ] Implement auth with Firebase / AWS Amplify / AWS Cognito etc.
 
-See the [open issues](https://github.com/serifcolakel/Shopify-NextJS/issues) for a full list of proposed features (and known issues).
+See the [Open Issues](https://github.com/serifcolakel/getir-mobile/issues) for a full list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+## **Contributing**
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -178,7 +399,7 @@ Don't forget to give the project a star! Thanks again!
 
 <!-- CONTACT -->
 
-## Contact
+## **Contact**
 
 <p align="center">
     <a href="mailto:serifcolakel0@gmail.com">
@@ -192,7 +413,7 @@ Don't forget to give the project a star! Thanks again!
     </a>
 </p>
 
-Project Link: [Shopify-NextJS](https://github.com/serifcolakel/Shopify-NextJS)
+Project Video Link : [Getir Mobile Clone](https://www.youtube.com/watch?v=m5N7z8EUGUo)
 
 <div align="right">
   <a href="#top">
